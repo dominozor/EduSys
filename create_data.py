@@ -3,16 +3,12 @@ import cv2, sys, numpy, os
 haar_file = 'haarcascade_frontalface_default.xml'
 datasets = 'datasets'
 sub_data = 'onur'
-
 path = os.path.join(datasets, sub_data)
 if not os.path.isdir(path):
     os.mkdir(path)
 (width, height) = (130, 100)    # defining the size of images 
-
-
 face_cascade = cv2.CascadeClassifier(haar_file)
 webcam = cv2.VideoCapture(0)
-
 # The program loops until it has 30 images of the face.
 count = 1
 while count < 31: 
@@ -25,7 +21,7 @@ while count < 31:
         face_resize = cv2.resize(face, (width, height))
         cv2.imwrite('%s/%s.png' % (path,count), face_resize)
     count += 1
-	
+    
     cv2.imshow('OpenCV', im)
     key = cv2.waitKey(10)
     if key == 27:
