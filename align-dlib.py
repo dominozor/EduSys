@@ -24,7 +24,9 @@ import shutil
 import openface
 import openface.helper
 from openface.data import iterImgs
+import time
 
+startTime=time.time()
 fileDir = os.path.dirname(os.path.realpath(__file__))
 modelDir = os.path.join(fileDir, 'models')
 dlibModelDir = os.path.join(modelDir, 'dlib')
@@ -172,3 +174,5 @@ if __name__ == '__main__':
         computeMeanMain(args)
     else:
         alignMain(args)
+    endTime=time.time()
+    print ("It took seconds to align dataset",endTime-startTime) 

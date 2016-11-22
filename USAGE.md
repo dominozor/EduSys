@@ -1,23 +1,10 @@
 #USAGE
 
-```bash
-$ for N in {1..8}; do ./align-dlib.py <path-to-raw-data> align outerEyesAndNose <path-to-aligned-data> --size 96 & done
-```
-
-##
-
-```bash
-$ ./batch-represent/main.lua -outDir <feature-directory> -data <path-to-aligned-data>
-```
-creates reps.csv and labels.csv in ```<feature-directory>.```
-
-##
-
 Use
 ```bash
-$ ./classifier.py train <feature-directory>
+$ ./trainer.py
 ```
-to produce the classification model which is an SVM saved to disk as a Python pickle.
+to align dataset, generate .csv files of aligned dataset, create the classification model which is an SVM saved to disk as a Python pickle. You can also use --pathToRawData, --pathToAlignedData, --featureDirectory options to change directories.
 
 ##
 
