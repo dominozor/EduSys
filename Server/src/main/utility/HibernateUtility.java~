@@ -1,0 +1,173 @@
+package main.utility;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.annotations.Entity;
+import org.hibernate.cfg.Configuration;
+
+import javax.persistence.Table;
+
+/**
+*
+* @author enver
+*/
+
+/*
+This is a utility class for Hibernate. Basicly, after getting inputs for database usage, HibernateUtility sends,gets,updates or deletes entities from the right tables. 
+*/
+
+public class HibernateUtility {
+
+	//Opens session for data transformation between server and database
+	private Session createSession(){
+		SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+		Session session= sessionFactory.openSession();
+		return session;
+	}
+	//Create entities for tables
+	public String save(Object obj){
+		
+		Session session=null;
+		
+		try{
+			session=createSession();
+			session.beginTransaction();
+			session.save(obj);
+			session.getTransaction().commit();
+			return "success...";
+			}
+		catch(Exception e){
+			return e.getMessage();
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+			    session.close();
+			    
+			}
+		}
+
+	}
+	//Get entities from tables by taking parameters which is used as a filter
+	public <T> List<T> get(Class<?> type, List<Serializable> valueList,List<String> columnNameList) {
+		
+		Session session=null;
+
+		try{
+
+			session=createSession();
+			StringBuilder queryBuilder=new StringBuilder();
+			queryBuilder.append("from "+type.getName()+" where ");
+			for(int i=0;i<columnNameList.size()-1;i++){
+				queryBuilder.append(columnNameList.get(i)+" = :"+columnNameList.get(i)+" and ");
+			}
+			queryBuilder.append(columnNameList.get(columnNameList.size()-1)+" = :"+columnNameList.get(columnNameList.size()-1));
+			Query query = session.createQuery(queryBuilder.toString());
+			for(int i=0;i<columnNameList.size();i++) {
+				query.setParameter(columnNameList.get(i),valueList.get(i));
+			}
+			List resultSet=query.list();
+			session.close();
+			return resultSet;
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+	        if (session!=null && session.isOpen()) {
+	        	
+	            session.close();	            
+	        }
+		}
+		return null;
+		
+	}
+public <T> List<T> get(Class<?> clazz) {
+		
+		Session session=null;
+		
+		try{
+
+			session=createSession();
+			Query query = session.createQuery("from "+ clazz.getName());
+			List<T> rows = (List<T>) query.list();
+			session.close();
+			return Collections.unmodifiableList(rows);
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+	        if (session!=null && session.isOpen()) {
+	        	
+	            session.close();   
+	        }
+		}
+		return null;
+		
+	}
+	
+	public void delete(Class<?> type, List<Serializable> valueList,List<String> columnNameList) {
+		
+		Session session=null;
+		
+		try{
+			session=createSession();
+			StringBuilder queryBuilder=new StringBuilder();
+			queryBuilder.append("delete from "+type.getName()+" where ");
+			for(int i=0;i<columnNameList.size()-1;i++){
+				queryBuilder.append(columnNameList.get(i)+" = :"+columnNameList.get(i)+" and ");
+			}
+			queryBuilder.append(columnNameList.get(columnNameList.size()-1)+" = :"+columnNameList.get(columnNameList.size()-1));
+			Query query = session.createQuery(queryBuilder.toString());
+			for(int i=0;i<columnNameList.size();i++) {
+				query.setParameter(columnNameList.get(i),valueList.get(i));
+			}
+
+			List resultSet=query.list();
+			session.close();
+
+
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+	        if (session!=null && session.isOpen()) {
+	        	
+	            session.close();
+	           
+	        }
+		}
+		
+	}
+	
+	
+	public void update(Object obj){
+		Session session=null;
+		
+		try{
+			session=createSession();
+			session.beginTransaction();
+			session.update(obj);
+			session.getTransaction().commit();
+			
+			}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+	        if (session!=null && session.isOpen()) {
+	            session.close();
+	        }
+		}
+	}
+
+
+	
+	
+}
