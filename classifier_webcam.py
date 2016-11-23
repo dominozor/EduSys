@@ -8,6 +8,8 @@ import argparse
 import cv2
 import os
 import pickle
+import random
+import string
 
 import numpy as np
 np.set_printoptions(precision=2)
@@ -253,7 +255,8 @@ if __name__ == '__main__':
     #print type(video_capture)
     video_capture.set(3, args.width)
     video_capture.set(4, args.height)
-    counter=time.time() 
+    counter=time.time()
+    lastSave=time.time() 
     confidenceList = []
     while True:
         diff=time.time()-counter
@@ -296,10 +299,26 @@ if __name__ == '__main__':
                     (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
         c=0
         for i in points:
-        	cv2.rectangle(frame,(i[0][0],i[0][1]),(i[1][0],i[1][1]), (0,255,0),2)
-        	cv2.putText(frame, str(persons[c]) ,(i[1][0]+5, i[1][1]+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
-        	cv2.putText(frame, str(globalPersons[findIndex(persons[c],globalPersons)].averageDistance) ,(i[1][0]+15 , i[1][1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )  #puts average distance on the rectangle
-        	c=c+1
+            #get the time
+            saveDiff = time.time() - lastSave
+            if(saveDiff >= 60):  #save for every minute
+                print "Saving a new image of " + persons[c] + "..."
+                lastSave = time.time()
+                #make image gray
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                #take the face as a rectangle
+                face = gray[i[0][1]:i[0][1] + (i[1][1]-i[0][1]), i[0][0]:i[0][0] + (i[1][0]-i[0][0])]
+                #resize the face
+                face_resize = cv2.resize(face, (130,100))
+                #save image with a random name with lenght 20
+                rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
+                path = os.path.join('datasets', persons[c]) #get the path to dataset with name
+                cv2.imwrite('%s/%s.png' % (path,rand), face_resize)
+
+            cv2.rectangle(frame,(i[0][0],i[0][1]),(i[1][0],i[1][1]), (0,255,0),2)
+            cv2.putText(frame, str(persons[c]) ,(i[1][0]+5, i[1][1]+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
+            cv2.putText(frame, str(globalPersons[findIndex(persons[c],globalPersons)].averageDistance) ,(i[1][0]+15 , i[1][1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
+            c=c+1
         cv2.imshow('', frame)
         # quit the program on the press of key 'q'
         if cv2.waitKey(1) & 0xFF == ord('q'):
