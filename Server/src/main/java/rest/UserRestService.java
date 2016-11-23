@@ -43,17 +43,16 @@ public class UserRestService {
 
 			EduUser person=service.getPerson(id);
 
-
+			//Normally passwords are going to be encrypted in JavaScript part
 			String digestedPass = org.apache.commons.codec.digest.DigestUtils.sha256Hex(pass);
-			System.out.println(person.getPassword());
-			System.out.println(digestedPass);
-			if(digestedPass.equals(person.getPassword())){
 
+			if(digestedPass.equals(person.getPassword())){
+				//JavaScript part of the project will take that and redirect it to either Admin page or User page.
 				if(person.getRole()==0){ // if user is admin
-					return Response.status(200).entity("1").build();
+					return Response.status(200).entity("0").build(); 
 				}
 				else{
-					return Response.status(200).entity("0").build();
+					return Response.status(200).entity("1").build();
 				}
 			}
 			else{ // if password is wrong
