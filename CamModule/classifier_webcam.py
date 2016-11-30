@@ -8,8 +8,6 @@ import argparse
 import cv2
 import os
 import pickle
-import random
-import string
 
 import numpy as np
 np.set_printoptions(precision=2)
@@ -20,42 +18,105 @@ fileDir = os.path.dirname(os.path.realpath(__file__))
 modelDir = os.path.join(fileDir, 'models')
 dlibModelDir = os.path.join(modelDir, 'dlib')
 openfaceModelDir = os.path.join(modelDir, 'openface')
-unknownCounter=0
+unknownCounter=[0]
 globalPersons = [] #the list that keeps the information about who appeared on the frame
 
+
+def wrongPersonDelete(): #checks if a person is tagged wrongly a few times instead of a person
+    for i in range(len(globalPersons)):
+        if(globalPersons[i].name!="_unknown"):
+            for j in range(len(globalPersons)):
+                if(globalPersons[j].name!="_unknown"):                    
+                    if(globalPersons[j].avTop-globalPersons[i].avTop <20 or globalPersons[i].avTop-globalPersons[j].avTop<20):
+                        if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
+                            if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
+                                if(globalPersons[j].avBottom-globalPersons[i].avBottom<10 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
+                                    print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
+                                    #if(globalPersons[i].numberOfDistances<5 and globalPersons[j].numberOfDistances>15):
+                                        #TODO
+                                    #if(globalPersons[j].numberOfDistances<5 and globalPersons[i].numberOfDistances>15):
+                                        #TODO
+
+
+
+def check(): #checks if coordinates of an unknown is very similar to a known person, then merges them 
+    notUnk=[]
+    for q in globalPersons:
+        if q.name[0]!="_":
+            notUnk.append(q)
+    deleteunk=-1
+    for i in range(len(globalPersons)):
+        if(globalPersons[i].name=="_unknown"):
+            for j in range(len(globalPersons)):
+                if(globalPersons[j].name!="_unknown"):                    
+                    if(globalPersons[j].avTop-globalPersons[i].avTop <20 or globalPersons[i].avTop-globalPersons[j].avTop<20):
+                        if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
+                            if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
+                                if(globalPersons[j].avBottom-globalPersons[i].avBottom<10 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
+                                    print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
+                                    globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
+                                    globalPersons[j].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
+                                    globalPersons[j].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
+                                    globalPersons[j].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0
+                                    deleteunk=i
+
+    if(deleteunk!=-1):
+        globalPersons.pop(deleteunk)
+
+
+
+
+
 def findIndex(person,globalPersons): #finds the index of a name in the objects list
-	for j in range(len(globalPersons)):
-		if person == globalPersons[j].name:
-			return j
-	return -1
+    for j in range(len(globalPersons)):
+        if person == globalPersons[j].name:
+            return j
+    return -1
 
 
 
 def distanceFromPoints(point1,point2): #given two pixel coordinates of the top and the bottom of the rectangle in someone's face, finds the distance of this person from the camera in centimeters
-	heigth=point1-point2
-	realcm=0
-	realcm=68*63/heigth
-	return realcm
+    heigth=point1-point2
+    realcm=0
+    realcm=68*63/heigth
+    return realcm
 
 def updateGlobalList(persons,confidences,points): #from the names of the persons on a frame, updates the object list in terms of a student object with a name, distance and coordinates of his face
-	for i in persons:
-		flag=0
-		for j in globalPersons:
-			if i == j.name:
-				flag=1
-		if(flag==0):
-			tempStudent=Student(i)
-			globalPersons.append(tempStudent) #if the person with this name doesnt exist on the list, appends an object with this name
-	for i in range(len(persons)): #updates every student object in the list 
-		index=findIndex(persons[i],globalPersons)
-		distanceInCm=distanceFromPoints(points[i][1][1],points[i][0][1])
-		globalPersons[index].update(distanceInCm,points[i])
+    for i in persons:
+        flag=0
+        for j in globalPersons:
+            if i == j.name:
+                flag=1
+        if(flag==0):
+            tempStudent=Student(i)
+            globalPersons.append(tempStudent) #if the person with this name doesnt exist on the list, appends an object with this name
+    for i in range(len(persons)): #updates every student object in the list 
+        index=findIndex(persons[i],globalPersons)
+        distanceInCm=distanceFromPoints(points[i][1][1],points[i][0][1])
+        globalPersons[index].update(distanceInCm,points[i])
 
 def isSame(pointsi,globallisti): #finds if an unknown frame is the same as a known person by checking the similarity of their coordinates
     if(pointsi[0][0]-globallisti.avLeft<5 and pointsi[0][1]-globallisti.avTop<5 and pointsi[1][0]-globallisti.avRight<5 and pointsi[1][1]-globallisti.avBottom<5):
         return True
     else:
         return False
+
+def findUnknownName(pointsi):
+    unknownPersons=[]
+    for i in globalPersons:
+        if(i.name[0]=='_'):
+            unknownPersons.append(i)
+
+    for i in globalPersons:
+        #(i[0][0],i[0][1]),(i[1][0],i[1][1]) left top right bottom 
+        if(pointsi[0][1]-i.avTop <10 or i.avTop-pointsi[0][1] <10):
+            if(pointsi[0][0]-i.avLeft<10 or i.avLeft-pointsi[0][0]<10):
+                if(pointsi[1][0]-i.avRight<10 or i.avRight-pointsi[1][0]<10):
+                    if(pointsi[1][1]-i.avBottom<10 or i.avBottom-pointsi[1][1]<10):
+                        return i.name
+    print "yeniunknownismikoyuyorum"
+    unknownCounter[0]=unknownCounter[0]+1
+    return "yeniunknown"+str(unknownCounter[0])
 
 class Student: 
     def __init__(self,name):
@@ -94,7 +155,7 @@ class Student:
         self.avRight=temp4
 
 
-		
+        
 
 def getRep(bgrImg):
     start = time.time()
@@ -117,7 +178,7 @@ def getRep(bgrImg):
     points=[]
     bb = align.getAllFaceBoundingBoxes(rgbImg)
     for i in range(len(bb)):
-    	points.append(((bb[i].left(),bb[i].top()),(bb[i].right(),bb[i].bottom())))
+        points.append(((bb[i].left(),bb[i].top()),(bb[i].right(),bb[i].bottom())))
     if bb is None:
         # raise Exception("Unable to find a face: {}".format(imgPath))
         return None
@@ -214,7 +275,7 @@ if __name__ == '__main__':
     parser.add_argument('--width', type=int, default=320)
     parser.add_argument('--height', type=int, default=240)
     parser.add_argument('--time', type=int, default=15) #time option that determines how long the calculations and video will be
-    parser.add_argument('--threshold', type=float, default=0.65)
+    parser.add_argument('--threshold', type=float, default=0.60)
     parser.add_argument('--cuda', action='store_true')
     parser.add_argument('--verbose', action='store_true')
     parser.add_argument(
@@ -232,37 +293,40 @@ if __name__ == '__main__':
         cuda=args.cuda)
 
     # Capture device. Usually 0 will be webcam and 1 will be usb cam.
+
     video_capture = cv2.VideoCapture(args.captureDevice)
 
     #video_capture=cv2.imread('/home/ata/Downloads/envenon.jpg')
     '''for i in range(0,len(video_capture)):
-	for j in range(0,len(video_capture[0])):
-		if(video_capture[i][j][0]<205):
-			video_capture[i][j][0]+=50
-		else:
-			video_capture[i][j][0]=255
+    for j in range(0,len(video_capture[0])):
+        if(video_capture[i][j][0]<205):
+            video_capture[i][j][0]+=50
+        else:
+            video_capture[i][j][0]=255
 
-		if(video_capture[i][j][1]<205):
-			video_capture[i][j][1]+=50
-		else:
-			video_capture[i][j][1]=255
+        if(video_capture[i][j][1]<205):
+            video_capture[i][j][1]+=50
+        else:
+            video_capture[i][j][1]=255
 
-		if(video_capture[i][j][2]<205):
-			video_capture[i][j][2]+=50
-		else:
-			video_capture[i][j][2]=255'''
+        if(video_capture[i][j][2]<205):
+            video_capture[i][j][2]+=50
+        else:
+            video_capture[i][j][2]=255'''
 
     #print type(video_capture)
     video_capture.set(3, args.width)
     video_capture.set(4, args.height)
-    counter=time.time()
-    lastSave=time.time() 
+    counter=time.time() 
     confidenceList = []
     while True:
         diff=time.time()-counter
         print diff
         if (diff>args.time):
             break
+        if(diff>5 and diff%5<1):
+            wrongPersonDelete()
+            
         ret, frame = video_capture.read()
         #frame=video_capture
         persons, confidences, points = infer(frame, args)
@@ -278,19 +342,28 @@ if __name__ == '__main__':
             if c <= args.threshold:  # 0.5 is kept as threshold for known face.
                 #index=findIndex("_unknown",globalPersons)
                 #if(index==-1):
-                persons[i]="_unknown"
+                #unk=0;
+                #for j in globalPersons:
+                #    if(j.name[0]=='_'):
+                        #unk=1
+                #if(unk==0):
+                name="_unknown"
+                #else:
+                 #   name = findUnknownName(points[i])
+
+                persons[i]=name
                 #else:
                     #if(not isSame(points[i],globalPersons[index])):
                         #persons[i]="_unknown"+str(unknownCounter)
                         #unknownCounter=unknownCounter+1
 
-
         updateGlobalList(persons,confidences,points) #updates global list if there is a new person in the frame and also updates the distance
+        check() #
 
 
         #print "P: " + str(persons) + " C: " + str(confidences)
         for i in globalPersons:
-        	print i.name +" "+ str(i.averageDistance) +" " +str(i.avTop) +" " +str(i.avBottom) +" "+ str(i.avRight)+" " +str(i.avLeft)
+            print i.name +" "+ str(i.averageDistance) +" " +str(i.avTop) +" " +str(i.avBottom) +" "+ str(i.avRight)+" " +str(i.avLeft)
 
         print (" ")
 
@@ -299,25 +372,9 @@ if __name__ == '__main__':
                     (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
         c=0
         for i in points:
-            #get the time
-            saveDiff = time.time() - lastSave
-            if(saveDiff >= 60):  #save for every minute
-                print "Saving a new image of " + persons[c] + "..."
-                lastSave = time.time()
-                #make image gray
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                #take the face as a rectangle
-                face = gray[i[0][1]:i[0][1] + (i[1][1]-i[0][1]), i[0][0]:i[0][0] + (i[1][0]-i[0][0])]
-                #resize the face
-                face_resize = cv2.resize(face, (130,100))
-                #save image with a random name with lenght 20
-                rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                path = os.path.join('datasets', persons[c]) #get the path to dataset with name
-                cv2.imwrite('%s/%s.png' % (path,rand), face_resize)
-
             cv2.rectangle(frame,(i[0][0],i[0][1]),(i[1][0],i[1][1]), (0,255,0),2)
             cv2.putText(frame, str(persons[c]) ,(i[1][0]+5, i[1][1]+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
-            cv2.putText(frame, str(globalPersons[findIndex(persons[c],globalPersons)].averageDistance) ,(i[1][0]+15 , i[1][1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
+            cv2.putText(frame, str(globalPersons[findIndex(persons[c],globalPersons)].averageDistance) ,(i[1][0]+15 , i[1][1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )  #puts average distance on the rectangle
             c=c+1
         cv2.imshow('', frame)
         # quit the program on the press of key 'q'
