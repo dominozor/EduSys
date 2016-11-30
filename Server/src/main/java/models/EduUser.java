@@ -18,32 +18,22 @@ import org.json.JSONObject;
 *
 */
 
-
-//This is the name of the table that Hibernate is going to save
-//Since Hibernate always try to create its own tables with different writing style, I forced it to use the names of I decide for the tables.
-//To make Hibernate see that I want to use table and column names with uppercases, I put "" everytime.  
-@Entity(name="\"EduUser\"")
+@XmlRootElement
+@Entity
 //Every object becomes an entity when we want to persist data and store it in the database.
 
 public class EduUser {
-	@Id //This shows that, the first element that comes after this annotiation becomes primary key. 
-	@Column(name="\"id\"")
+	@Id //This shows that, the first element that comes after this annotiation becomes primary key.
 	private String ID;
 
 
-	@Column(name="\"name\"")
+
 	private String name;
-	@Column(name="\"surname\"")
 	private String surname;
-	@Column(name="\"email\"")
 	private String email;
-	@Column(name="\"password\"")
 	private String password;
-	@Column(name="\"train_folder_link\"")
-	private String trainLink; //This store the folder link for data training 
-	@Column(name="\"profile_pic_link\"")
+	private String trainLink; //This store the folder link for data training
 	private String profilePic;//This store the link for profile picture of the user
-	@Column(name="\"user_role\"")
 	private int role;//This holds the information about role of the user. It can be 0 (Admin) and 1 (User). I didn't do it boolean by considering there may be another roles for users.
 
 	public EduUser(){}
