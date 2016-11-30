@@ -63,5 +63,55 @@ public interface Service {
 	public void updateStudentGrade(StudentGrade studentGrade);  //The function updates information of a student grade. Parameter is just like the getStudentGrade.
 
 
+	//Exam Functions
+
+	public Exam getExam(String id);	//The function that gets the information of the exam. Parameter is the id of the exam.
+
+	List<Exam> getAllExams();	//The function that gets the information of all people.
+
+	void addExam(Exam exam);	//The function that adds the exam to the database.
+
+	void deleteExam(String id);	//The function that deletes the exam from database. Parameter is the id of the exam.
+
+	void updateExam(Exam exam);	//The function that updates information of a exam. Parameter is just like the addExam.
+
+
+
+
+	//Section Functions
+
+	List<Section> getAllSections();	//The function that gets the information of all sections.
+
+	void addSection(Section section); //The function that adds the section to the database.
+
+	void deleteSection(String course_id, int section_id); //The function that deletes the section from database. Parameters are the courseid and sectionid of the section.
+
+	Section getSection(String course_id, int section_no); //The function that gets the information of the section. Parameters are the courseid and sectionid of the section.
+
+	void updateSection(Section section); //The function that updates information of a section. Parameter is just like the addSection.
+
+	//AttendanceList Functions
+
+	AttendanceList getAttendanceList(String id, String userID); //The function that gets the information of all attendance lists.
+
+	List<AttendanceList> getAllAttendanceLists(); //The function that gets the information of all attendance lists.
+
+	void addAttendanceList(AttendanceList alist); //The function that adds the attendance list to the database.
+
+	void deleteAttendanceList(String id, String userID); //The function that deletes the attendance list from database. Parameters are the id and userid of the attendance list.
+
+	void updateAttendanceList(AttendanceList alist); //The function that updates information of a attendance list. Parameter is just like the addAttendanceList.
+
+	//SectionStudentList Functions
+
+	SectionStudentList getSectionStudentList(String courseID, int sectionNo, String userID); //The function that gets the information of all section student lists.
+
+	List<SectionStudentList> getAllSectionStudentLists(); //The function that gets the information of all section student lists.
+
+	void addSectionStudentList(SectionStudentList sectionStudentList); //The function that adds the section student list to the database.
+
+	void deleteSectionStudentList(String courseID, int sectionNo, String userID); //The function that deletes the section student list from database. Parameters are the courseid ,sectonno and userid of the section student list.
+
+	void updatesectionStudentList(SectionStudentList sectionStudentList); //The function that updates information of a section student list. Parameter is just like the addSectionStudentList.
 	
 }

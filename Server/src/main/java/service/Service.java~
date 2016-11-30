@@ -1,0 +1,75 @@
+package main.java.service;
+
+
+
+import java.util.List;
+
+import main.java.models.*;
+
+
+public interface Service {
+	
+	
+	
+	
+	public void addPerson(EduUser person);
+	
+	public void deletePerson(String id);
+	
+	public EduUser getPerson(String id);
+	
+	public List<EduUser> getAllPeople();
+	
+	public void updatePerson(EduUser person);
+
+
+
+
+	public Exam getExam(String id);
+
+	List<Exam> getAllExams();
+
+	void addExam(Exam exam);
+
+	void deleteExam(String id);
+
+	void updateExam(Exam exam);
+
+
+
+
+
+
+	List<Section> getAllSections();
+
+	void addSection(Section section);
+
+	void deleteSection(String course_id, int section_id);
+
+	Section getSection(String course_id, int section_no);
+
+	void updateSection(Section section);
+
+
+	AttendanceList getAttendanceList(String id, String userID);
+
+	List<AttendanceList> getAllAttendanceLists();
+
+	void addAttendanceList(AttendanceList alist);
+
+	void deleteAttendanceList(String id, String userID);
+
+	void updateAttendanceList(AttendanceList alist);
+
+
+
+	SectionStudentList getSectionStudentList(String courseID, int sectionNo, String userID);
+
+	List<SectionStudentList> getAllSectionStudentLists();
+
+	void addSectionStudentList(SectionStudentList sectionStudentList);
+
+	void deleteSectionStudentList(String courseID, int sectionNo, String userID);
+
+	void updatesectionStudentList(SectionStudentList sectionStudentList);
+}
