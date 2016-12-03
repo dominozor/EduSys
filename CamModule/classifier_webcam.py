@@ -25,20 +25,34 @@ globalPersons = [] #the list that keeps the information about who appeared on th
 
 
 def wrongPersonDelete(): #checks if a person is tagged wrongly a few times instead of a person
+    deleteunk=-1
     for i in range(len(globalPersons)):
         if(globalPersons[i].name!="_unknown"):
             for j in range(len(globalPersons)):
-                if(globalPersons[j].name!="_unknown"):                    
+                if(globalPersons[j].name!="_unknown" and globalPersons[j].name != globalPersons[i].name):                    
                     if(globalPersons[j].avTop-globalPersons[i].avTop <20 or globalPersons[i].avTop-globalPersons[j].avTop<20):
                         if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
                             if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
-                                if(globalPersons[j].avBottom-globalPersons[i].avBottom<10 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
-                                    print ""
-                                    #print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
-                                    #if(globalPersons[i].numberOfDistances<5 and globalPersons[j].numberOfDistances>15):
-                                        #TODO
-                                    #if(globalPersons[j].numberOfDistances<5 and globalPersons[i].numberOfDistances>15):
-                                        #TODO
+                                if(globalPersons[j].avBottom-globalPersons[i].avBottom<20 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
+                                    print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
+                                    if(2*(globalPersons[i].numberOfDistances)<globalPersons[j].numberOfDistances):
+                                        #print globalPersons[j].name +" bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " dogru " + globalPersons[i].name + " bulunma sayisi "+ str(globalPersons[i].numberOfDistances)  + " yanlis "
+                                        globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
+                                        globalPersons[j].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
+                                        globalPersons[j].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
+                                        globalPersons[j].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0
+                                        deleteunk=i
+
+                                    if(2*(globalPersons[j].numberOfDistances)<globalPersons[i].numberOfDistances):
+                                        #print globalPersons[i].name  +" bulunma sayisi "+ str(globalPersons[i].numberOfDistances) + " dogru " + globalPersons[j].name + " bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " yanlis "
+                                        globalPersons[i].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
+                                        globalPersons[i].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
+                                        globalPersons[i].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
+                                        globalPersons[i].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0
+                                        deleteunk=j
+
+    if(deleteunk!=-1):
+        globalPersons.pop(deleteunk)                                    
 
 
 
@@ -341,15 +355,9 @@ if __name__ == '__main__':
             # We can simply ignore it.
             pass
 
-        for i, c in enumerate(confidences): #TODO merging an unknown with a known face
+        for i, c in enumerate(confidences): 
             if c <= args.threshold:  # 0.5 is kept as threshold for known face.
-                #index=findIndex("_unknown",globalPersons)
-                #if(index==-1):
-                #unk=0;
-                #for j in globalPersons:
-                #    if(j.name[0]=='_'):
-                        #unk=1
-                #if(unk==0):
+
                 name="_unknown"
                 #else:
                  #   name = findUnknownName(points[i])
