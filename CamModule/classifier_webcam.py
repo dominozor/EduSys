@@ -33,7 +33,8 @@ def wrongPersonDelete(): #checks if a person is tagged wrongly a few times inste
                         if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
                             if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
                                 if(globalPersons[j].avBottom-globalPersons[i].avBottom<10 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
-                                    print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
+                                    print ""
+                                    #print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
                                     #if(globalPersons[i].numberOfDistances<5 and globalPersons[j].numberOfDistances>15):
                                         #TODO
                                     #if(globalPersons[j].numberOfDistances<5 and globalPersons[i].numberOfDistances>15):
@@ -55,7 +56,7 @@ def check(): #checks if coordinates of an unknown is very similar to a known per
                         if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
                             if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
                                 if(globalPersons[j].avBottom-globalPersons[i].avBottom<10 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
-                                    print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
+                                    #print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
                                     globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
                                     globalPersons[j].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
                                     globalPersons[j].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
@@ -324,7 +325,6 @@ if __name__ == '__main__':
     confidenceList = []
     while True:
         diff=time.time()-counter
-        print diff
         if (diff>args.time):
             break
         if(diff>5 and diff%5<1):

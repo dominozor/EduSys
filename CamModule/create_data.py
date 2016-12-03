@@ -3,7 +3,7 @@ import cv2, sys, numpy, os
 
 haar_file = 'haarcascade_frontalface_default.xml'
 datasets = 'datasets'
-sub_data = 'onur'
+sub_data = 'abdul'
 path = os.path.join(datasets, sub_data)
 if not os.path.isdir(path):
     os.mkdir(path)
