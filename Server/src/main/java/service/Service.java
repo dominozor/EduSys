@@ -128,4 +128,5 @@ public interface Service {
 
 	public List<Object[]> getAllCoursesOfALecturer(String userID); //Function to get all registered courses of a student
 
+	public List<Object[]> getExamGradesOfAStudent(String userID);
 }

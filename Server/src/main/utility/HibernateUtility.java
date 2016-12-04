@@ -366,5 +366,31 @@ public class HibernateUtility {
 		return null;
 	}
 
+    //Function to get all registered courses of a lecturer
+    public List<Object[]> listAllExamGradesOfAStudent(String userID) {
 
+        Session session = null;
+
+        try {
+            session = createSession(); //Create session
+
+            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+            Query query = session.createNativeQuery("select cr.name, stugra.grade, ex.type\n" +
+                    "from studentgrade as stugra, exam as ex, course as cr\n" +
+                    "where stugra.userid = '" + userID + "' and stugra.examid = ex.exam_id and ex.courseid = cr.id");
+
+            //in query.list() function query is executed and result set is returned
+            List<Object[]> row = query.list();
+            session.close();
+            return row;
+        } catch (Exception e) {
+            System.err.print(e);
+        } finally {
+            if (session != null && session.isOpen()) {
+
+                session.close();
+            }
+        }
+        return null;
+    }
 }

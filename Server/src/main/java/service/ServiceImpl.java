@@ -332,4 +332,7 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listAllCoursesOfALecturer(userID);
 	}
 
+    public List<Object[]> getExamGradesOfAStudent(String userID) {
+	    return hibernateUtility.listAllExamGradesOfAStudent(userID);
+    }
 }
