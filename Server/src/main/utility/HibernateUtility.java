@@ -395,7 +395,7 @@ public class HibernateUtility {
     }
 
 	//Function to get all previous lectures of a course
-	public List<Object[]> listDatesOfASection(String courseID, String sectionID) {
+	public List<String> listDatesOfASection(String courseID, String sectionID) {
 
 		Session session = null;
 
@@ -407,7 +407,7 @@ public class HibernateUtility {
 					"where at.courseid = '" + courseID + "' and at.sectionno = '" + sectionID  + "'");
 
 			//in query.list() function query is executed and result set is returned
-			List<Object[]> row = query.list();
+			List<String> row = query.list();
 			session.close();
 			return row;
 		} catch (Exception e) {

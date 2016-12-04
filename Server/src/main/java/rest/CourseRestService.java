@@ -84,12 +84,11 @@ public class CourseRestService {
 	public Response getDatesOfASection(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID){
 		try {
 			JSONArray main = new JSONArray();		//A new JSON array object is created.
-			List <Object[]> dates = service.getDatesOfASection(courseID,sectionID); //Getting all dates of the course
-			System.out.println();
-			for(Object[] date : dates){
+			List <String> dates = service.getDatesOfASection(courseID,sectionID); //Getting all dates of the course
+			for(String date : dates){
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-				jo.accumulate("date", date[0]); // Putting  dates
+				jo.accumulate("date", date); // Putting  dates
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
