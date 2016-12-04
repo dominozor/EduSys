@@ -393,4 +393,35 @@ public class HibernateUtility {
         }
         return null;
     }
+
+	//Function to get all previous lectures of a course
+	public List<Object[]> listDatesOfASection(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select at.date from attendance as at\n" +
+					"where at.courseid = '" + courseID + "' and at.sectionno = '" + sectionID  + "'");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
+
+
 }

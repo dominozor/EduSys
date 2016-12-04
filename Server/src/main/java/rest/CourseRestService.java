@@ -77,7 +77,31 @@ public class CourseRestService {
 		}
 		return Response.serverError().build();
 	}
-	
+
+	@GET
+	@Path("/getSectionDates/{courseID}/{sectionID}")		/*This is the url of getting all previous lectures of a course.  */
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getDatesOfASection(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			List <Object[]> dates = service.getDatesOfASection(courseID,sectionID); //Getting all dates of the course
+			System.out.println();
+			for(Object[] date : dates){
+
+				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+				jo.accumulate("date", date[0]); // Putting  dates
+
+				main.put(jo);   //Put each JSON object to the JSON array object.
+			}
+			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
+
 	@POST
 	@Path("/add")   /*This is the url of the adding a new course to the system. When this url is called
 					Course constructor is called and then a new course is created and put to the database.*/
