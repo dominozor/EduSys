@@ -97,7 +97,7 @@ public class UserRestService {
 					http://localhost:8080/webapi/user/add?ID=domi&name=Enver&surname=Evci&email=enverevci@gmail.com&password=123&ppicLink=link-to-pic&scope=0,
 					EduUser constructor is called and then a new person is created and put to the database.*/
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response addPerson(@QueryParam("ID") String id,@QueryParam("name")String name, @QueryParam("surname") String surname,@QueryParam("email") String email,@QueryParam("password") String password,@QueryParam("ppicLink") String ppicLink,@QueryParam("scope") int role) {
+	public Response addPerson(@QueryParam("ID") String id,@QueryParam("name")String name, @QueryParam("surname") String surname,@QueryParam("email") String email,@QueryParam("password") String password,@QueryParam("ppicLink") String ppicLink,@QueryParam("role") int role) {
 		//The parameters of the addPerson are;
 		//id: id of the person who is going to be added.
 		//name: name of the person who is going to be added.
@@ -107,9 +107,8 @@ public class UserRestService {
 		//ppiclink: profile picture link of the person who is going to be added. If a person wants to add profile picture, the link of it will be saved in the database.
 		//role: this is the role of the person. The person may be a student or may be a lecturer. 
 		try{
-			String digestedPass = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
-			EduUser person=new EduUser(id, name, surname, email, digestedPass, null, ppicLink, role); //The parameters of the constructure is the same as the parameters of the addPerson
-			service.addPerson(person);																  //function. the null parameter is the link of the traihned photographs of the student.	
+			EduUser person=new EduUser(id, name, surname, email, password, null, ppicLink, role); //The parameters of the constructure is the same as the parameters of the addPerson
+			service.addPerson(person);																  //function. the null parameter is the link of the traihned photographs of the student.
 																									  //At the beginnig it is null. The digstedPass parameter is the encripted version of the
 																									  //password of the person. 
 			return Response.status(200).entity("success").build();	//It will return a success response if it is not failed.
@@ -137,11 +136,10 @@ public class UserRestService {
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response updatePerson(@QueryParam("ID") String id,@QueryParam("name")String name, @QueryParam("surname") String surname,@QueryParam("email") String email,@QueryParam("password") String password,@QueryParam("ppicLink") String ppicLink,@QueryParam("scope") int role) {
+	public Response updatePerson(@QueryParam("ID") String id,@QueryParam("name")String name, @QueryParam("surname") String surname,@QueryParam("email") String email,@QueryParam("ppicLink") String ppicLink,@QueryParam("role") int role) {
 		//These parameters are the same as the addPerson.
 		EduUser user = service.getPerson(id); //This gets the person who has the id in the parameter.
-		String digestedPass = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password); //This decription of the password.
-		EduUser person=new EduUser(id, name, surname, email, digestedPass, user.getTrainLink(), ppicLink, role);  //This is the same arguments as the addPerson function. Only difference
+		EduUser person=new EduUser(id, name, surname, email, user.getPassword(), user.getTrainLink(), user.getProfilePic(), role);  //This is the same arguments as the addPerson function. Only difference
 																												  //is this has the real link of the trained photo.
 		try{
 			service.updatePerson(person);  //This updates the person's information.
