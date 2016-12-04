@@ -134,6 +134,6 @@ public class SectionStudentListRest {
         catch(Exception ex){
             return Response.serverError().build();
         }
-
+        
     }
 }

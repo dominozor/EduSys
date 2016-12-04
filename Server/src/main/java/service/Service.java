@@ -30,7 +30,7 @@ public interface Service {
 										  
 	public void deleteCourse(String id);   //The function that deletes the course from database. Parameter is the id of the course.
 
-	public void getCourse(String id);	   //The function that gets the information of the course. Parameter is the id of the course.
+	public Course getCourse(String id);	   //The function that gets the information of the course. Parameter is the id of the course.
 
 	public List<Course> getAllCourses();   //The function that gets the information of all courses.
 
@@ -43,9 +43,9 @@ public interface Service {
 													  //id, sectionNo, courseId and date.
 	public void deleteAttendance(String id);   //The function that deletes the attendance from database. Parameter is the id of the attendance.
 
-	public void getAttendance(String id);	   //The function that gets the information of the attendance. Parameter is the id of the attendance.
+	public Attendance getAttendance(String id);	   //The function that gets the information of the attendance. Parameter is the id of the attendance.
 
-	public List<Course> getAllAttendances();   //The function that gets the information of all attendances.
+	public List<Attendance> getAllAttendances();   //The function that gets the information of all attendances.
 
 	public void updateAttendance(Attendance attendance);  //The function updates information of a attendance. Parameter is just like the getAttendance.
 
@@ -56,7 +56,7 @@ public interface Service {
 															//userId, examId and grade
 	public void deleteStudentGrade(String userId, String examId);  //The function that deletes the grade from database. Parameters are the id of the student and id of the exam in order to express specific grade.
 
-	public void getStudentGrade(String userId, String examId);  //The function that gets the grade. Parameters are the same as the deleteStudnetGrade function parameters.
+	public StudentGrade getStudentGrade(String userId, String examId);  //The function that gets the grade. Parameters are the same as the deleteStudnetGrade function parameters.
 
 	public List<StudentGrade> getAllStudentGrades();  //The function that gets the all grades.
 
@@ -113,5 +113,13 @@ public interface Service {
 	void deleteSectionStudentList(String courseID, int sectionNo, String userID); //The function that deletes the section student list from database. Parameters are the courseid ,sectonno and userid of the section student list.
 
 	void updatesectionStudentList(SectionStudentList sectionStudentList); //The function that updates information of a section student list. Parameter is just like the addSectionStudentList.
-	
+
+	//----------------------------------------------------------------\\
+	//FUNCTIONS FOR GENERATING GENERAL INFORMATION
+
+	public List<Attendance> listStudentAttendance(String id); //The function that gets all attendance data of a student.
+
+	public List<Attendance> getStudentCourseAttendance(String id, String course);  //The function that gets attendance data for a specific course of a student.
+
+	public List<Object[]> getAllStudentsAttendance(String course, String userID);  //The function that gets attendance of all students for a specific course.
 }

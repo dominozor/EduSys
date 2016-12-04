@@ -103,7 +103,7 @@ public class ExamRestService {
 
         try{
 
-            Exam exam=new Exam(id, course_id, section_no, type, null);
+            Exam exam=new Exam(id, course_id, section_no, type, 0.0);
             service.addExam(exam);
 
             return Response.status(200).entity("success").build();
@@ -141,8 +141,8 @@ public class ExamRestService {
 
         try{
             Exam exam = service.getExam(id);
-            exam=new Exam(exam.getExam_id(), course_id, section_no, type, average);
-            service.updateExam(exam);
+            Exam ex=new Exam(exam.getExam_id(), course_id, section_no, type, average);
+            service.updateExam(ex);
 
             return Response.status(200).entity("success").build();
         }

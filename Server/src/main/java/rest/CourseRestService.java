@@ -117,9 +117,9 @@ public class CourseRestService {
 	public Response updateCourse(@QueryParam("ID") String id,@QueryParam("name")String name) {
 		//These parameters are the same as the addCourse.
 		Course course = service.getCourse(id); //This gets the course who has the id in the parameter.
-		Course course=new Course(id, name);  //This is the same arguments as the addCourse function.
+		Course cours=new Course(id, name);  //This is the same arguments as the addCourse function.
 		try{
-			service.updateCourse(course);  //This updates the course's information.
+			service.updateCourse(cours);  //This updates the course's information.
 			return Response.status(200).entity("success").build();   
 		}
 		catch(Exception ex){

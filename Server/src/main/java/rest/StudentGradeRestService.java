@@ -32,9 +32,9 @@ public class StudentGradeRestService {
 
 	@GET 			/*This is the url of getting a student grade. When this url is called like http://localhost:8080/webapi/studentGrade/get/1942085, the JSON object will be formed 
 					for the student grade who has the ids. Then the object is returned.*/
-	@Path("/get/{ID}")
+	@Path("/get/{userID}/{examID}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getStudentGrade(@PathParam("userId") String userId,@QueryParam("examId") String examId){ //The parameters are the user id of a student and exam id of a course.
+	public Response getStudentGrade(@PathParam("userID") String userId,@PathParam("examID") String examId){ //The parameters are the user id of a student and exam id of a course.
 		try {
 			
 			JSONObject jo = new JSONObject();		//A new JSON object is created.
@@ -98,14 +98,14 @@ public class StudentGradeRestService {
 		}
 
 	}
-	
+
 	@DELETE
-	@Path("/delete/{id}")		/*This is the url of the delete a grade from the system. When this url is called like http://localhost:8080/webapi/studentGrade/delete/1942085,
+	@Path("/delete/{userID}/{examID}")		/*This is the url of the delete a grade from the system. When this url is called like http://localhost:8080/webapi/studentGrade/delete/1942085,
 								it will delete the grade from the database via REST service.*/
 	@Produces(MediaType.TEXT_PLAIN)
-	public Response deleteStudenGrade(@PathParam("userId") String userId, @PathParam("examId") String examId) {  //The function takes the user id of the student whose grade is going to be deleted.
+	public Response deleteStudentGrade(@PathParam("userID") String userId, @PathParam("examID") String examId) {  //The function takes the user id of the student whose grade is going to be deleted.
 		try{																									 //Also, it takes the id of the exam in order to express which exam's grade. 
-			service.deleteStudenGrade(userId, examId);		//This is the deletion of the course via REST service.
+			service.deleteStudentGrade(userId, examId);		//This is the deletion of the course via REST service.
 			return Response.status(200).entity("success").build(); 
 		}
 		catch(Exception ex){
@@ -119,9 +119,9 @@ public class StudentGradeRestService {
 	public Response updateStudentGrade(@QueryParam("userId") String userId,@QueryParam("examId") String examId,@QueryParam("grade") double grade) {
 		//These parameters are the same as the addStudentGrade.
 		StudentGrade studentGrade = service.getStudentGrade(userId, examId); //This gets the grade which has the userId and examId in the parameter.
-		StudentGrade studentGrade=new StudentGrade(userId, examId, grade);  //This is the same arguments as the addStudentGrade function.
+		StudentGrade studentGrad=new StudentGrade(userId, examId, grade);  //This is the same arguments as the addStudentGrade function.
 		try{
-			service.updateStudentGrade(studentGrade);  //This updates the student grade.
+			service.updateStudentGrade(studentGrad);  //This updates the student grade.
 			return Response.status(200).entity("success").build();   
 		}
 		catch(Exception ex){

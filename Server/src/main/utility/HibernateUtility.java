@@ -1,9 +1,11 @@
 package main.utility;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import main.java.models.Attendance;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -66,7 +68,7 @@ public class HibernateUtility {
 
 			session=createSession();
 			StringBuilder queryBuilder=new StringBuilder();
-			//Creates hibernate queries 
+			//Creates hibernate queries
 			queryBuilder.append("from "+type.getName()+" where ");
 			for(int i=0;i<columnNameList.size()-1;i++){
 				queryBuilder.append(columnNameList.get(i)+" = :"+columnNameList.get(i)+" and ");
@@ -102,9 +104,10 @@ public class HibernateUtility {
 		try{
 
 			session=createSession();
-			//Creates hibernate queries 
+			//Creates hibernate queries
+
 			Query query = session.createQuery("from "+ clazz.getName());
-			//in query.list() function query is executed and result set is returned 
+			//in query.list() function query is executed and result set is returned
 			//finally user fetches data
 			List<T> rows = (List<T>) query.list();
 			session.close();
@@ -184,6 +187,124 @@ public class HibernateUtility {
 	}
 
 
+	//----------------------------------------------------------------\\
+	//FUNCTIONS FOR GENERATING GENERAL INFORMATIONS
+
+
+	//This is the function in order to get attendance data of a student for every course he/she takes.
+	//Gets an parameter id which is used to indicate which student's attendance is wanted
+	public List<Attendance> listAttendanceForAStudent(String id) {
+
+		Session session=null;
+
+		try{
+			session=createSession();
+			//By using createQuery, the query is formed and data is retrieved from database.
+			Query query = session.createQuery("select distinct att.id, att.courseId, att.date, att.sectionNo " +
+					"from Course as c, AttendanceList as attL, Attendance as att, SectionStudentList as s " +
+					"where attL.userID = '" + id + "' and s.userID = '" + id + "' and " +
+					"att.id = attL.att_id and s.courseID = att.courseId and att.sectionNo = s.sectionNo " +
+					"order by att.date" );
+
+			//in query.list() function query is executed and result set is returned and casted to a Object List.
+			List<Object[]> row = query.list();
+			//a new Attendance List is initialized.
+			//Then Attendance objects is formed for each row of the query result and put them to the Attendance List.
+			List<Attendance> rows = new ArrayList<Attendance>();
+			for(Object[] r : row) {
+				Attendance attendance = new Attendance((String)r[0], (int)r[3], (String)r[1], (String)r[2]);
+				rows.add(attendance);
+			}
+			session.close();
+			return rows;
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
+
+	//This is the function in order to get attendance data of a student for a specific course he/she takes.
+	//Gets an parameter id which is used to indicate which student's attendance is wanted
+	public List<Attendance> getCourseAttendanceForAStudent(String id, String course) {
+
+		Session session=null;
+
+		try{
+			session=createSession();
+			//By using createQuery, the query is formed and data is retrieved from database.
+			Query query = session.createQuery("select distinct att.id, att.courseId, att.date, att.sectionNo " +
+					"from Course as c, AttendanceList as attL, Attendance as att, SectionStudentList as s " +
+					"where c.name = '" + course + "' and attL.userID = '" + id + "' and s.userID = '" + id + "' and " +
+					"s.courseID = c.id and att.id = attL.att_id and att.courseId = c.id and att.sectionNo = s.sectionNo ");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			//a new Attendance List is initialized.
+			//Then Attendance objects is formed for each row of the query result and put them to the Attendance List.
+			List<Attendance> rows = new ArrayList<Attendance>();
+			for(Object[] r : row) {
+				Attendance attendance = new Attendance((String)r[0], (int)r[3], (String)r[1], (String)r[2]);
+				rows.add(attendance);
+			}
+			//List<T> rows = (List<T>) query.list();
+			session.close();
+			return rows;
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
+
+	//This is the function in order to get attendance data of a student for a specific course he/she takes.
+	//Gets an parameter id which is used to indicate which student's attendance is wanted
+	public List<Object[]> listCourseAttendanceForAStudent(String id, String course) {
+
+		Session session=null;
+
+		try{
+			session=createSession();
+			//By using createQuery, the query is formed and data is retrieved from database.
+			Query query = session.createQuery("select distinct att.id, att.date, attL.userID " +
+					"from Course as c, AttendanceList as attL, Attendance as att, SectionStudentList as sL, Section as s " +
+					"where c.name = 'bio' and s.userID = '205' and s.courseID = c.id and sL.courseID = c.id and sL.sectionNo = s.sectionNo and " +
+					"attL.userID = sL.userID and  att.id = attL.att_id and att.courseId = c.id " +
+					"order by attL.userID\n" +
+					"\n");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 	
 	
 }
