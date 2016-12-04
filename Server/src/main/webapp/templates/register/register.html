@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduSys</title>
+
+
+</head>
+<body>
+<link rel="import" href="/templates/main/main.html" >
+<script src="/views/register/register.js"></script>
+<h2>Register</h2>
+
+<div id="register" class="modal">
+
+    <form id="register-form"   class="form_statusinput">
+        <p>Name</p>
+        <div>
+
+            <input type="input"  id="register-name" >
+        </div>
+        <p>Surname</p>
+        <div>
+            <input type="input"  id="register-surname" >
+        </div>
+        <p>E-mail</p>
+        <div>
+            <input type="input"  id="register-email" >
+        </div>
+        <p>ID</p>
+        <div>
+            <input type="input"  id="register-id" >
+        </div>
+        <p>Password</p>
+        <div>
+            <input type="password" id="register-pass">
+        </div>
+        <p>Confirm Password</p>
+        <div>
+            <input type="password" id="register-repass">
+        </div>
+        <div id="confirmedPassMsg"></div>
+
+        <p>Type</p>
+        <div>
+            Admin
+            <input type="radio" name="radAnswer" id="r-admin"/></br>
+            Lecturer
+            <input type="radio" name="radAnswer" id="r-lecturer"/></br>
+            Student
+            <input type="radio" name="radAnswer" id="r-student"/></br>
+        </div>
+        </br>
+
+            <input type="submit" id="button" value="Register">
+
+    </form>
+    <div id="error_rgs_msg"></div>
+    </br>
+    <div>
+        <input type="button" id="backToAdminPage" value="Back">
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EduSys</title>
+
+
+</head>
+<body>
+<link rel="import" href="/templates/main/main.html" >
+<script src="/views/register/update.js"></script>
+<h2>Update</h2>
+
+<div id="update" class="modal">
+
+    <form id="update-form"   class="form_statusinput">
+        <p>Name</p>
+        <div>
+
+            <input type="input"  id="update-name" >
+        </div>
+        <p>Surname</p>
+        <div>
+            <input type="input"  id="update-surname" >
+        </div>
+        <p>E-mail</p>
+        <div>
+            <input type="input"  id="update-email" >
+        </div>
+        <p>ID</p>
+        <div>
+            <input type="input"  id="update-id" >
+        </div>
+
+        <p>Type</p>
+        <div>
+            Admin
+            <input type="radio" name="radAnswer" id="u-admin"/></br>
+            Lecturer
+            <input type="radio" name="radAnswer" id="u-lecturer"/></br>
+            Student
+            <input type="radio" name="radAnswer" id="u-student"/></br>
+        </div>
+        </br>
+
+        <input type="submit" id="button" value="Update">
+
+    </form>
+    <div id="error_upt_msg"></div>
+    </br>
+    <div>
+        <input type="button" id="backToAdminPage" value="Back">
+    </div>
+
+</div>
+</body>
+</html>
