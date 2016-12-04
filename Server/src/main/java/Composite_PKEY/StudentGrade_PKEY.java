@@ -1,3 +1,4 @@
+package main.java.Composite_PKEY;
 import java.io.Serializable;
 
 //This is used if there are more than one primary keys.
@@ -9,7 +10,7 @@ public class StudentGrade_PKEY implements Serializable {
     public StudentGrade_PKEY() {}
 
     public StudentGrade_PKEY(String userId, String examId){		//constructor of the composite primary key class.
-        this.userID=userID;
+        this.userId=userId;
         this.examId=examId;
     }
 }

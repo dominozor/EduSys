@@ -27,10 +27,10 @@ public class Attendance {
  
 	private String courseId;	//This shows the course in which the attendance is taken.
 
-	private DateTime date;	//This is the date at which the attendance is taken.
+	private String date;	//This is the date at which the attendance is taken.
 
 	public Attendance(){}
-	public Attendance(String id, int sectionNo, String courseId, DateTime date){	//Constructor of the class.
+	public Attendance(String id, int sectionNo, String courseId, String date){	//Constructor of the class.
 		this.ID=id;
 		this.sectionNo=sectionNo;
 		this.courseId=courseId;
@@ -57,14 +57,14 @@ public class Attendance {
 	public String getCourseId(){
 		return this.courseId;
 	}
-	public void setCourseId(int courseId){
+	public void setCourseId(String courseId){
 		this.courseId=courseId;
 	}
 
-	public DateTime getDate(){
+	public String getDate(){
 		return this.date;
 	}
-	public void setDate(DateTime date){
+	public void setDate(String date){
 		this.date=date;
 	}
 	

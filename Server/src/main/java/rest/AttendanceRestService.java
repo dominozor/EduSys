@@ -25,7 +25,7 @@ import main.java.service.ServiceImpl;
 
 
 @Path ("/attendance")
-public class AttendanceRestService {	
+public class AttendanceRestService {
 	
 	Service service = new ServiceImpl().getInstance();
 

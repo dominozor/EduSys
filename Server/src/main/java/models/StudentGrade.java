@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import main.java.Composite_PKEY.StudentGrade_PKEY;
 import org.json.JSONObject;
 
 
@@ -16,7 +17,7 @@ import org.json.JSONObject;
 //Hibernate gives a name to table itself and save it to the database.
 @XmlRootElement
 @Entity
-@IdClass(StudentGrades_PKEY.class)
+@IdClass(StudentGrade_PKEY.class)
 //Every object becomes an entity when we want to persist data and store it in the database.
 
 public class StudentGrade {
