@@ -332,6 +332,8 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listAllCoursesOfALecturer(userID);
 	}
 
+    //Service function to get all exam grades, types of a student
+    //Parameter is the student's ID
     public List<Object[]> getExamGradesOfAStudent(String userID) {
 	    return hibernateUtility.listAllExamGradesOfAStudent(userID);
     }

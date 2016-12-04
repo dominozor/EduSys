@@ -366,7 +366,7 @@ public class HibernateUtility {
 		return null;
 	}
 
-    //Function to get all registered courses of a lecturer
+    //Function to get all exam grades and types a student
     public List<Object[]> listAllExamGradesOfAStudent(String userID) {
 
         Session session = null;

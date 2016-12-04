@@ -238,20 +238,20 @@ public class UserRestService {
 	}
 
     @GET
-    @Path("/getExamGrades/{ID}")		/*This is the url of getting all courses of a lecturer. This url is called like http://localhost:8080/webapi/user/getLecturerCourses/, the JSON object will be formed
+    @Path("/getExamGrades/{ID}")		/*This is the url of getting all exam grades and types of a student. This url is called like http://localhost:8080/webapi/user/getExamGrades/{ID}, the JSON object will be formed
 						for the courses of the lecturer with given id. Then the object is returned.*/
     @Produces(MediaType.APPLICATION_JSON)
     public Response listExamGradesOfAStudent(@PathParam("ID") String id){
         try {
             JSONArray main = new JSONArray();		//A new JSON array object is created.
-            List <Object[]> exams = service.getExamGradesOfAStudent(id); //Getting all courses of lecturer with given id.
+            List <Object[]> exams = service.getExamGradesOfAStudent(id); //Getting all exam grades and types of student with given id.
             System.out.println();
             for(Object[] exam : exams){
 
                 JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-                jo.accumulate("name", exam[0]); // Putting id of courses
-                jo.accumulate("grade", exam[1]); // Putting name of courses
-                jo.accumulate("type", exam[2]); // Putting name of courses
+                jo.accumulate("name", exam[0]); // Putting name of course
+                jo.accumulate("grade", exam[1]); // Putting grade
+                jo.accumulate("type", exam[2]); // Putting type of exam (midterm, final, etc)
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }
