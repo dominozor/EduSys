@@ -5,6 +5,7 @@ package main.java.service;
 import java.util.List;
 
 import main.java.models.*;
+import sun.plugin.dom.core.CoreConstants;
 
 
 public interface Service {
@@ -122,4 +123,6 @@ public interface Service {
 	public List<Attendance> getStudentCourseAttendance(String id, String course);  //The function that gets attendance data for a specific course of a student.
 
 	public List<Object[]> getAllStudentsAttendance(String course, String userID);  //The function that gets attendance of all students for a specific course.
+
+	public List<Object[]> getAllCoursesOfAStudent(String userID); //Function to get all registered courses of a student
 }

@@ -1,11 +1,13 @@
 package main.utility;
 
 import java.io.Serializable;
+import java.io.SyncFailedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import main.java.models.Attendance;
+import main.java.models.Course;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -288,6 +290,35 @@ public class HibernateUtility {
 					"attL.userID = sL.userID and  att.id = attL.att_id and att.courseId = c.id " +
 					"order by attL.userID\n" +
 					"\n");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+    //Function to get all registered courses of a student
+	public List<Object[]> listAllCoursesOfAStudent(String userID) {
+
+		Session session=null;
+
+		try{
+			session=createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+            Query query = session.createNativeQuery("select cour.* from sectionstudentlist as sect, course as cour\n" +
+                    "where sect.userid = '" + userID + "' and cour.id = sect.courseid " );
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();

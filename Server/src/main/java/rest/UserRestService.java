@@ -15,6 +15,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import main.java.models.Course;
 import main.java.models.EduUser;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -32,7 +33,7 @@ public class UserRestService {
 	@GET
 	@Path("/test")
 	public String test(){
-		return "test...";			
+		return "test...";
 	}
 
 	@GET 			/*This is the url of getting a person's information. When this url is called like http://localhost:8080/webapi/user/get/1942085, the JSON object will be formed 
@@ -181,6 +182,30 @@ public class UserRestService {
 		catch(Exception ex){
 			return Response.status(200).entity("e2").build();
 		}
+	}
+
+	@GET
+	@Path("/getStudentCourses/{ID}")		/*This is the url of getting all courses of a student. When this url is called like http://localhost:8080/webapi/user/getStudentCourses/, the JSON object will be formed
+						for the courses of the student with given id. Then the object is returned.*/
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listCoursesOfAStudent(@PathParam("ID") String id){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			List <Object[]> courses = service.getAllCoursesOfAStudent(id); //Getting all courses of student with given id.
+            System.out.println();
+            for(Object[] course : courses){
+
+                JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+                jo.accumulate("name", course[1]); // Putting name of courses
+
+                main.put(jo);   //Put each JSON object to the JSON array object.
+            }
+            return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return Response.serverError().build();
 	}
 
 	
