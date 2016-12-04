@@ -154,6 +154,7 @@ public class UserRestService {
 	}
 
 	
+	
 	@POST
 	@Path("/login")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -163,26 +164,31 @@ public class UserRestService {
 			EduUser person=service.getPerson(id);
 
 			//Normally passwords are going to be encrypted in JavaScript part
-			String digestedPass = org.apache.commons.codec.digest.DigestUtils.sha256Hex(pass);
+			//String digestedPass = org.apache.commons.codec.digest.DigestUtils.sha256Hex(pass);
 
-			if(digestedPass.equals(person.getPassword())){
+			if(pass.equals(person.getPassword())){
 				//JavaScript part of the project will take that and redirect it to either Admin page or User page.
 				if(person.getRole()==0){ // if user is admin
 					return Response.status(200).entity("0").build(); 
 				}
-				else{
+				else if(person.getRole()==1){ //if user is lecturer
 					return Response.status(200).entity("1").build();
+				}
+				else if(person.getRole()==2){ //if user is student
+					return Response.status(200).entity("2").build();
 				}
 			}
 			else{ // if password is wrong
-				return Response.status(200).entity("e1").build();
+				return Response.status(404).entity("e1").build();
 			}
 
 		}
 		catch(Exception ex){
-			return Response.status(200).entity("e2").build();
+			return Response.status(404).entity("e2").build();
 		}
+		return Response.status(404).entity("e2").build();
 	}
+
 
 	@GET
 	@Path("/getStudentCourses/{ID}")		/*This is the url of getting all courses of a student. When this url is called like http://localhost:8080/webapi/user/getStudentCourses/, the JSON object will be formed
