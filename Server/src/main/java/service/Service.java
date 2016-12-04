@@ -125,4 +125,7 @@ public interface Service {
 	public List<Object[]> getAllStudentsAttendance(String course, String userID);  //The function that gets attendance of all students for a specific course.
 
 	public List<Object[]> getAllCoursesOfAStudent(String userID); //Function to get all registered courses of a student
+
+	public List<Object[]> getAllCoursesOfALecturer(String userID); //Function to get all registered courses of a student
+
 }

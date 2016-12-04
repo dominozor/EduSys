@@ -326,4 +326,10 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listAllCoursesOfAStudent(userID);
 	}
 
+	//Service function to get all registered courses of a lecturer
+	//Parameter is the lecturer's ID
+	public List<Object[]> getAllCoursesOfALecturer(String userID) {
+		return hibernateUtility.listAllCoursesOfALecturer(userID);
+	}
+
 }
