@@ -317,7 +317,7 @@ public class ServiceImpl implements Service{
 	//The service function to get attendance data for a specific course of all student.
 	//The parameters are the id of the student whose attendance information will be got and the course name for which course the attendance will be got.
 	public List<Object[]> getAllStudentsAttendance(String course, String userID) {
-		return hibernateUtility.listCourseAttendanceForAStudent(course, userID);
+		return hibernateUtility.listCourseAttendanceForAStudent(userID, course);
 	}
 
     //Service function to get all registered courses of a student

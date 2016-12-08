@@ -200,6 +200,7 @@ public class UserRestService {
             for(Object[] course : courses){
 
                 JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+				jo.accumulate("id", course[0]);		//Putting id of courses
                 jo.accumulate("name", course[1]); // Putting name of courses
 
                 main.put(jo);   //Put each JSON object to the JSON array object.

@@ -13,7 +13,7 @@ $(document).ready(function(){
     });
 
     $('#adm-register').click(function () {
-        window.location.replace("http://localhost:8080/templates/register/register.html"); //Button that redirects to register page
+        window.location.replace("http://localhost:9080/templates/register/register.html"); //Button that redirects to register page
     });
 
 
@@ -21,8 +21,8 @@ $(document).ready(function(){
 
     userlistobj=getUserList();
     userlist=JSON.parse(userlistobj.responseText);
-    var captions=["User Id","Name","Surname","E-Mail","Role"]
-    $('#userlist').html(createTable(userlist,captions))
+    var captions=["User Id","Name","Surname","E-Mail","Role"];
+    $('#userlist').html(createUserTable(userlist,captions));
 
     $('.update_button').click(function () {
 
@@ -32,7 +32,7 @@ $(document).ready(function(){
 
         createCookie('user',JSON.stringify(user),1); // A cookie is created for the upload page.Cookie has the information about user and keeps it as a JSON.
 
-        window.location.replace("http://localhost:8080/templates/register/update.html"); //That redirects to update page
+        window.location.replace("http://localhost:9080/templates/register/update.html"); //That redirects to update page
     });
 
 });

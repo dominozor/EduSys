@@ -11,6 +11,7 @@ import main.java.models.Course;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.annotations.Entity;
 import org.hibernate.cfg.Configuration;
 
@@ -131,26 +132,35 @@ public class HibernateUtility {
 	//"type" : Class of any type
 	//"valueList" : Values of the filter parameters that are going to be used in queries
 	//"columnNameList" : Names of the parameters
-	public void delete(Class<?> type, List<Serializable> valueList,List<String> columnNameList) {
+	public void delete(Class<?> type, List<String> valueList,List<String> columnNameList) {
 		
 		Session session=null;
 		
 		try{
 			session=createSession();
-			StringBuilder queryBuilder=new StringBuilder();
-			queryBuilder.append("delete from "+type.getName()+" where ");
-			for(int i=0;i<columnNameList.size()-1;i++){
-				queryBuilder.append(columnNameList.get(i)+" = :"+columnNameList.get(i)+" and ");
+
+			Transaction transaction = session.beginTransaction();
+			try {
+				StringBuilder queryBuilder=new StringBuilder();
+				queryBuilder.append("delete from "+type.getName().substring(type.getName().lastIndexOf(".")+1)+" where ");
+				for(int i=0;i<columnNameList.size()-1;i++){
+					queryBuilder.append(columnNameList.get(i)+" = :"+columnNameList.get(i)+" and ");
+				}
+				queryBuilder.append(columnNameList.get(columnNameList.size()-1)+" = :"+columnNameList.get(columnNameList.size()-1));
+				Query query = session.createQuery(queryBuilder.toString());
+				for(int i=0;i<columnNameList.size();i++) {
+					query.setParameter(columnNameList.get(i),valueList.get(i));
+				}
+
+				//in query.list() function query is executed and result set is returned
+				//However it returns empty
+				query.executeUpdate();
+				transaction.commit();
+			} catch (Throwable t) {
+				transaction.rollback();
+				throw t;
 			}
-			queryBuilder.append(columnNameList.get(columnNameList.size()-1)+" = :"+columnNameList.get(columnNameList.size()-1));
-			Query query = session.createQuery(queryBuilder.toString());
-			for(int i=0;i<columnNameList.size();i++) {
-				query.setParameter(columnNameList.get(i),valueList.get(i));
-			}
-			//in query.list() function query is executed and result set is returned 
-			//However it returns empty
-			List resultSet=query.list();
-			session.close();
+				session.close();
 
 
 		}
@@ -245,7 +255,7 @@ public class HibernateUtility {
 			//By using createQuery, the query is formed and data is retrieved from database.
 			Query query = session.createQuery("select distinct att.id, att.courseId, att.date, att.sectionNo " +
 					"from Course as c, AttendanceList as attL, Attendance as att, SectionStudentList as s " +
-					"where c.name = '" + course + "' and attL.userID = '" + id + "' and s.userID = '" + id + "' and " +
+					"where c.id = '" + course + "' and attL.userID = '" + id + "' and s.userID = '" + id + "' and " +
 					"s.courseID = c.id and att.id = attL.att_id and att.courseId = c.id and att.sectionNo = s.sectionNo ");
 
 			//in query.list() function query is executed and result set is returned
@@ -286,7 +296,7 @@ public class HibernateUtility {
 			//By using createQuery, the query is formed and data is retrieved from database.
 			Query query = session.createQuery("select distinct att.id, att.date, attL.userID " +
 					"from Course as c, AttendanceList as attL, Attendance as att, SectionStudentList as sL, Section as s " +
-					"where c.name = 'bio' and s.userID = '205' and s.courseID = c.id and sL.courseID = c.id and sL.sectionNo = s.sectionNo and " +
+					"where c.id = '" +course+ "' and s.userID = '" + id + "' and s.courseID = c.id and sL.courseID = c.id and sL.sectionNo = s.sectionNo and " +
 					"attL.userID = sL.userID and  att.id = attL.att_id and att.courseId = c.id " +
 					"order by attL.userID\n" +
 					"\n");

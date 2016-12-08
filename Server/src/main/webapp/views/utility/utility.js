@@ -1,4 +1,4 @@
-function createTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
+function createUserTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
     var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
 
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
@@ -20,6 +20,59 @@ function createTable(data,captionArr){  //This is a table creator function which
         }
         // This is for adding update button to all the rows.
         htmlString += '<td><input class="update_button" id="update'+i+'" type="button" value="Update"/></td></tr>';
+    }
+    htmlString +="</tbody>";
+
+    htmlString += "</tr></thead>";
+    return htmlString += "</table>"; // HTML table string is returned
+}
+
+function createCourseTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
+    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+
+    for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
+        htmlString += "<th>"+captionArr[i]+"</th>";
+    }
+
+    htmlString += "<tfoot></tfoot>";
+
+    htmlString += "<tbody>";
+    for(var i=0;i<data.length;i++){// Rows are added to the table
+        htmlString += "<tr>";
+        for(var val in data[i]){
+            htmlString += "<td>";
+            htmlString += data[i][val]; // Columns are added to the table
+            htmlString += "</td>"
+        }
+
+        htmlString += '<td><input class="courseInfo" id="course'+i+'" type="button" value="View Course"/></td></tr>';
+
+    }
+    htmlString +="</tbody>";
+
+    htmlString += "</tr></thead>";
+    return htmlString += "</table>"; // HTML table string is returned
+}
+
+function createAttendanceTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
+    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+
+    for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
+        htmlString += "<th>"+captionArr[i]+"</th>";
+    }
+
+    htmlString += "<tfoot></tfoot>";
+
+    htmlString += "<tbody>";
+    for(var i=0;i<data.length;i++){// Rows are added to the table
+        htmlString += "<tr>";
+        for(var val in data[i]) {
+            if(val === "courseId" || val === "date") {
+                htmlString += "<td>";
+                htmlString += data[i][val]; // Columns are added to the table
+                htmlString += "</td>"
+            }
+        }
     }
     htmlString +="</tbody>";
 
