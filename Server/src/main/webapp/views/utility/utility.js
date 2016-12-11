@@ -45,7 +45,8 @@ function createCourseTable(data,captionArr){  //This is a table creator function
             htmlString += "</td>"
         }
 
-        htmlString += '<td><input class="courseInfo" id="course'+i+'" type="button" value="View Course"/></td></tr>';
+        htmlString += '<td><input class="courseInfo" id="course'+i+'" type="button" value="View Course"/></td>';
+        htmlString += '<td><input class="courseAttendance" id="courseAtt'+i+'" type="button" value="Get Attendance"/></td></tr>';
 
     }
     htmlString +="</tbody>";

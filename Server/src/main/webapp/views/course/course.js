@@ -6,8 +6,10 @@ $(document).ready(function(){
         async: false,
         success: function(response) {
             course = JSON.parse(readCookie('course'));
-            $('#course-id').html(course["id"]);
-            $('#course-name').html(course["name"]);
+            $("#c-id").html("Id:")
+            $("#course-id").html(course["id"]);
+            $("#c-name").html("Name:")
+            $("#course-name").html(course["name"]);
         }
     });
 

@@ -45,5 +45,7 @@ $(document).ready(function() {
         window.location.replace("http://localhost:9080/templates/course/course.html"); //That redirects to course page
     });
 
-
+    $('.courseAttendance').click(function () {
+        window.location.replace("http://localhost:9080/templates/attendance/attendance.html"); //That redirects to course page
+    });
 });
