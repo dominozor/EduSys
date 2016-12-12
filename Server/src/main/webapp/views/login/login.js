@@ -2,6 +2,7 @@
 $(document).ready(function(){
 
     $.getScript("/views/utility/sha256.js", function(){});
+    $.getScript("/views/utility/utility.js", function(){});
 
 
     $("#login-form").submit(function(event) {
@@ -15,16 +16,17 @@ $(document).ready(function(){
                 url: "http://localhost:8080/rest/user/login?ID="+id+"&password="+sha256_digest($("#login-pass").val()),
                 success: function(response,status){
 
-                    if(response==="0"){
-                        console.log("Admin Page");
+                    user=response[0];
+                    role=user["role"];
+                    createCookie("mainuser",JSON.stringify(user),1);
+
+                    if(role===0){
                         window.location.href = "templates/home/admin-home.html";
                     }
-                    else if(response==="1"){
-                        console.log("Lecturer Page");
+                    else if(role===1){
                         window.location.href = "templates/home/lecturer-home.html";
                     }
-                    else if(response==="2"){
-                        console.log("Student Page");
+                    else if(role===2){
                         window.location.href = "templates/home/student-home.html";
                     }
 

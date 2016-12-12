@@ -1,21 +1,16 @@
-package main.utility;
+package main.java.utility;
 
 import java.io.Serializable;
-import java.io.SyncFailedException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import main.java.models.Attendance;
-import main.java.models.Course;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.annotations.Entity;
 import org.hibernate.cfg.Configuration;
-
-import javax.persistence.Table;
 
 /**
 *
@@ -256,8 +251,7 @@ public class HibernateUtility {
 			Query query = session.createQuery("select distinct att.id, att.courseId, att.date, att.sectionNo " +
 					"from Course as c, AttendanceList as attL, Attendance as att, SectionStudentList as s " +
 					"where c.id = '" + course + "' and attL.userID = '" + id + "' and s.userID = '" + id + "' and " +
-					"s.courseID = c.id and att.id = attL.att_id and att.courseId = c.id and att.sectionNo = s.sectionNo " +
-					"order by att.date");
+					"s.courseID = c.id and att.id = attL.att_id and att.courseId = c.id and att.sectionNo = s.sectionNo ");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();
@@ -357,7 +351,7 @@ public class HibernateUtility {
 			session=createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-			Query query = session.createNativeQuery("select cour.*, sect.sectionno from section as sect, course as cour\n" +
+			Query query = session.createNativeQuery("select cour.* from section as sect, course as cour\n" +
 					"where sect.userid = '" + userID + "' and cour.id = sect.courseid " );
 
 			//in query.list() function query is executed and result set is returned

@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 import main.java.models.Course;
 import main.java.models.EduUser;
+import main.java.utility.CameraUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -29,6 +30,7 @@ import main.java.service.ServiceImpl;
 public class UserRestService {	
 	
 	Service service = new ServiceImpl().getInstance();
+	CameraUtility cameraUtility = new CameraUtility();
 
 	@GET
 	@Path("/test")
@@ -151,31 +153,37 @@ public class UserRestService {
 		
 	}
 
-	
-	
+
+
 	@POST
 	@Path("/login")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response login(@QueryParam("ID") String id,@QueryParam("password") String pass){
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response login(@QueryParam("ID") String id,@QueryParam("password") String pass) throws JSONException {
 		try{
 
-			EduUser person=service.getPerson(id);
+			EduUser user=service.getPerson(id);
+
+
 
 			//Normally passwords are going to be encrypted in JavaScript part
 			//String digestedPass = org.apache.commons.codec.digest.DigestUtils.sha256Hex(pass);
 
-			if(pass.equals(person.getPassword())){
+			if(pass.equals(user.getPassword())){
 				//JavaScript part of the project will take that and redirect it to either Admin page or User page.
-				if(person.getRole()==0){ // if user is admin
-					return Response.status(200).entity("0").build(); 
-				}
-				else if(person.getRole()==1){ //if user is lecturer
-					return Response.status(200).entity("1").build();
-				}
-				else if(person.getRole()==2){ //if user is student
-					return Response.status(200).entity("2").build();
-				}
+				JSONArray main = new JSONArray();
+				JSONObject jo = new JSONObject();   //A new JSON object for each person is created.
+				jo.accumulate("id", user.getUsername());  //Putting all information from service object to JSON object.
+				jo.accumulate("name", user.getName());
+				jo.accumulate("surname", user.getSurname());
+				jo.accumulate("email", user.getEmail());
+				jo.accumulate("ppic", user.getProfilePic());
+				jo.accumulate("role", user.getRole());
+
+				main.put(jo);   //Put each JSON object to the JSON array object.
+				return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+						.build();
 			}
+
 			else{ // if password is wrong
 				return Response.status(404).entity("e1").build();
 			}
@@ -184,7 +192,7 @@ public class UserRestService {
 		catch(Exception ex){
 			return Response.status(404).entity("e2").build();
 		}
-		return Response.status(404).entity("e2").build();
+
 	}
 
 
