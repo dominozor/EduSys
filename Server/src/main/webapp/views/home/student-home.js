@@ -23,16 +23,16 @@ $(document).ready(function() {
 
 
     $('#getAttendance').click(function () {
-        attListObj=getAllAttForStudent(194);
+        attListObj=getAllAttForStudent(1942085);
         attList=JSON.parse(attListObj.responseText);
         var captions=["Course Id", "Date"];
         $('#Attendance').html(createAttendanceTable(attList,captions))
     });
 
-    courseListObj=getAllCourses(194);
+    courseListObj=getAllCourses(1942085,2);
     courseList=JSON.parse(courseListObj.responseText);
     var captions=["Course Id", "Name"];
-    $('#Courses').html(createCourseTable(courseList,captions))
+    $('#Courses').html(createCourseTable(courseList,captions,2))
 
     $('.courseInfo').click(function () {
 
@@ -42,10 +42,10 @@ $(document).ready(function() {
 
         createCookie('course',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
 
-        window.location.replace("http://localhost:9080/templates/course/course.html"); //That redirects to course page
+        window.location.replace("http://localhost:8080/templates/course/course.html"); //That redirects to course page
     });
 
     $('.courseAttendance').click(function () {
-        window.location.replace("http://localhost:9080/templates/attendance/attendance.html"); //That redirects to course page
+        window.location.replace("http://localhost:8080/templates/attendance/attendance.html"); //That redirects to course page
     });
 });

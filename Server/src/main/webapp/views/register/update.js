@@ -41,7 +41,7 @@ $(document).ready(function(){
 
         $.ajax({
                 type: "PUT", //We use PUT for update
-                url: "http://localhost:9080/rest/user/update?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&role="+role,
+                url: "http://localhost:8080/rest/user/update?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&role="+role,
                 success: function(response){
 
                     $("#error_upt_msg").html("<b style='color:green'>Success...</b>");
@@ -58,6 +58,6 @@ $(document).ready(function(){
 
     $("#backToAdminPage").click(function(){
         eraseCookie("user"); // If user wants to go back to the admin page, there is no need for this cookie
-        window.location.replace("http://localhost:9080/templates/home/admin-home.html");
+        window.location.replace("http://localhost:8080/templates/home/admin-home.html");
     });
 });

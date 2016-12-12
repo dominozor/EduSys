@@ -12,7 +12,7 @@ $(document).ready(function(){
         if(pass.length>7 && pass.length<21){
             $.ajax({
                 type: "POST",
-                url: "http://localhost:9080/rest/user/login?ID="+id+"&password="+sha256_digest($("#login-pass").val()),
+                url: "http://localhost:8080/rest/user/login?ID="+id+"&password="+sha256_digest($("#login-pass").val()),
                 success: function(response,status){
 
                     if(response==="0"){

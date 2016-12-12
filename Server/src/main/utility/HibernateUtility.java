@@ -357,7 +357,7 @@ public class HibernateUtility {
 			session=createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-			Query query = session.createNativeQuery("select cour.* from section as sect, course as cour\n" +
+			Query query = session.createNativeQuery("select cour.*, sect.sectionno from section as sect, course as cour\n" +
 					"where sect.userid = '" + userID + "' and cour.id = sect.courseid " );
 
 			//in query.list() function query is executed and result set is returned

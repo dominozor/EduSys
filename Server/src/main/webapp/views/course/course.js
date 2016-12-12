@@ -15,7 +15,7 @@ $(document).ready(function(){
 
     $("#backToStudentPage").click(function(){
         eraseCookie("course"); // If user wants to go back to the admin page, there is no need for this cookie
-        window.location.replace("http://localhost:9080/templates/home/student-home.html");
+        window.location.replace("http://localhost:8080/templates/home/student-home.html");
     });
 });
 

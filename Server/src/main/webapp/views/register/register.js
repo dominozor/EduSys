@@ -36,7 +36,7 @@ $(document).ready(function(){
 
             $.ajax({
                 type: "POST",
-                url: "http://localhost:9080/rest/user/add?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&password="+sha256_digest(pass)+"&ppicLink=link-to-pic&role="+role,
+                url: "http://localhost:8080/rest/user/add?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&password="+sha256_digest(pass)+"&ppicLink=link-to-pic&role="+role,
                 success: function(response){
 
                     $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
@@ -57,6 +57,6 @@ $(document).ready(function(){
     });
 
     $("#backToAdminPage").click(function(){
-        window.location.replace("http://localhost:9080/templates/home/admin-home.html");
+        window.location.replace("http://localhost:8080/templates/home/admin-home.html");
     });
 });
