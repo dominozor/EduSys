@@ -22,7 +22,16 @@
 		<finalName>
 			EduSys
 		</finalName>
+	  <resources>
+		  <resource>
+			  <directory>src/main/resources</directory>
+			  <filtering>true</filtering>
+		  </resource>
+	  </resources>
 	</build>
+	<properties>
+		<main.basedir>${project.basedir}</main.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>asm</groupId>
@@ -57,6 +66,20 @@
 			<artifactId>jersey-core</artifactId>
 			<version>1.19</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>4.0.0.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+
+
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
 			<artifactId>jackson-mapper-asl</artifactId>
