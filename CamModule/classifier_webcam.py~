@@ -34,7 +34,7 @@ def wrongPersonDelete(): #checks if a person is tagged wrongly a few times inste
                         if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
                             if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
                                 if(globalPersons[j].avBottom-globalPersons[i].avBottom<20 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
-                                    
+                                    print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
                                     if(2*(globalPersons[i].numberOfDistances)<globalPersons[j].numberOfDistances):
                                         #print globalPersons[j].name +" bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " dogru " + globalPersons[i].name + " bulunma sayisi "+ str(globalPersons[i].numberOfDistances)  + " yanlis "
                                         globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
@@ -340,9 +340,9 @@ if __name__ == '__main__':
     while True:
         diff=time.time()-counter
         if (diff>args.time):
-			for i in globalPersons:
-				print "{ \"name\": \""+i.name +"\" ,\"distance\": "+ str(i.averageDistance) +" , \"topCoor\": " +str(i.avTop) +", \"bottomCoor\": " +str(i.avBottom) +", \"rightCoor\":"+ str(i.avRight)+", \"leftCoor\": " +str(i.avLeft)+"}"
-			break
+		    for i in globalPersons:
+            print i.name +" "+ str(i.averageDistance) +" " +str(i.avTop) +" " +str(i.avBottom) +" "+ str(i.avRight)+" " +str(i.avLeft)
+            break
         if(diff>5 and diff%5<1):
             wrongPersonDelete()
             
