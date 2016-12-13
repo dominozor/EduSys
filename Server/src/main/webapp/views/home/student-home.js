@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     var courseList, courseListObj;
     var attList, attListObj;
-    //First eduUser.js and utility.js is imported to admin-home.js
+    //First attendance.js, eduUser.js and utility.js is imported to student-home.js
     $.ajax({
         url: '/views/attendance/attendance.js',
         dataType: 'script',
@@ -22,6 +22,7 @@ $(document).ready(function() {
     });
 
 
+    //When get attendance button is clicked, this function is called and gets data and create the table for attendance.
     $('#getAttendance').click(function () {
         attListObj=getAllAttForStudent(1942085);
         attList=JSON.parse(attListObj.responseText);
@@ -29,6 +30,7 @@ $(document).ready(function() {
         $('#Attendance').html(createAttendanceTable(attList,captions))
     });
 
+    //This gets the courses of a student and puts the data after creating table of it.
     courseListObj=getAllCourses(1942085,2);
     courseList=JSON.parse(courseListObj.responseText);
     var captions=["Course Id", "Name"];

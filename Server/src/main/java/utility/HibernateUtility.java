@@ -147,8 +147,7 @@ public class HibernateUtility {
 					query.setParameter(columnNameList.get(i),valueList.get(i));
 				}
 
-				//in query.list() function query is executed and result set is returned
-				//However it returns empty
+				//in query.executeUpdate() function query is executed
 				query.executeUpdate();
 				transaction.commit();
 			} catch (Throwable t) {

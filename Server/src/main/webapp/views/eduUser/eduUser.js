@@ -2,7 +2,7 @@ $(document).ready(function(){
 
 });
 
-function getUserList() { //This function get the user list from the Rest services of EduSys
+function getUserList() { //This function gets the user list from the Rest services of EduSys
     return $.ajax({
         type: "GET",
         url: "http://localhost:8080/rest/user/get",
@@ -10,7 +10,7 @@ function getUserList() { //This function get the user list from the Rest service
     });
 }
 
-function getAUser(id) { //This function get a specific user from the Rest services of EduSys
+function getAUser(id) { //This function gets a specific user from the Rest services of EduSys
     return $.ajax({
         type: "GET",
         url: "http://localhost:8080/rest/user/get/id",
@@ -18,7 +18,7 @@ function getAUser(id) { //This function get a specific user from the Rest servic
     });
 }
 
-function getAllCourses(id, type) { //This function get the user list from the Rest services of EduSys
+function getAllCourses(id, type) { //This function gets all the courses that a student takes at that semester from the Rest services of EduSys
     if(type == 1) {
         return $.ajax({
             type: "GET",
