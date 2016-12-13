@@ -426,7 +426,32 @@ public class HibernateUtility {
 		return null;
 	}
 
+	public List<Object[]> listStudentCourseAttendanceDate(String courseid,String sectionid,String date) {
 
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select us.id, us.name, us.surname\n" +
+					"from attendancelist as attlist, attendance as att, eduuser as us\n" +
+					"where attlist.att_id = att.id and att.courseid = '" + courseid + "' and att.sectionno= '" + sectionid + "' and att.date= '" + date + "' and us.id=attlist.userid ");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 
 
 }

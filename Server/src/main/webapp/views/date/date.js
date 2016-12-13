@@ -23,4 +23,9 @@ $(document).ready(function(){
     $("#backLecturerPage").click(function(){
         window.location.replace("http://localhost:8080/templates/home/lecturer-home.html"); //redirects back to lecturer page
     });
+
+    $(".getStudents").click(function(){
+        window.location.replace("http://localhost:8080/templates/date/student-list.html"); //redirects back to lecturer page
+    });
+
 });

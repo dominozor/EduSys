@@ -48,14 +48,15 @@ public class EduUser {
 		this.role=role;
 	}
 	
-	
+	public String getID() { return this.ID;}
 	public String getName(){
 		return this.name;
 	}
+
 	public void setName(String name){
 		this.name=name;
 	}
-	
+
 	public String getUsername(){
 		return this.ID;
 	}
