@@ -234,11 +234,10 @@ public class AttendanceRestService {
 
 	@GET
 	@Path("/getAttendanceFromDate/{courseID}/{sectionID}/{date}")/*This is the url of getting attendance data for a specific course from the system. When this url is
-												called like http://localhost:8090/webapi/attendance/getCourseAttendance/1941665/graph,
+												called like http://localhost:8080/templates/date/student-list.html,
 												it will get the attendance data from the database via REST service.*/
 	@Produces(MediaType.APPLICATION_JSON)
-	//The parameters which come from the url are the id of the student whose attendance data will be got and the course name for which course
-	//the attendance data will be got.
+
 	public Response getCourseAttendanceForADate(@PathParam("courseID") String courseid, @PathParam("sectionID") String sectionid, @PathParam("date") String date) {
 
 		try {

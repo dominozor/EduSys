@@ -1,7 +1,7 @@
 /**
  * Created by ata2 on 12.12.2016.
  */
-function getUserFromDate(sectionId, course, date) { //This function get all prev lectures of a course from the Rest services of EduSys
+function getUserFromDate(sectionId, course, date) { //This function get all students' names that attend a lecture.
     return $.ajax({
         type: "GET",
         url: "http://localhost:8080/rest/attendance/getAttendanceFromDate/" + course + "/" + sectionId + "/" + date,

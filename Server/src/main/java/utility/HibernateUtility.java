@@ -426,6 +426,8 @@ public class HibernateUtility {
 		return null;
 	}
 
+
+	//Function to get which students attend a lecture.
 	public List<Object[]> listStudentCourseAttendanceDate(String courseid,String sectionid,String date) {
 
 		Session session = null;
