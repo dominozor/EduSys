@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.models.*;
 import main.java.service.Service;
-import main.utility.HibernateUtility;
+import main.java.utility.HibernateUtility;
 
 
 public class ServiceImpl implements Service{
