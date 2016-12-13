@@ -29,38 +29,38 @@ public class CameraUtility {
     public Attendance takeAttendance(String courseID, int sectionNo) throws IOException {
         String path;
         String line;
-        String fileSeperator;
+        String fileSeperator; //Since operating system can be differ, file seperator must be generic
 
-        DateFormat df = new SimpleDateFormat("yyyyMMdd  HH:mm");
-        String sdt = df.format(new Date(System.currentTimeMillis()));
+        DateFormat df = new SimpleDateFormat("yyyyMMdd  HH:mm"); //Format of the date and time
+        String sdt = df.format(new Date(System.currentTimeMillis())); //Date is converted into a string
 
-        Attendance attendance = new Attendance(RandomStringUtils.randomAlphanumeric(10).toUpperCase(), sectionNo, courseID, sdt);
+        Attendance attendance = new Attendance(RandomStringUtils.randomAlphanumeric(10).toUpperCase(), sectionNo, courseID, sdt); // A new attendance has been created
 
-        service.addAttendance(attendance);
+        service.addAttendance(attendance); // Attendance is stored at database
 
-        path=propertiesUtility.getProperty("project.basedir");
-        fileSeperator=propertiesUtility.getProperty("project.fileSeperator");
+        path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
+        fileSeperator=propertiesUtility.getProperty("project.fileSeperator"); //From properties file project file seperator has been fetched
 
         ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"classifier_webcam.py", path+fileSeperator+"feature"+fileSeperator+"classifier.pkl");
         builder.redirectErrorStream(true);
-        Process process2 = builder.start();
+        Process process2 = builder.start(); //Python attendance process has been started
 
 
         BufferedReader bfr = new BufferedReader(new InputStreamReader(process2.getInputStream()));
         line = "";
-        while((line = bfr.readLine()) != null) {
+        while((line = bfr.readLine()) != null) { //Output is read line by line
 
             try {
-                JSONObject arr = new JSONObject(line);
-                AttendanceList attList = new AttendanceList(attendance.getId(),(String) arr.get("name"));
-                service.addAttendanceList(attList);
+                JSONObject arr = new JSONObject(line); //Output of the camera module is JSON. Therefore, we have to parse it.
+                AttendanceList attList = new AttendanceList(attendance.getId(),(String) arr.get("name")); // After parsing, student is added to that attendance list
+                service.addAttendanceList(attList); // Stored at database
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
-        return attendance;
+        return attendance; //returns attendance for later purposes
     }
 
 }
