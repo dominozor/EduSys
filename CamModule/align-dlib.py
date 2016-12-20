@@ -25,12 +25,12 @@ import openface
 import openface.helper
 from openface.data import iterImgs
 import time
-
+projectFolderPath="."
 startTime=time.time()
-fileDir = os.path.dirname(os.path.realpath(__file__))
-modelDir = os.path.join(fileDir, 'models')
-dlibModelDir = os.path.join(modelDir, 'dlib')
-openfaceModelDir = os.path.join(modelDir, 'openface')
+fileDir = projectFolderPath
+modelDir = projectFolderPath+'models'
+dlibModelDir = projectFolderPath+'models/dlib'
+openfaceModelDir = projectFolderPath+'models/openface'
 
 
 def write(vals, fName):
@@ -145,6 +145,8 @@ if __name__ == '__main__':
     parser.add_argument('inputDir', type=str, help="Input image directory.")
     parser.add_argument('--dlibFacePredictor', type=str, help="Path to dlib's face predictor.",
                         default=os.path.join(dlibModelDir, "shape_predictor_68_face_landmarks.dat"))
+    parser.add_argument('--pathToProject', type=str,
+                                 help="project path")
 
     subparsers = parser.add_subparsers(dest='mode', help="Mode")
     computeMeanParser = subparsers.add_parser(
@@ -164,11 +166,18 @@ if __name__ == '__main__':
                                  default=96)
     alignmentParser.add_argument('--fallbackLfw', type=str,
                                  help="If alignment doesn't work, fallback to copying the deep funneled version from this directory..")
+    
     alignmentParser.add_argument(
         '--skipMulti', action='store_true', help="Skip images with more than one face.")
     alignmentParser.add_argument('--verbose', action='store_true')
 
     args = parser.parse_args()
+    projectFolderPath=args.pathToProject
+    startTime=time.time()
+    fileDir = projectFolderPath
+    modelDir = projectFolderPath+'models'
+    dlibModelDir = projectFolderPath+'models/dlib'
+    openfaceModelDir = projectFolderPath+'models/openface'
 
     if args.mode == 'computeMean':
         computeMeanMain(args)

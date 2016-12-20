@@ -5,6 +5,9 @@ import os
 import openface
 import random
 import string
+import sys
+
+projectFolderPath=sys.argv[1]
 
 '''class Unknown:
     def __init__(self, name, top, bottom, right, left):
@@ -16,12 +19,12 @@ import string
 
 (width, height) = (130, 100)  # defining the size of images
 webcam = cv2.VideoCapture(0) # opening webcam
-align = openface.AlignDlib('models/dlib/shape_predictor_68_face_landmarks.dat')
+align = openface.AlignDlib(projectFolderPath+'models/dlib/shape_predictor_68_face_landmarks.dat')
 
 #create datasets directory if it doesn't exist
-if not os.path.isdir('datasets'):
-    os.mkdir('datasets')
-
+if not os.path.isdir(projectFolderPath+'datasets'):
+    os.mkdir(projectFolderPath+'datasets')
+os.chmod(projectFolderPath+'datasets', 0777)
 paths = []
 points = []
 unknowns = []
@@ -31,7 +34,7 @@ for i in range(len(bb)): #first image
     #20 length randoms concateneted with 'unknown'
     rand2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
     unknownName = 'unknown' + rand2
-    path = os.path.join('datasets', unknownName)
+    path = os.path.join(projectFolderPath+'datasets', unknownName)
     if not os.path.isdir(path): #create unknown + randNumber directories into datasets folder
         os.mkdir(path)
     paths.append(path)
@@ -70,7 +73,7 @@ while count < 10:
                 else:
                     rand2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
                     unknownName = 'unknown' + rand2
-                    path = os.path.join('datasets', unknownName)
+                    path = os.path.join(projectFolderPath+'datasets', unknownName)
                     if not os.path.isdir(path):
                         os.mkdir(path)
                     paths.append(path)
@@ -82,7 +85,7 @@ while count < 10:
             elif(abs(j[0][0] - i[0][0]) >= 100) and (abs(j[0][1] - i[0][1]) >= 100):
                 rand2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
                 unknownName = 'unknown' + rand2
-                path = os.path.join('datasets', unknownName)
+                path = os.path.join(projectFolderPath+'datasets', unknownName)
                 if not os.path.isdir(path):
                     os.mkdir(path)
                 paths.append(path)

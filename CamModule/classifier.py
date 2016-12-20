@@ -33,6 +33,7 @@ def train(args):
     labels = map(itemgetter(1),
                  map(os.path.split,
                      map(os.path.dirname, labels)))  # Get the directory.
+
     fname = "{}/reps.csv".format(args.workDir)
     embeddings = pd.read_csv(fname, header=None).as_matrix()
     le = LabelEncoder().fit(labels)
@@ -45,7 +46,6 @@ def train(args):
         clf_final = clf
         clf = Pipeline([('lda', LDA(n_components=args.ldaDim)),
                         ('clf', clf_final)])
-
     clf.fit(embeddings, labelsNum)
 
     fName = "{}/classifier.pkl".format(args.workDir)
