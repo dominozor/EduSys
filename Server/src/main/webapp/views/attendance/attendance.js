@@ -25,6 +25,7 @@ function listAllStudentsAtt(id, course) { //This function gets attendance data o
 
 $(document).ready(function(){
     var courAttList, courAttListObj;
+    var course, user;
 
     $.ajax({
         url: '/views/utility/utility.js',
@@ -32,8 +33,11 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    course  = JSON.parse(readCookie('courseAtt'));
+    user = JSON.parse(readCookie('mainuser'));
+
     //This gets a course attendance data of a specific student and puts the data to the table to course-attendance div of the attendance.html  
-    courAttListObj=getCourseAttForStudent(1942085, 490);
+    courAttListObj=getCourseAttForStudent(user["id"], course["id"]);
     courAttList=JSON.parse(courAttListObj.responseText);
     var captions=["Course Id", "Date"];
     $('#course-attendance').html(createAttendanceTable(courAttList,captions));

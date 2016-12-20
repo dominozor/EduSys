@@ -6,10 +6,11 @@ $(document).ready(function(){
         async: false,
         success: function(response) {
             course = JSON.parse(readCookie('course'));
-            $("#c-id").html("Id:")
             $("#course-id").html(course["id"]);
-            $("#c-name").html("Name:")
             $("#course-name").html(course["name"]);
+            $("#instructor-name").html(course["instructorName"]);
+            $("#instructor-lastname").html(course["instructorLastName"]);
+            $("#sectionNo").html(course["sectionNo"]);
         }
     });
     user = JSON.parse(readCookie('mainuser'));

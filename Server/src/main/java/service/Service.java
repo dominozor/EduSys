@@ -133,4 +133,7 @@ public interface Service {
 	public List<String> getDatesOfASection(String courseID, String sectionID); // Function to get all previous dates of a course
 
 	public List<Object[]> getStudentCourseAttendanceDate(String courseid,String sectionid,String date); // Function to get all students that attend a lecture.
+
+	public List<Object[]> getCourseExamGradeOfAStudent(String userID, String courseID); //Function to get an exam grade and types of a student for a specific course
+
 }

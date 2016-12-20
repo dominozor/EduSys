@@ -38,7 +38,7 @@ public class UserRestService {
 		return "test...";
 	}
 
-	@GET 			/*This is the url of getting a person's information. When this url is called like http://localhost:8080/webapi/user/get/1942085, the JSON object will be formed 
+	@GET 			/*This is the url of getting a person's information. When this url is called like http://localhost:8080/webapi/user/get/1942085, the JSON object will be formed
 					for the information of the person who has the id. Then the object is returned.*/
 	@Path("/get/{ID}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -67,7 +67,7 @@ public class UserRestService {
 	}
 	
 	@GET
-	@Path("/get")		/*This is the url of getting all people's information. When this url is called like http://localhost:8080/webapi/user/get/, the JSON object will be formed 
+	@Path("/get")		/*This is the url of getting all people's information. When this url is called like http://localhost:8080/webapi/user/get/, the JSON object will be formed
 						for the information of the all people's. Then the object is returned.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listPerson(){
@@ -193,7 +193,8 @@ public class UserRestService {
 
 
 	@GET
-	@Path("/getStudentCourses/{ID}")		/*This is the url of getting all courses of a student. When this url is called like http://localhost:8080/webapi/user/getStudentCourses/, the JSON object will be formed
+	@Path("/getStudentCourses/{ID}")		/*This is the url of getting all courses of a student. When this url is called like
+						http://localhost:8080/webapi/user/getStudentCourses/, the JSON object will be formed
 						for the courses of the student with given id. Then the object is returned.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listCoursesOfAStudent(@PathParam("ID") String id){
@@ -206,6 +207,9 @@ public class UserRestService {
                 JSONObject jo = new JSONObject();   //A new JSON object for each course is create
 				jo.accumulate("id", course[0]);		//Putting id of courses
                 jo.accumulate("name", course[1]); // Putting name of courses
+				jo.accumulate("instructorName", course[2]);
+				jo.accumulate("instructorLastName", course[3]);
+				jo.accumulate("sectionNo", course[4]);
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }
@@ -244,31 +248,60 @@ public class UserRestService {
 	}
 
     @GET
-    @Path("/getExamGrades/{ID}")		/*This is the url of getting all exam grades and types of a student. This url is called like http://localhost:8080/webapi/user/getExamGrades/{ID}, the JSON object will be formed
+	@Path("/getExamGrades/{ID}")		/*This is the url of getting all exam grades and types of a student. This url is called like http://localhost:8080/webapi/user/getExamGrades/{ID}, the JSON object will be formed
 						for the courses of the lecturer with given id. Then the object is returned.*/
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response listExamGradesOfAStudent(@PathParam("ID") String id){
-        try {
-            JSONArray main = new JSONArray();		//A new JSON array object is created.
-            List <Object[]> exams = service.getExamGradesOfAStudent(id); //Getting all exam grades and types of student with given id.
-            System.out.println();
-            for(Object[] exam : exams){
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listExamGradesOfAStudent(@PathParam("ID") String id){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			List <Object[]> exams = service.getExamGradesOfAStudent(id); //Getting all exam grades and types of student with given id.
+			System.out.println();
+			for(Object[] exam : exams){
 
-                JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-                jo.accumulate("name", exam[0]); // Putting name of course
-                jo.accumulate("grade", exam[1]); // Putting grade
-                jo.accumulate("type", exam[2]); // Putting type of exam (midterm, final, etc)
+				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+				jo.accumulate("id", exam[0]);
+				jo.accumulate("name", exam[1]); // Putting name of course
+				jo.accumulate("grade", exam[2]); // Putting grade
+				jo.accumulate("type", exam[3]); // Putting type of exam (midterm, final, etc)
 
-                main.put(jo);   //Put each JSON object to the JSON array object.
-            }
-            return Response.ok(main).header("Access-Control-Allow-Origin", "*")
-                    .build();
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        return Response.serverError().build();
-    }
+				main.put(jo);   //Put each JSON object to the JSON array object.
+			}
+			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
 
+
+	@GET
+	@Path("/getExamGrade/{ID}/{CourseID}")		/*This is the url of getting an exam grade and type of a student for a specific course.
+									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed
+									for the courses of the student with given id. Then the object is returned.*/
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listExamGradesOfAStudent(@PathParam("ID") String id, @PathParam("CourseID") String courseID){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			List <Object[]> exams = service.getCourseExamGradeOfAStudent(id, courseID); //Getting an exam grade and type of student with given id.
+			System.out.println();
+			for(Object[] exam : exams){
+
+				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+				jo.accumulate("id", exam[0]); // Putting name of course
+				jo.accumulate("name", exam[1]); // Putting name of course
+				jo.accumulate("grade", exam[2]); // Putting grade
+				jo.accumulate("type", exam[3]); // Putting type of exam (midterm, final, etc)
+
+				main.put(jo);   //Put each JSON object to the JSON array object.
+			}
+			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
 }
 
 

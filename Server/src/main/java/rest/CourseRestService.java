@@ -30,7 +30,7 @@ public class CourseRestService {
 	Service service = new ServiceImpl().getInstance();
 
 
-	@GET 			/*This is the url of getting a course's information. When this url is called like http://localhost:8080/webapi/course/get/1942085, the JSON object will be formed 
+	@GET 			/*This is the url of getting a course's information. When this url is called like http://localhost:8080/webapi/course/get/1942085, the JSON object will be formed
 					for the information of the course who has the id. Then the object is returned.*/
 	@Path("/get/{ID}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -55,7 +55,7 @@ public class CourseRestService {
 	}
 	
 	@GET
-	@Path("/get")		/*This is the url of getting all courses' information. When this url is called like http://localhost:8080/webapi/course/get/, the JSON object will be formed 
+	@Path("/get")		/*This is the url of getting all courses' information. When this url is called like http://localhost:8080/webapi/course/get/, the JSON object will be formed
 						for the information of the all courses'. Then the object is returned.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listCourse(){

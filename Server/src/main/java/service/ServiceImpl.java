@@ -346,4 +346,10 @@ public class ServiceImpl implements Service{
     	return hibernateUtility.listStudentCourseAttendanceDate(courseid,sectionid,date);
 
 	}
+
+	//Service function to get exam grade, types of a student for a specific course
+    //Parameter is the student's ID and course's ID
+	public List<Object[]> getCourseExamGradeOfAStudent(String userID, String courseID) {
+		return hibernateUtility.getExamGradeOfAStudent(userID,courseID);
+	}
 }

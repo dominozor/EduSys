@@ -31,7 +31,7 @@ public class AttendanceRestService {
 	Service service = new ServiceImpl().getInstance();
 
 
-	@GET 			/*This is the url of getting a attendance information. When this url is called like http://localhost:8080/webapi/attendance/get/1942085, the JSON object will be formed 
+	@GET 			/*This is the url of getting a attendance information. When this url is called like http://localhost:8080/webapi/attendance/get/1942085, the JSON object will be formed
 					for the attendance information. Then the object is returned.*/
 	@Path("/get/{ID}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,7 +58,7 @@ public class AttendanceRestService {
 	}
 
 	@GET
-	@Path("/get")		/*This is the url of getting all attendance information. When this url is called like http://localhost:8080/webapi/attendance/get/, the JSON object will be formed 
+	@Path("/get")		/*This is the url of getting all attendance information. When this url is called like http://localhost:8080/webapi/attendance/get/, the JSON object will be formed
 						for the attendance information. Then the object is returned.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listAttendance() {
@@ -135,7 +135,7 @@ public class AttendanceRestService {
 
 	@GET
 	@Path("/getAllAttendance/{ID}") /*This is the url of getting all attendance from the system. When this url is called like
-									http://localhost:8090/webapi/attendance/getAllAttendance/1941665,
+									http://localhost:8080/webapi/attendance/getAllAttendance/1942085,
 									it will get the attendance data from the database via REST service.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listAttendanceForAStudent(@PathParam("ID") String id) { //The parameter which comes from the url is the id of the student
@@ -167,7 +167,7 @@ public class AttendanceRestService {
 
 	@GET
 	@Path("/getCourseAttendance/{ID}/{courseID}")/*This is the url of getting attendance data for a specific course from the system. When this url is
-												called like http://localhost:8090/webapi/attendance/getCourseAttendance/1941665/graph,
+												called like http://localhost:8080/webapi/attendance/getCourseAttendance/1942085/graph,
 												it will get the attendance data from the database via REST service.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	//The parameters which come from the url are the id of the student whose attendance data will be got and the course name for which course
@@ -201,7 +201,7 @@ public class AttendanceRestService {
 
 	@GET
 	@Path("/getAllAttendance/{CourseID}/{UserID}")/*This is the url of getting attendance data for a specific course from the system. When this url is
-												called like http://localhost:8090/webapi/attendance/getAllAttendance/1941665/graph,
+												called like http://localhost:8080/webapi/attendance/getAllAttendance/1942085/graph,
 												it will get the attendance data from the database via REST service.*/
 	@Produces(MediaType.APPLICATION_JSON)
 	//The parameters which come from the url are the id of the student whose attendance data will be got and the course name for which course

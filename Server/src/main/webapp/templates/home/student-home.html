@@ -7,17 +7,25 @@
 
 <link rel="import" href="/templates/main/main.html" >
 <script src="/views/home/student-home.js"></script>
-
+<h2 id = "student-home">Student Page</h2>
 <body>
-    <p>Student Page</p>
+
+    <div>Profile Picture</div>
+    <img src="" id="profile-picture" style="width:304px;height:228px;">
 
     <div id="Courses"></div>
 
     <div id="button_block">
-        <input id="getAttendance" type="button" value="Get General Attendance"/>
+        <input id="getAttendance" type="button" value="Get All Attendances"/>
     </div>
 
-    <div id="Attendance"></div>
+    <div id="Attendances"></div>
+
+    <div id="button_block2">
+        <input id="getGrades" type="button" value="Get All Grades"/>
+    </div>
+
+    <div id="Grades"></div>
 
 </body>
 </html>
