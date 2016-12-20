@@ -11,6 +11,7 @@ function getUserFromDate(sectionId, course, date) { //This function get all stud
 
 $(document).ready(function(){
     var StudentAttList, StudentAttListObj;
+    var date, course;
 
     $.ajax({
         url: '/views/utility/utility.js',
@@ -18,7 +19,10 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
-    StudentAttListObj=getUserFromDate(1, 490, '1-1-2015');
+    date = JSON.parse(readCookie('courseDate'));
+    course = JSON.parse(readCookie('lecturerCourse'));
+
+    StudentAttListObj=getUserFromDate(course["sectionId"], course["id"], date["date"]);
     StudentAttList=JSON.parse(StudentAttListObj.responseText);
     var captions=["Students"];
     $('#student-list').html(createStudentTable(StudentAttList,captions));
