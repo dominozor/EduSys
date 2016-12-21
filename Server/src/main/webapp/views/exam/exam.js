@@ -64,10 +64,19 @@ $(document).ready(function(){
             window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
         });
 
+        $("#add-exam").html('<input type="button" id="addExam" value="Add Exam">');
+
         $("#backToStudentPage").click(function(){
             eraseCookie("examCourse"); // If user wants to go back to the lecturer page, there is no need for this cookie
             window.location.replace("http://localhost:8080/templates/home/lecturer-home.html");
         });
+        $('#addExam').click(function () {
+
+            window.location.replace("http://localhost:8080/templates/exam/add-exam.html");
+        });
+
+
+
     }
 
 });
