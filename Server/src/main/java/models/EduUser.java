@@ -35,8 +35,12 @@ public class EduUser {
 	private String trainLink; //This store the folder link for data training
 	private String profilePic;//This store the link for profile picture of the user
 	private int role;//This holds the information about role of the user. It can be 0 (Admin) and 1 (User). I didn't do it boolean by considering there may be another roles for users.
+	private boolean isActive;
 
 	public EduUser(){}
+
+
+
 	public EduUser(String id, String name, String surname, String email, String password, String trainLink, String profilePic, int role){
 		this.ID=id;
 		this.name=name;
@@ -46,6 +50,7 @@ public class EduUser {
 		this.trainLink=null;
 		this.profilePic=profilePic;
 		this.role=role;
+		this.isActive=false;
 	}
 	
 	public String getID() { return this.ID;}
@@ -102,7 +107,13 @@ public class EduUser {
 	public void setRole(int role) {
 		this.role = role;
 	}
-	
+
+	public boolean isActive() {
+		return isActive;
+	}
+	public void setActive(boolean active) {
+		isActive = active;
+	}
 	
 	
 	
