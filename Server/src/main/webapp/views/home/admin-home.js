@@ -1,3 +1,13 @@
+function deleteUser(userId) { //This function deletes a student from the database.
+    return $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8080/rest/user/delete/" + userId ,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+
+
 $(document).ready(function(){
     var userlist,userlistobj;
     //First eduUser.js and utility.js is imported to admin-home.js
@@ -34,6 +44,20 @@ $(document).ready(function(){
 
         window.location.replace("http://localhost:8080/templates/register/update.html"); //That redirects to update page
     });
+
+
+    $('.delete_button').click(function () {
+        var row=parseInt($(this)[0].id.substr(6)); //Row ids are update#(number) so first 6 characters("update") is not important.
+
+        var user=userlist[row];// After parsing row, now we have row index for userlist
+
+        deleteUser(user["id"]);
+
+        window.location.replace("http://localhost:8080/templates/home/admin-home.html"); //That redirects to update page
+
+    });
+
+
 
 });
 

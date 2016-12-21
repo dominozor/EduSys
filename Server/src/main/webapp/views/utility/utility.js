@@ -19,7 +19,10 @@ function createUserTable(data,captionArr){  //This is a table creator function w
 
         }
         // This is for adding update button to all the rows.
-        htmlString += '<td><input class="update_button" id="update'+i+'" type="button" value="Update"/></td></tr>';
+        htmlString += '<td><input class="update_button" id="update'+i+'" type="button" value="Update"/></td>';
+        // Adding delete button to all the rows.
+        htmlString += '<td><input class="delete_button" id="delete'+i+'" type="button" value="Delete"/></td></tr>';
+
     }
     htmlString +="</tbody>";
 
