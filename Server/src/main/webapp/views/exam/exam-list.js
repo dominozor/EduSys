@@ -31,6 +31,12 @@ $(document).ready(function(){
     $("#backToExamPage").click(function(){
         eraseCookie("exam"); // If user wants to go back to the exam page, there is no need for this cookie
         window.location.replace("http://localhost:8080/templates/exam/exam.html");
+
+    });
+
+    $("#addNewGrade").click(function(){
+        window.location.replace("http://localhost:8080/templates/exam/add-new-grade.html");
+
     });
 
 });
