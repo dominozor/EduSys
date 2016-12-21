@@ -14,7 +14,7 @@ function getAllGradesOfStudent(userid) { //This function gets all grades data of
     });
 }
 
-function getAllExamsOfASection(courseid, sectionid) { //This function gets all grades data of a student from the Rest services of EduSys
+function getAllExamsOfASection(courseid, sectionid) { //This function gets all exams of a section from the Rest services of EduSys
     return $.ajax({
         type: "GET",
         url: "http://localhost:8080/rest/course/getCourseSectionExams/"+courseid+"/"+sectionid,
@@ -50,7 +50,7 @@ $(document).ready(function(){
     }
     else if(user["role"]===1) {
         course = JSON.parse(readCookie('examCourse'));
-        //This gets a course grade data of a specific student and puts the data to the table to course-grade div of the attendance.html
+        //This gets a  exam data of a specific section and puts the data to the table to course-grade div of the attendance.html
         sectExamListObj=getAllExamsOfASection(course["id"], course["sectionId"]);
         sectExamList=JSON.parse(sectExamListObj.responseText);
         var captions=["Course Id", "Section Id", "Average", "Exam Type"];
@@ -58,14 +58,14 @@ $(document).ready(function(){
         $('#course-grade').html(createGradeTable(sectExamList,captions,user["role"]));
 
         $('.getGradeList').click(function () {
-            var row=parseInt($(this)[0].id.substr(12)); //Row ids are course#(number) so first 6 characters("course") is not important.
-            var exam=sectExamList[row];// After parsing row, now we have row index for courselist
-            createCookie('exam',JSON.stringify(exam),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
+            var row=parseInt($(this)[0].id.substr(12)); //Row ids are courseGrade#(number) so first 12 characters("courseGrade") is not important.
+            var exam=sectExamList[row];// After parsing row, now we have row index for exam list
+            createCookie('exam',JSON.stringify(exam),1); // A cookie is created for the exam page.Cookie has the information about course and keeps it as a JSON.
             window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
         });
 
         $("#backToStudentPage").click(function(){
-            eraseCookie("examCourse"); // If user wants to go back to the student or lecturer page, there is no need for this cookie
+            eraseCookie("examCourse"); // If user wants to go back to the lecturer page, there is no need for this cookie
             window.location.replace("http://localhost:8080/templates/home/lecturer-home.html");
         });
     }

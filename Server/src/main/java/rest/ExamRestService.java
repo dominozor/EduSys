@@ -155,19 +155,19 @@ public class ExamRestService {
     @GET
     @Path("/getAllGrades/{ID}")
     @Produces(MediaType.APPLICATION_JSON)
-    //The parameters of the getExam are;
+    //The parameters of the getAllGrades are;
     //id: id of the exam which is going to be got.
     public Response getAllGradesOfAnExam(@PathParam("ID") String examID){
         try {
             JSONArray main = new JSONArray();		//A new JSON array object is created.
-            List <Object[]> grades = service.getAllGradesOfACourse(examID); //Getting an exam grade and type of student with given id.
+            List <Object[]> grades = service.getAllGradesOfACourse(examID); //Getting all exam grades
             System.out.println();
             for(Object[] grade : grades){
 
                 JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-                jo.accumulate("id", grade[0]); // Putting name of course
-                jo.accumulate("name", grade[1]); // Putting name of course
-                jo.accumulate("surname", grade[2]); // Putting name of course
+                jo.accumulate("id", grade[0]); // Putting id of student
+                jo.accumulate("name", grade[1]); // Putting name of student
+                jo.accumulate("surname", grade[2]); // Putting surname of student
                 jo.accumulate("grade", grade[3]); // Putting grade
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
