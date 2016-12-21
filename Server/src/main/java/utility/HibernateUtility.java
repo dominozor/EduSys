@@ -485,5 +485,60 @@ public class HibernateUtility {
 		return null;
 	}
 
+    //Gets all exams for a section
+    public List<Object[]> getExamsOfASection(String courseID, String sectionID) {
+
+        Session session = null;
+
+        try {
+            session = createSession(); //Create session
+
+            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+            Query query = session.createNativeQuery("select ex.exam_id, ex.courseid, ex.sectionno, ex.average, ex.type from exam ex\n" +
+                    "where ex.courseid = '" + courseID + "' and ex.sectionno = '" + sectionID + "';");
+
+            //in query.list() function query is executed and result set is returned
+            List<Object[]> row = query.list();
+            session.close();
+            return row;
+        } catch (Exception e) {
+            System.err.print(e);
+        } finally {
+            if (session != null && session.isOpen()) {
+
+                session.close();
+            }
+        }
+        return null;
+    }
+
+    //Gets all grades of an exam
+    public List<Object[]> getGradesOfAnExam(String examID) {
+
+        Session session = null;
+
+        try {
+            session = createSession(); //Create session
+
+            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+            Query query = session.createNativeQuery("select us.id, us.name, us.surname, grad.grade\n" +
+                    "from eduuser us, studentgrade grad\n" +
+                    "where grad.examid='" + examID + "' and us.id=grad.userid;");
+
+            //in query.list() function query is executed and result set is returned
+            List<Object[]> row = query.list();
+            session.close();
+            return row;
+        } catch (Exception e) {
+            System.err.print(e);
+        } finally {
+            if (session != null && session.isOpen()) {
+
+                session.close();
+            }
+        }
+        return null;
+    }
+
 
 }

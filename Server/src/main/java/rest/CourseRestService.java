@@ -151,5 +151,34 @@ public class CourseRestService {
 		
 	}
 
+	@GET
+	@Path("/getCourseSectionExams/{CourseID}/{SectionID}")		/*This is the url of getting all exams of a section.
+									This url is called like http://localhost:8080/rest/course/getCourseSectionExams/{CourseID}/{SectionID}, the JSON object will be formed
+									for the exam of the section with given id. Then the object is returned.*/
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listCourseSectionExams(@PathParam("CourseID") String courseID, @PathParam("SectionID") String sectionID){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			List <Object[]> exams = service.getCourseSectionExams(courseID, sectionID); //Getting all exams and types of a course and section with given id.
+			System.out.println();
+			for(Object[] exam : exams){
+
+				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+                jo.accumulate("examId", exam[0]); // Putting examid of exam
+                jo.accumulate("courseId", exam[1]); //Putting courseid of exam
+				jo.accumulate("sectionNo", exam[2]); // Putting sectionno of exam
+				jo.accumulate("average", exam[3]); // Putting average
+				jo.accumulate("type", exam[4]); // Putting type of exam (midterm, final, etc)
+
+				main.put(jo);   //Put each JSON object to the JSON array object.
+			}
+			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
 	
 }

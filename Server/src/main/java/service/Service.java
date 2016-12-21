@@ -136,4 +136,7 @@ public interface Service {
 
 	public List<Object[]> getCourseExamGradeOfAStudent(String userID, String courseID); //Function to get an exam grade and types of a student for a specific course
 
+	public List<Object[]> getCourseSectionExams(String courseID, String sectionId); //Function to get all exams types of a specific course and section
+
+    public List<Object[]> getAllGradesOfACourse(String examID); //Function to get all grades of an exam
 }

@@ -29,6 +29,7 @@ $(document).ready(function(){
 
 
     $("#backDatePage").click(function(){
+        eraseCookie("date");
         window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
     });
 

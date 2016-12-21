@@ -352,4 +352,10 @@ public class ServiceImpl implements Service{
 	public List<Object[]> getCourseExamGradeOfAStudent(String userID, String courseID) {
 		return hibernateUtility.getExamGradeOfAStudent(userID,courseID);
 	}
+	public List<Object[]> getCourseSectionExams(String courseID, String sectionID){ //Function to get all exams types of a specific course and section
+		return hibernateUtility.getExamsOfASection(courseID, sectionID);
+	}
+    public List<Object[]> getAllGradesOfACourse(String examID) { //Function to get all grades of an exam
+        return hibernateUtility.getGradesOfAnExam(examID);
+    }
 }
