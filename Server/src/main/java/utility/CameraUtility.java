@@ -14,12 +14,16 @@ import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Logger;
 
 
 /**
  * Created by enver on 12/11/16.
  */
 public class CameraUtility {
+
+
+    private final static Logger logger = Logger.getLogger(CameraUtility.class.getName());
     private PropertiesUtility propertiesUtility = new PropertiesUtility().getInstance();
     private Service service = new ServiceImpl().getInstance();
     public CameraUtility(){}
@@ -27,6 +31,7 @@ public class CameraUtility {
 
 
     public Attendance takeAttendance(String courseID, int sectionNo) throws IOException {
+
         String path;
         String line;
         String fileSeperator; //Since operating system can be differ, file seperator must be generic
@@ -61,6 +66,51 @@ public class CameraUtility {
 
         }
         return attendance; //returns attendance for later purposes
+    }
+
+    public void trainer(){
+        String path;
+        String line;
+        String fileSeperator; //Since operating system can be differ, file seperator must be generic
+
+        path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
+        fileSeperator=propertiesUtility.getProperty("project.fileSeperator"); //From properties file project file seperator has been fetched
+
+        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"trainer.py","--pathToProject",path+fileSeperator);
+        builder.redirectErrorStream(true);
+        try {
+            Process process2 = builder.start(); //Python first lesson register process has been started
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(process2.getInputStream()));
+            line = "";
+            while((line = bfr.readLine()) != null) {}//Output is read line by line
+        } catch (IOException e) {
+            logger.severe("Trainer script failed to start!");
+            e.printStackTrace();
+        }
+    }
+
+    public void firstLesson(){
+        String path;
+        String line;
+        String fileSeperator; //Since operating system can be differ, file seperator must be generic
+
+        path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
+        fileSeperator=propertiesUtility.getProperty("project.fileSeperator"); //From properties file project file seperator has been fetched
+
+        System.out.println(path+fileSeperator+"first_lesson.py");
+        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"first_lesson.py",path+fileSeperator);
+        builder.redirectErrorStream(true);
+        try {
+            Process process2 = builder.start(); //Python first lesson register process has been started
+            BufferedReader bfr = new BufferedReader(new InputStreamReader(process2.getInputStream()));
+            line = "";
+            while((line = bfr.readLine()) != null){} //Output is read line by line
+
+            trainer();
+        } catch (IOException e) {
+            logger.severe("First Lesson script failed to start!");
+            e.printStackTrace();
+        }
     }
 
 }
