@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import main.java.models.Exam;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -99,8 +100,8 @@ public class ExamRestService {
     //id: section number of the exam which is going to be added.
     //id: type of the exam which is going to be added.
     @Produces(MediaType.TEXT_PLAIN)
-    public Response addExam(@QueryParam("ID") String id,@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type) {
-
+    public Response addExam(@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type) {
+        String id = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
         try{
 
             Exam exam=new Exam(id, course_id, section_no, type, 0.0);
