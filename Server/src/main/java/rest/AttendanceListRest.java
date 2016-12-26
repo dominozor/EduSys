@@ -78,11 +78,11 @@ public class AttendanceListRest {
     //The parameters of the addAttendanceList are;
     //id: id of the attendance list which is going to be added.
     //userID: User id of the lecturer.
-    public Response addAttendanceList(@QueryParam("id")String id, @QueryParam("userID") String userID ) {
+    public Response addAttendanceList(@QueryParam("id")String id, @QueryParam("userID") String userID, @QueryParam("distance") double distance,@QueryParam("topCoor") double top,@QueryParam("bottomCoor") double bot,@QueryParam("rightCoor") double right,@QueryParam("leftCoor") double left ) {
 
         try{
 
-            AttendanceList alist=new AttendanceList(id, userID);
+            AttendanceList alist=new AttendanceList(id, userID,distance,top,bot,right,left);
             service.addAttendanceList(alist);
 
             return Response.status(200).entity("success").build();
@@ -119,7 +119,7 @@ public class AttendanceListRest {
 
         try{
             AttendanceList alist = service.getAttendanceList(id,userID);
-            alist=new AttendanceList(alist.getAtt_id(), alist.getUserID());
+            alist=new AttendanceList(alist.getAtt_id(), alist.getUserID(), alist.getDistance(), alist.getTop(),alist.getBottom(),alist.getRight(),alist.getLeft());
             service.updateAttendanceList(alist);
 
             return Response.status(200).entity("success").build();

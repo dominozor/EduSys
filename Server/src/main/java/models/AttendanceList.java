@@ -25,12 +25,22 @@ public class AttendanceList {
     String att_id;
     @Id //This shows that, the first element that comes after this annotiation becomes primary key.
     String userID;
+    double distance;
+    double topCoor;
+    double bottomCoor;
+    double rightCoor;
+    double leftCoor;
     //The table that this class represents has a composite primary key
     public AttendanceList(){}
 
-    public AttendanceList(String att_id, String userID){
+    public AttendanceList(String att_id, String userID, double dist, double top,double bot,double right,double left){
         this.att_id=att_id;
         this.userID=userID;
+        this.distance=dist;
+        this.topCoor=top;
+        this.bottomCoor=bot;
+        this.rightCoor=right;
+        this.leftCoor=left;
     }
 
     public String getAtt_id() {
@@ -44,6 +54,35 @@ public class AttendanceList {
     public String getUserID() {
         return userID;
     }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public double getTop() {
+        return topCoor;
+    }
+
+    public double getBottom() {
+        return bottomCoor;
+    }
+
+    public double getRight() {return rightCoor;}
+
+    public double getLeft() {return leftCoor;}
+
+    public void setDistance(double dist) {this.distance=dist;  }
+
+    public void setTop(double top) {this.topCoor=top;  }
+
+    public void setBottom(double bottom) {
+        this.bottomCoor=bottom;
+    }
+
+    public void setRight(double right) {this.rightCoor=right;}
+
+    public void setLeft(double left) {this.leftCoor=left;}
+
 
     public void setUserID(String userID) {
         this.userID = userID;

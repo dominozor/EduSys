@@ -57,7 +57,7 @@ public class CameraUtility {
 
             try {
                 JSONObject arr = new JSONObject(line); //Output of the camera module is JSON. Therefore, we have to parse it.
-                AttendanceList attList = new AttendanceList(attendance.getId(),(String) arr.get("name")); // After parsing, student is added to that attendance list
+                AttendanceList attList = new AttendanceList(attendance.getId(),(String) arr.get("name"), (double) arr.get("distance"),(double)arr.get("topCoor"),(double)arr.get("bottomCoor"),(double)arr.get("rightCoor"),(double)arr.get("leftCoor") ); // After parsing, student is added to that attendance list
                 service.addAttendanceList(attList); // Stored at database
 
             } catch (JSONException e) {
