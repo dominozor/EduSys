@@ -120,8 +120,8 @@ public class StudentGradeRestService {
 		//These parameters are the same as the addStudentGrade.
 		StudentGrade studentGrade = service.getStudentGrade(userId, examId); //This gets the grade which has the userId and examId in the parameter.
 		StudentGrade studentGrad=new StudentGrade(userId, examId, grade);  //This is the same arguments as the addStudentGrade function.
-		try{
-			service.updateStudentGrade(studentGrad);  //This updates the student grade.
+        try{
+            service.updateStudentGrade(studentGrad);  //This updates the student grade.
 			return Response.status(200).entity("success").build();   
 		}
 		catch(Exception ex){

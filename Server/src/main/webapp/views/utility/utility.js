@@ -180,7 +180,7 @@ function createExamTable(data,captionArr){  //This is a table creator function w
             htmlString += "</td>"
 
         }
-
+        htmlString += '<td><input class="updateGrade" id="updateGrade'+i+'" type="button" value="Update"/></td></tr>';
     }
     htmlString +="</tbody>";
 

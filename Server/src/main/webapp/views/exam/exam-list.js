@@ -28,6 +28,18 @@ $(document).ready(function(){
 
     $('#exam-grades').html(createExamTable(examGradeList,captions));
 
+    $('.updateGrade').click(function () {
+        var row = parseInt($(this)[0].id.substr(11));
+        var grade = examGradeList[row];
+        createCookie('grade',JSON.stringify(grade),1);
+        window.location.replace("http://localhost:8080/templates/exam/update-grade.html");
+    });
+
+    $("#addNewGrade").click(function(){
+        window.location.replace("http://localhost:8080/templates/exam/add-new-grade.html");
+
+    });
+
     $("#backToExamPage").click(function(){
         eraseCookie("exam"); // If user wants to go back to the exam page, there is no need for this cookie
         window.location.replace("http://localhost:8080/templates/exam/exam.html");
