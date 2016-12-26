@@ -27,8 +27,6 @@ $(document).ready(function(){
             success: function(response){
 
                 $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
-
-
             },
             error: function(xhr) {
 
