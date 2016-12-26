@@ -90,14 +90,14 @@ function createAttendanceTable(data,captionArr){  //This is a table creator func
     htmlString += "</table>";
 
     if(document.URL === "http://localhost:8080/templates/home/student-home.html") {
-        htmlString += '<td><input class="closeAttendanceTable" onclick="deleteAttendanceTable()" type="button" id="closeAttendanceTable" value="Close"/></td>';
+        htmlString += '<td><input class="closeAttendanceTable" onclick="deleteTable(\'' + '#Attendances' + '\')" type="button" id="closeAttendanceTable" value="Close"/></td>';
     }
 
     return htmlString; // HTML table string is returned
 }
 
-function deleteAttendanceTable() {  //This is a table delete function which is created for tables.
-    $("#Attendances").html("");
+function deleteTable(tableName) {  //This is a table delete function which is created for tables.
+    $(tableName).html("");
 }
 
 function createDateTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
@@ -151,9 +151,14 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
         }
     }
     htmlString +="</tbody>";
-
     htmlString += "</tr></thead>";
-    return htmlString += "</table>"; // HTML table string is returned
+    htmlString += "</table>";
+
+    if(document.URL === "http://localhost:8080/templates/home/student-home.html") {
+        htmlString += '<td><input class="closeGradeTable" onclick="deleteTable(\'' + '#Grades' + '\')" type="button" id="closeGradeTable" value="Close"/></td>';
+    }
+
+    return htmlString; // HTML table string is returned
 }
 
 function createExamTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
