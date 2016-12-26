@@ -41,7 +41,7 @@ $(document).ready(function() {
         attListObj=getAllAttForStudent(user["id"]);
         attList=JSON.parse(attListObj.responseText);
         var captions=["Course Id", "Date"];
-        $('#Attendances').html(createAttendanceTable(attList,captions))
+        $('#Attendances').html(createAttendanceTable(attList,captions));
     });
 
     //This gets the grades of a student and puts the data after creating table of it.
@@ -56,7 +56,7 @@ $(document).ready(function() {
     courseListObj=getAllCourses(user["id"], user["role"]);
     courseList=JSON.parse(courseListObj.responseText);
     var captions=["Course Id", "Name"];
-    $('#Courses').html(createCourseTable(courseList,captions,2))
+    $('#Courses').html(createCourseTable(courseList,captions,2));
 
     $('.courseInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(6)); //Row ids are course#(number) so first 6 characters("course") is not important.
@@ -79,9 +79,4 @@ $(document).ready(function() {
         window.location.replace("http://localhost:8080/templates/exam/exam.html"); //That redirects to course page
     });
 
-    /*$("#backStudentPage").click(function () {
-        window.location.replace("http://localhost:8080/templates/home/student-home.html");
-        //window.alert("girdi");
-        //deleteAttendanceTable();
-    });*/
 });

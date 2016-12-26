@@ -17,10 +17,6 @@ $(document).ready(function(){
         event.preventDefault();
         var grade = $("#grade").val(); //new grade
 
-        console.log(gradeCookie["id"]);
-        console.log(exam["examId"]);
-        console.log(grade);
-
         $.ajax({
             type: "PUT",
             url: "http://localhost:8080/rest/studentGrade/update?userId="+gradeCookie["id"]+"&examId="+exam["examId"]+"&grade="+grade,
