@@ -13,10 +13,12 @@ import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 
-import main.java.models.Course;
+
 import main.java.models.EduUser;
+//import main.java.utility.AuthenticationFilter;
 import main.java.utility.CameraUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -31,7 +33,8 @@ public class UserRestService {
 	
 	Service service = new ServiceImpl().getInstance();
 	CameraUtility cameraUtility = new CameraUtility();
-
+//	AuthenticationFilter authFilter = new AuthenticationFilter();
+//
 	@GET
 	@Path("/test")
 	public String test(){
@@ -163,9 +166,9 @@ public class UserRestService {
 
 			EduUser user=service.getPerson(id);
 
-
 			if(pass.equals(user.getPassword())){
 				//JavaScript part of the project will take that and redirect it to either Admin page or User page.
+				if(!user.isActive()) cameraUtility.activateUser(user.getID());
 				JSONArray main = new JSONArray();
 				JSONObject jo = new JSONObject();   //A new JSON object for each person is created.
 				jo.accumulate("id", user.getUsername());  //Putting all information from service object to JSON object.
@@ -175,8 +178,10 @@ public class UserRestService {
 				jo.accumulate("ppic", user.getProfilePic());
 				jo.accumulate("role", user.getRole());
 
+
+
 				main.put(jo);   //Put each JSON object to the JSON array object.
-				return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+				return Response.ok(main).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
 						.build();
 			}
 
@@ -189,6 +194,29 @@ public class UserRestService {
 			return Response.status(404).entity("e2").build();
 		}
 
+	}
+
+	@POST
+	@Path("/activision/{userID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response activateUser(@PathParam("userID") String id){
+
+		try{
+
+			if(cameraUtility.activateUser(id)){
+				EduUser user=service.getPerson(id);
+				user.setActive(true);
+				service.updatePerson(user);
+				return Response.status(200).entity("User Activated...").build();
+			}
+			else{
+				return Response.status(404).entity("User couldn't be recognized...").build();
+			}
+
+		}
+		catch (Exception ex){
+			return Response.status(404).entity("Couldn't activated...").build();
+		}
 	}
 
 
