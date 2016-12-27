@@ -68,7 +68,6 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
 
 function createAttendanceTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
     var htmlString = '<table border="1" id="attendance-table"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
-
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }
@@ -85,26 +84,24 @@ function createAttendanceTable(data,captionArr){  //This is a table creator func
                 htmlString += "</td>"
             }
         }
+
+        htmlString += '<td><input class="getInterestInfo" id="getInterestInfo'+i+'" type="button" value="Get Interest Info"/></td></tr>';
+
     }
     htmlString +="</tbody>";
-
     htmlString += "</tr></thead>";
     htmlString += "</table>";
 
-    if(document.getElementById("student-home").innerHTML === "Student Page") {
-        htmlString += '<td><input class="backStuPage" type="button" id="backStudentPage" value="Close"/></td>';
+    if(document.URL === "http://localhost:8080/templates/home/student-home.html") {
+        htmlString += '<td><input class="closeAttendanceTable" onclick="deleteTable(\'' + '#Attendances' + '\')" type="button" id="closeAttendanceTable" value="Close"/></td>';
     }
 
     return htmlString; // HTML table string is returned
 }
 
-/*function deleteAttendanceTable(){  //This is a table delete function which is created for tables.
-    window.alert("qwdqwdqw");
-    var tables = document.getElementById("attendance-table");
-    window.alert("asdasda");
-    for (var i=tables.length-1; i>=0;i-=1)
-        if (tables[i]) tables[i].parentNode.removeChild(tables[i]);
-}*/
+function deleteTable(tableName) {  //This is a table delete function which is created for tables.
+    $(tableName).html("");
+}
 
 function createDateTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
     var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
@@ -130,7 +127,8 @@ function createDateTable(data,captionArr){  //This is a table creator function w
     htmlString +="</tbody>";
 
     htmlString += "</tr></thead>";
-    return htmlString += "</table>"; // HTML table string is returned
+    htmlString += "</table>";
+    return htmlString // HTML table string is returned
 }
 
 function createGradeTable(data,captionArr, id){  //This is a table creator function which is created for tables that have updatable rows.
@@ -145,7 +143,6 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
     for(var i=0;i<data.length;i++){// Rows are added to the table
         htmlString += "<tr>";
         for(var val in data[i]) {
-            console.log(val);
             if(val != "examId") {
                 htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
@@ -157,9 +154,14 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
         }
     }
     htmlString +="</tbody>";
-
     htmlString += "</tr></thead>";
-    return htmlString += "</table>"; // HTML table string is returned
+    htmlString += "</table>";
+
+    if(document.URL === "http://localhost:8080/templates/home/student-home.html") {
+        htmlString += '<td><input class="closeGradeTable" onclick="deleteTable(\'' + '#Grades' + '\')" type="button" id="closeGradeTable" value="Close"/></td>';
+    }
+
+    return htmlString; // HTML table string is returned
 }
 
 function createExamTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
@@ -180,7 +182,7 @@ function createExamTable(data,captionArr){  //This is a table creator function w
             htmlString += "</td>"
 
         }
-
+        htmlString += '<td><input class="updateGrade" id="updateGrade'+i+'" type="button" value="Update"/></td></tr>';
     }
     htmlString +="</tbody>";
 

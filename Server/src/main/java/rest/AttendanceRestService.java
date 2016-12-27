@@ -262,4 +262,43 @@ public class AttendanceRestService {
 
 		return Response.serverError().build();
 	}
+
+
+
+	@GET
+	@Path("/getInterestForAttendance/{userID}/{attendanceID}")/*This is the url of getting interest data for a specific attendance from the system. When this url is
+												called like http://localhost:8080/rest/attendance/getInterestForAttendance/1942085/JM8OPTI4HY,
+												it will get the interest data from the database via REST service.*/
+	@Produces(MediaType.APPLICATION_JSON)
+
+	public Response getInterestForAttendance(@PathParam("userID") String userid, @PathParam("attendanceID") String attendanceid) {
+
+		try {
+
+			JSONArray main = new JSONArray();        //A new JSON array object is created.
+			List<Object[]> interests = service.getInterestForAttendance(userid, attendanceid); //Getting all interest information via REST service.
+			for (Object[] interest : interests) {
+
+				JSONObject json = new JSONObject();   //A new JSON object for each attendance is created.
+				json.accumulate("distance", interest[0]); //Putting all information from service object to JSON object.
+				json.accumulate("topcoor", interest[1]);
+				json.accumulate("bottomcoor", interest[2]);
+				json.accumulate("rightcoor", interest[3]);
+				json.accumulate("leftcoor", interest[4]);
+
+
+				main.put(json);   //Put each JSON object to the JSON array object.
+			}
+			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+					.build();
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return Response.serverError().build();
+	}
+
+
+
 }
