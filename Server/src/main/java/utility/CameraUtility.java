@@ -113,4 +113,36 @@ public class CameraUtility {
         }
     }
 
+    public boolean activateUser(String userID) throws IOException, JSONException {
+        String path;
+        String line;
+        String fileSeperator; //Since operating system can be differ, file seperator must be generic
+
+        path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
+        fileSeperator=propertiesUtility.getProperty("project.fileSeperator"); //From properties file project file seperator has been fetched
+
+        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"classifier_webcam.py", path+fileSeperator+"feature"+fileSeperator+"classifier.pkl");
+        builder.redirectErrorStream(true);
+        Process process2 = builder.start(); //Python attendance process has been started
+
+
+        BufferedReader bfr = new BufferedReader(new InputStreamReader(process2.getInputStream()));
+        line = "";
+        JSONObject arr=null;
+        while((line = bfr.readLine()) != null) { //Output is read line by line
+            arr = new JSONObject(line);
+        }
+        if(arr==null) return false;
+        else{
+            String filePath=path+fileSeperator+"datasetsAligned"+fileSeperator;
+            builder = new ProcessBuilder("mv" ,filePath+arr.get("name"), filePath+userID);
+            builder.redirectErrorStream(true);
+            process2 = builder.start();
+            bfr = new BufferedReader(new InputStreamReader(process2.getInputStream()));
+            while((line = bfr.readLine()) != null){}
+            trainer();
+            return true;
+        }
+    }
+
 }
