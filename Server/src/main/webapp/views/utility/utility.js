@@ -84,6 +84,9 @@ function createAttendanceTable(data,captionArr){  //This is a table creator func
                 htmlString += "</td>"
             }
         }
+
+        htmlString += '<td><input class="getInterestInfo" id="getInterestInfo'+i+'" type="button" value="Get Interest Info"/></td></tr>';
+
     }
     htmlString +="</tbody>";
     htmlString += "</tr></thead>";

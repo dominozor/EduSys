@@ -42,6 +42,15 @@ $(document).ready(function(){
     var captions=["Course Id", "Date"];
     $('#course-attendance').html(createAttendanceTable(courAttList,captions));
 
+
+    $('.getInterestInfo').click(function () {
+        var row=parseInt($(this)[0].id.substr(15)); //Row ids are getInterestInfo#(number) so first 15 characters("course") is not important.
+        var inter=courAttList[row];// After parsing row, now we have row index for courAttList.
+        createCookie('inter',JSON.stringify(inter),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.*/
+        window.location.replace("http://localhost:8080/templates/attendance/interest.html"); //That redirects to interest page
+    });
+
+
     $("#backStudentPage").click(function(){
         window.location.replace("http://localhost:8080/templates/home/student-home.html");
     });

@@ -139,4 +139,6 @@ public interface Service {
 	public List<Object[]> getCourseSectionExams(String courseID, String sectionId); //Function to get all exams types of a specific course and section
 
     public List<Object[]> getAllGradesOfACourse(String examID); //Function to get all grades of an exam
+
+	public List<Object[]> getInterestForAttendance(String userID, String attendanceID); // Function to get seating distance and coordinates
 }
