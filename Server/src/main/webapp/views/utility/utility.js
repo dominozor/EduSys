@@ -1,5 +1,5 @@
 function createUserTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
 
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
@@ -19,9 +19,9 @@ function createUserTable(data,captionArr){  //This is a table creator function w
 
         }
         // This is for adding update button to all the rows.
-        htmlString += '<td><input class="update_button" id="update'+i+'" type="button" value="Update"/></td>';
+        htmlString += '<td><input class="btn btn-info" id="update'+i+'" type="button" value="Update"/></td>';
         // Adding delete button to all the rows.
-        htmlString += '<td><input class="delete_button" id="delete'+i+'" type="button" value="Delete"/></td></tr>';
+        htmlString += '<td><input class="btn btn-danger" id="delete'+i+'" type="button" value="Delete"/></td></tr>';
 
     }
     htmlString +="</tbody>";
@@ -31,7 +31,7 @@ function createUserTable(data,captionArr){  //This is a table creator function w
 }
 
 function createCourseTable(data,captionArr,id){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
 
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
@@ -67,7 +67,7 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
 }
 
 function createAttendanceTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1" id="attendance-table"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1" id="attendance-table"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }
@@ -104,7 +104,7 @@ function deleteTable(tableName) {  //This is a table delete function which is cr
 }
 
 function createDateTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }
@@ -132,7 +132,7 @@ function createDateTable(data,captionArr){  //This is a table creator function w
 }
 
 function createGradeTable(data,captionArr, id){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }
@@ -165,7 +165,7 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
 }
 
 function createExamTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }
@@ -191,7 +191,7 @@ function createExamTable(data,captionArr){  //This is a table creator function w
 }
 
 function createStudentTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table border="1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    var htmlString = '<table class="table1"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }

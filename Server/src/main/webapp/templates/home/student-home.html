@@ -1,17 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        td, th {
+            width: 4rem;
+            height: 2rem;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        th {
+            background: lightblue;
+            border-color: white;
+        }
+        body {
+            padding: 1rem;
+        }
+    </style>
     <meta charset="UTF-8">
+    <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
+
     <title>EduSys</title>
 </head>
 
 <link rel="import" href="/templates/main/main.html" >
+<link rel="stylesheet" href="/css/table.css">
 <script src="/views/home/student-home.js"></script>
 <h2 id = "student-home">Student Page</h2>
 <body>
 
     <div>Profile Picture</div>
     <img src="" id="profile-picture" style="width:304px;height:228px;">
+    <tr></tr>
+
+    <form name="foo" method="post" enctype="multipart/form-data">
+        <input type="file" value="Select File">
+        <input type="submit" value="Upload">
+    </form>
+
 
     <div id="Courses"></div>
 

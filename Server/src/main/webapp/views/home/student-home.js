@@ -33,7 +33,6 @@ $(document).ready(function() {
     user = JSON.parse(readCookie('mainuser'));
     var img = document.getElementById("profile-picture"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
-    //img.src = "http://images.beyazgazete.com/fotogaleri/2013/1/13810_dijital-illustrasyon-ve-resim_464581.jpg";
 
 
     //When get attendance button is clicked, this function is called and gets data and create the table for attendance.
