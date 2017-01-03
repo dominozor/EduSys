@@ -6,11 +6,11 @@ $(document).ready(function(){
         var pass =$("#register-pass").val();
         var confpass =$("#register-repass").val();
         if(pass===confpass){
-            $("#confirmedPassMsg").html("<b style='color:green'>Confirmed </b>");
+            $("#confirmedPassMsg").html("<b style='color:green'>Matched </b><br></br>");
             $("#error_lgn_msg").html("");
         }
         else{
-            $("#confirmedPassMsg").html("<b style='color:red'>Doesn't match </b>");
+            $("#confirmedPassMsg").html("<b style='color:red'>Passwords doesn't match </b><br></br>");
             $("#error_lgn_msg").html("");
         }
     });
@@ -31,27 +31,26 @@ $(document).ready(function(){
             role=2;
         }
 
-        if(pass!==confpass){$("#error_lgn_msg").html("<b style='color:red'>Passwords doesn't match</b>");} // If password doesn't match, doesn't let user send the request
-        else if(pass.length>7 && pass.length<21){ // Password must be [8-20] characters
+        if(pass.length>7 && pass.length<21){ // Password must be [8-20] characters
 
             $.ajax({
                 type: "POST",
                 url: "http://localhost:8080/rest/user/add?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&password="+sha256_digest(pass)+"&ppicLink=link-to-pic&role="+role,
                 success: function(response){
 
-                    $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
+                    $("#error_rgs_msg").html("</br><b style='color:green'>Success!</b>");
 
 
                 },
                 error: function(xhr) {
 
-                    $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+                    $("#error_rgs_msg").html("</br><b style='color:red'>Fail!</b>");
                 }
             });
         }
         else{
 
-            $("#error_lgn_msg").html("<b style='color:red'>Password must be longer than 8 character</b>");
+            $("#error_rgs_msg").html("</br><b style='color:red'>Password must be longer than 8 character</b>");
         }
 
     });
