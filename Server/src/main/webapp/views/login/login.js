@@ -34,13 +34,13 @@ $(document).ready(function(){
                 },
                 error: function(xhr) {
 
-                    $("#error_lgn_msg").html("<b style='color:red'>Invalid username/password</b>");
+                    $("#error_lgn_msg").html("<b style='color:red'>Invalid Username or Password</b><br></br>");
                 }
             });
         }
         else{
 
-            $("#error_lgn_msg").html("<b style='color:red'>Password must be longer than 8 character</b>");
+            $("#error_lgn_msg").html("<b style='color:red'>Password must be longer than 8 character</b><br></br>");
         }
 
     });

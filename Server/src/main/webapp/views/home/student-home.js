@@ -31,9 +31,12 @@ $(document).ready(function() {
     });
 
     user = JSON.parse(readCookie('mainuser'));
-    var img = document.getElementById("profile-picture"); //This puts the profile picture of the student to the home page.
+    var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
+    $('#studentName').html(user["name"] + " " + user["surname"])
+    $('#studentButtonName').html(user["name"] + " " + user["surname"])
+    $('#stuName').html(user["name"] + " " + user["surname"])
 
     //When get attendance button is clicked, this function is called and gets data and create the table for attendance.
     $('#getAttendance').click(function () {
@@ -61,21 +64,21 @@ $(document).ready(function() {
         var row=parseInt($(this)[0].id.substr(6)); //Row ids are course#(number) so first 6 characters("course") is not important.
         var course=courseList[row];// After parsing row, now we have row index for courselist.
         createCookie('course',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
-        window.location.replace("http://localhost:8080/templates/course/course.html"); //That redirects to course page
+        window.location.replace("http://localhost:8090/templates/course/course.html"); //That redirects to course page
     });
 
     $('.courseAttendance').click(function () {
         var row=parseInt($(this)[0].id.substr(9)); //Row ids are courseAtt#(number) so first 6 characters("course") is not important.
         var course=courseList[row];// After parsing row, now we have row index for courselist.
         createCookie('courseAtt',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
-        window.location.replace("http://localhost:8080/templates/attendance/attendance.html"); //That redirects to course page
+        window.location.replace("http://localhost:8090/templates/attendance/attendance.html"); //That redirects to course page
     });
 
     $('.courseGrades').click(function () {
         var row=parseInt($(this)[0].id.substr(10)); //Row ids are courseGrad#(number) so first 6 characters("course") is not important.
         var course=courseList[row];// After parsing row, now we have row index for courselist
         createCookie('courseGrad',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
-        window.location.replace("http://localhost:8080/templates/exam/exam.html"); //That redirects to course page
+        window.location.replace("http://localhost:8090/templates/exam/exam.html"); //That redirects to course page
     });
 
 });
