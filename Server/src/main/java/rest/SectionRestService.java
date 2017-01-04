@@ -47,7 +47,7 @@ public class SectionRestService {
                 jo.accumulate("number_of_lectures", section.getNumber_of_lectures());
             }
 
-            return Response.ok(jo).header("Access-Control-Allow-Origin", "*")
+            return Response.ok(jo.toString()).header("Access-Control-Allow-Origin", "*")
                     .build();
         } catch (JSONException ex) {
 
@@ -74,7 +74,7 @@ public class SectionRestService {
 
                 main.put(jo);
             }
-            return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
                     .build();
         } catch (JSONException ex) {
 

@@ -61,7 +61,7 @@ public class UserRestService {
 			}
 			
 			
-			return Response.ok(jo).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
+			return Response.ok(jo.toString()).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
 				.build();
 		} catch (JSONException ex) {
 			
@@ -89,7 +89,7 @@ public class UserRestService {
 				
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
-			return Response.ok(main).header("Access-Control-Allow-Origin", "*")  
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 				.build();
 		} catch (JSONException ex) {
 			
@@ -181,7 +181,7 @@ public class UserRestService {
 
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
-				return Response.ok(main).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
+				return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
 						.build();
 			}
 
@@ -206,10 +206,13 @@ public class UserRestService {
 			if(cameraUtility.activateUser(id)){
 				EduUser user=service.getPerson(id);
 				user.setActive(true);
+
 				service.updatePerson(user);
+
 				return Response.status(200).entity("User Activated...").build();
 			}
 			else{
+				System.out.println("asasd");
 				return Response.status(404).entity("User couldn't be recognized...").build();
 			}
 
@@ -241,7 +244,7 @@ public class UserRestService {
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }
-            return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
                     .build();
         } catch (JSONException ex) {
             ex.printStackTrace();
@@ -267,7 +270,7 @@ public class UserRestService {
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
-			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 					.build();
 		} catch (JSONException ex) {
 			ex.printStackTrace();
@@ -294,7 +297,7 @@ public class UserRestService {
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
-			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 					.build();
 		} catch (JSONException ex) {
 			ex.printStackTrace();
@@ -323,7 +326,7 @@ public class UserRestService {
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
-			return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 					.build();
 		} catch (JSONException ex) {
 			ex.printStackTrace();

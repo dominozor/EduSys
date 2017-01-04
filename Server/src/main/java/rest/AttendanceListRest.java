@@ -42,7 +42,7 @@ public class AttendanceListRest {
                 jo.accumulate("userID", alist.getUserID());
             }
 
-            return Response.ok(jo).header("Access-Control-Allow-Origin", "*")
+            return Response.ok(jo.toString()).header("Access-Control-Allow-Origin", "*")
                     .build();
         } catch (JSONException ex) {
 
@@ -64,7 +64,7 @@ public class AttendanceListRest {
                 jo.accumulate("userID", alist.getUserID());
                 main.put(jo);
             }
-            return Response.ok(main).header("Access-Control-Allow-Origin", "*")
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
                     .build();
         } catch (JSONException ex) {
 

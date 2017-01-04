@@ -46,7 +46,7 @@ public class StudentGradeRestService {
 			}
 			
 			
-			return Response.ok(jo).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
+			return Response.ok(jo.toString()).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
 				.build();
 		} catch (JSONException ex) {
 			
@@ -71,7 +71,7 @@ public class StudentGradeRestService {
 				
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
-			return Response.ok(main).header("Access-Control-Allow-Origin", "*")  
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 				.build();
 		} catch (JSONException ex) {
 			
