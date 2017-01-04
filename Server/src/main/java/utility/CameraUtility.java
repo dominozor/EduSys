@@ -2,6 +2,7 @@ package main.java.utility;
 
 import main.java.models.Attendance;
 import main.java.models.AttendanceList;
+import main.java.models.EduUser;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -141,6 +142,10 @@ public class CameraUtility {
             bfr = new BufferedReader(new InputStreamReader(process2.getInputStream()));
             while((line = bfr.readLine()) != null){}
             trainer();
+            EduUser user=service.getPerson(userID);
+            user.setActive(true);
+            service.updatePerson(user);
+
             return true;
         }
     }
