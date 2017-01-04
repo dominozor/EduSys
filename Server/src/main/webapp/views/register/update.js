@@ -23,7 +23,6 @@ $(document).ready(function(){
         }
     });
 
-
     $("#update-form").submit(function(event) { // After clicking on "Update" button, all the information again is got from the fields to send request.
         event.preventDefault();
         var name = $("#update-name").val();
@@ -44,13 +43,13 @@ $(document).ready(function(){
                 url: "http://localhost:8080/rest/user/update?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&role="+role,
                 success: function(response){
 
-                    $("#error_upt_msg").html("<b style='color:green'>Success...</b>");
+                    $("#error_upt_msg").html("</br><b style='color:green'>Success!</b>");
                     eraseCookie("user"); // If success, we don't need this cookie.
 
                 },
                 error: function(xhr) {
 
-                    $("#error_upt_msg").html("<b style='color:red'>Fail...</b>");
+                    $("#error_upt_msg").html("</br><b style='color:red'>Fail!</b>");
                 }
             });
 
