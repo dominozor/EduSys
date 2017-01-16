@@ -1,5 +1,7 @@
 package main.java.rest;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 
 import javax.ws.rs.POST;
@@ -19,6 +21,7 @@ import javax.ws.rs.core.Response;
 
 import main.java.models.EduUser;
 //import main.java.utility.AuthenticationFilter;
+import main.java.utility.AuthenticationFilter;
 import main.java.utility.CameraUtility;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -33,7 +36,7 @@ public class UserRestService {
 	
 	Service service = new ServiceImpl().getInstance();
 	CameraUtility cameraUtility = new CameraUtility();
-//	AuthenticationFilter authFilter = new AuthenticationFilter();
+	AuthenticationFilter authFilter = new AuthenticationFilter();
 //
 	@GET
 	@Path("/test")
@@ -41,6 +44,7 @@ public class UserRestService {
 		return "test...";
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET 			/*This is the url of getting a person's information. When this url is called like http://localhost:8080/webapi/user/get/1942085, the JSON object will be formed
 					for the information of the person who has the id. Then the object is returned.*/
 	@Path("/get/{ID}")
@@ -68,7 +72,8 @@ public class UserRestService {
 		}
 		return Response.serverError().build();
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@GET
 	@Path("/get")		/*This is the url of getting all people's information. When this url is called like http://localhost:8080/webapi/user/get/, the JSON object will be formed
 						for the information of the all people's. Then the object is returned.*/
@@ -96,7 +101,8 @@ public class UserRestService {
 		}
 		return Response.serverError().build();
 	}
-	
+
+	@RolesAllowed("ADMIN")
 	@POST
 	@Path("/add")   /*This is the url of the adding a new person to the system. When this url is called like 
 					http://localhost:8080/webapi/user/add?ID=domi&name=Enver&surname=Evci&email=enverevci@gmail.com&password=123&ppicLink=link-to-pic&scope=0,
@@ -123,7 +129,8 @@ public class UserRestService {
 		}
 
 	}
-	
+
+	@RolesAllowed("ADMIN")
 	@DELETE
 	@Path("/delete/{id}")		/*This is the url of the adding a new person to the system. When this url is called like http://localhost:8080/webapi/user/delete/1942085,
 								it will delete the person from the database via REST service.*/
@@ -137,7 +144,8 @@ public class UserRestService {
 			return Response.serverError().build();
 		}
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -158,6 +166,7 @@ public class UserRestService {
 
 
 
+	@PermitAll
 	@POST
 	@Path("/login")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -181,7 +190,9 @@ public class UserRestService {
 
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
-				return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
+
+				NewCookie cookie = new NewCookie("TOKEN",authFilter.createToken(user.getUsername(),user.getPassword()) ,"/", "", "comment", 24*60*60, false);
+				return Response.ok(main.toString()).cookie(cookie).header("Access-Control-Allow-Origin", "*")  //Then return the JSON object with a response.
 						.build();
 			}
 
@@ -196,6 +207,7 @@ public class UserRestService {
 
 	}
 
+	@RolesAllowed({"ADMIN","STUDENT"})
 	@POST
 	@Path("/activision/{userID}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -223,6 +235,7 @@ public class UserRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getStudentCourses/{ID}")		/*This is the url of getting all courses of a student. When this url is called like
 						http://localhost:8080/webapi/user/getStudentCourses/, the JSON object will be formed
@@ -252,6 +265,7 @@ public class UserRestService {
         return Response.serverError().build();
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getLecturerCourses/{ID}")		/*This is the url of getting all courses of a lecturer. This url is called like http://localhost:8080/webapi/user/getLecturerCourses/, the JSON object will be formed
 						for the courses of the lecturer with given id. Then the object is returned.*/
@@ -278,6 +292,7 @@ public class UserRestService {
 		return Response.serverError().build();
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET
 	@Path("/getExamGrades/{ID}")		/*This is the url of getting all exam grades and types of a student. This url is called like http://localhost:8080/webapi/user/getExamGrades/{ID}, the JSON object will be formed
 						for the courses of the lecturer with given id. Then the object is returned.*/
@@ -306,6 +321,7 @@ public class UserRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getExamGrade/{ID}/{CourseID}")		/*This is the url of getting an exam grade and type of a student for a specific course.
 									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed

@@ -1,5 +1,6 @@
 package main.java.rest;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 
 import javax.ws.rs.POST;
@@ -30,6 +31,7 @@ public class StudentGradeRestService {
 	Service service = new ServiceImpl().getInstance();
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET 			/*This is the url of getting a student grade. When this url is called like http://localhost:8080/webapi/studentGrade/get/1942085, the JSON object will be formed
 					for the student grade who has the ids. Then the object is returned.*/
 	@Path("/get/{userID}/{examID}")
@@ -53,7 +55,8 @@ public class StudentGradeRestService {
 		}
 		return Response.serverError().build();
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@GET
 	@Path("/get")		/*This is the url of getting all people's information. When this url is called like http://localhost:8080/webapi/studentGrade/get/, the JSON object will be formed
 						for the grades of the all students. Then the object is returned.*/
@@ -78,7 +81,8 @@ public class StudentGradeRestService {
 		}
 		return Response.serverError().build();
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@POST
 	@Path("/add")   /*This is the url of the adding a new student grade to the system. When a url is called,
 					StudentGrade constructor is called and then a new StudentGrade is created and put to the database.*/
@@ -99,6 +103,7 @@ public class StudentGradeRestService {
 
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@DELETE
 	@Path("/delete/{userID}/{examID}")		/*This is the url of the delete a grade from the system. When this url is called like http://localhost:8080/webapi/studentGrade/delete/1942085,
 								it will delete the grade from the database via REST service.*/
@@ -112,7 +117,8 @@ public class StudentGradeRestService {
 			return Response.serverError().build();
 		}
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.TEXT_PLAIN)

@@ -1,5 +1,6 @@
 package main.java.rest;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 
@@ -38,6 +39,7 @@ public class ExamRestService {
         return "test...";
     }
 
+    @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET
     @Path("/get/{ID}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -65,6 +67,7 @@ public class ExamRestService {
         return Response.serverError().build();
     }
 
+    @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET
     @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
@@ -92,6 +95,7 @@ public class ExamRestService {
         return Response.serverError().build();
     }
 
+    @RolesAllowed("LECTURER")
     @POST
     @Path("/add")
     //The parameters of the addExam are;
@@ -115,6 +119,7 @@ public class ExamRestService {
 
     }
 
+    @RolesAllowed("LECTURER")
     @DELETE
     @Path("/delete/{id}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -130,6 +135,7 @@ public class ExamRestService {
         }
     }
 
+    @RolesAllowed("LECTURER")
     @PUT
     @Path("/update")
     @Produces(MediaType.TEXT_PLAIN)
@@ -152,6 +158,8 @@ public class ExamRestService {
         }
 
     }
+
+    @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 
     @GET
     @Path("/getAllGrades/{ID}")

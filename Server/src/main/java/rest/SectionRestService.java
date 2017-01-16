@@ -9,6 +9,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,6 +29,7 @@ public class SectionRestService {
         return "test...";
     }
 
+    @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET
     @Path("/get/{course}/{section}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,6 +57,7 @@ public class SectionRestService {
         return Response.serverError().build();
     }
 
+    @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET
     @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,6 +85,7 @@ public class SectionRestService {
         return Response.serverError().build();
     }
 
+    @RolesAllowed({"ADMIN","LECTURER"})
     @POST
     @Path("/add")
     @Produces(MediaType.TEXT_PLAIN)
@@ -106,6 +110,7 @@ public class SectionRestService {
 
     }
 
+    @RolesAllowed({"ADMIN","LECTURER"})
     @DELETE
     @Path("/delete/{course}/{section}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -123,6 +128,7 @@ public class SectionRestService {
     }
 
 
+    @RolesAllowed({"ADMIN","LECTURER"})
     @PUT
     @Path("/update")
     @Produces(MediaType.TEXT_PLAIN)
@@ -147,6 +153,7 @@ public class SectionRestService {
 
     }
 
+    @RolesAllowed("LECTURER")
     @POST
     @Path("/takeAttendance/{course}/{section}")
     @Produces(MediaType.TEXT_PLAIN)
@@ -160,6 +167,7 @@ public class SectionRestService {
         }
     }
 
+    @RolesAllowed("LECTURER")
     @POST
     @Path("/firstLesson/{course}/{section}")
     @Produces(MediaType.TEXT_PLAIN)

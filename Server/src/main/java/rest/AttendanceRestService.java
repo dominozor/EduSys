@@ -1,5 +1,6 @@
 package main.java.rest;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 
 import javax.ws.rs.POST;
@@ -31,6 +32,7 @@ public class AttendanceRestService {
 	Service service = new ServiceImpl().getInstance();
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET 			/*This is the url of getting a attendance information. When this url is called like http://localhost:8080/webapi/attendance/get/1942085, the JSON object will be formed
 					for the attendance information. Then the object is returned.*/
 	@Path("/get/{ID}")
@@ -57,6 +59,7 @@ public class AttendanceRestService {
 		return Response.serverError().build();
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/get")		/*This is the url of getting all attendance information. When this url is called like http://localhost:8080/webapi/attendance/get/, the JSON object will be formed
 						for the attendance information. Then the object is returned.*/
@@ -83,6 +86,7 @@ public class AttendanceRestService {
 		return Response.serverError().build();
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@POST
 	@Path("/add")   /*This is the url of the adding a new course to the system. When this url is called 
 					Attendance constructor is called and then a new course is created and put to the database.*/
@@ -101,6 +105,7 @@ public class AttendanceRestService {
 
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@DELETE
 	@Path("/delete/{id}")		/*This is the url of the deleting an attendance from the system. When this url is called like http://localhost:8080/webapi/attendance/delete/1942085,
 								it will delete the attendance from the database via REST service.*/
@@ -114,6 +119,7 @@ public class AttendanceRestService {
 		}
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -133,6 +139,7 @@ public class AttendanceRestService {
 	//----------------------------------------------------------------\\
 	//FUNCTIONS FOR GENERATING GENERAL INFORMATIONS
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getAllAttendance/{ID}") /*This is the url of getting all attendance from the system. When this url is called like
 									http://localhost:8080/webapi/attendance/getAllAttendance/1942085,
@@ -165,6 +172,7 @@ public class AttendanceRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getCourseAttendance/{ID}/{courseID}")/*This is the url of getting attendance data for a specific course from the system. When this url is
 												called like http://localhost:8080/webapi/attendance/getCourseAttendance/1942085/graph,
@@ -199,6 +207,7 @@ public class AttendanceRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getAllAttendance/{CourseID}/{UserID}")/*This is the url of getting attendance data for a specific course from the system. When this url is
 												called like http://localhost:8080/webapi/attendance/getAllAttendance/1942085/graph,
@@ -232,6 +241,7 @@ public class AttendanceRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getAttendanceFromDate/{courseID}/{sectionID}/{date}")/*This is the url of getting attendance data for a specific course from the system. When this url is
 												called like http://localhost:8080/templates/date/student-list.html,

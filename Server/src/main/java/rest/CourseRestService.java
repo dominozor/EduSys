@@ -1,5 +1,6 @@
 package main.java.rest;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 
 import javax.ws.rs.POST;
@@ -30,6 +31,7 @@ public class CourseRestService {
 	Service service = new ServiceImpl().getInstance();
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET 			/*This is the url of getting a course's information. When this url is called like http://localhost:8080/webapi/course/get/1942085, the JSON object will be formed
 					for the information of the course who has the id. Then the object is returned.*/
 	@Path("/get/{ID}")
@@ -53,7 +55,8 @@ public class CourseRestService {
 		}
 		return Response.serverError().build();
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/get")		/*This is the url of getting all courses' information. When this url is called like http://localhost:8080/webapi/course/get/, the JSON object will be formed
 						for the information of the all courses'. Then the object is returned.*/
@@ -78,6 +81,7 @@ public class CourseRestService {
 		return Response.serverError().build();
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getSectionDates/{courseID}/{sectionID}")		/*This is the url of getting all previous lectures of a course.  */
 	@Produces(MediaType.APPLICATION_JSON)
@@ -101,6 +105,7 @@ public class CourseRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@POST
 	@Path("/add")   /*This is the url of the adding a new course to the system. When this url is called
 					Course constructor is called and then a new course is created and put to the database.*/
@@ -119,7 +124,8 @@ public class CourseRestService {
 		}
 
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@DELETE
 	@Path("/delete/{id}")		/*This is the url of the deleting a course from the system. When this url is called like http://localhost:8080/webapi/course/delete/1942085,
 								it will delete the course from the database via REST service.*/
@@ -133,7 +139,8 @@ public class CourseRestService {
 			return Response.serverError().build();
 		}
 	}
-	
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -151,6 +158,7 @@ public class CourseRestService {
 		
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
 	@GET
 	@Path("/getCourseSectionExams/{CourseID}/{SectionID}")		/*This is the url of getting all exams of a section.
 									This url is called like http://localhost:8080/rest/course/getCourseSectionExams/{CourseID}/{SectionID}, the JSON object will be formed
