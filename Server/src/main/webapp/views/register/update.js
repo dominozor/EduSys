@@ -34,6 +34,12 @@ $(document).ready(function(){
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(mainuser["ppic"]);
 
+    var img = document.getElementById("studentImage2"); //This puts the profile picture of the student to the home page.
+    img.src = String(mainuser["ppic"]);
+
+    var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
+    img.src = String(mainuser["ppic"]);
+
     $('#studentName').html(mainuser["name"] + " " + mainuser["surname"])
     $('#studentButtonName').html(mainuser["name"] + " " + mainuser["surname"])
     $('#stuName').html(mainuser["name"] + " " + mainuser["surname"])

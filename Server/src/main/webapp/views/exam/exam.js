@@ -41,6 +41,12 @@ $(document).ready(function(){
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
         img.src = String(user["ppic"]);
 
+        var img = document.getElementById("studentImage2"); //This puts the profile picture of the student to the home page.
+        img.src = String(user["ppic"]);
+
+        var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
+        img.src = String(user["ppic"]);
+
         $('#studentName').html(user["name"] + " " + user["surname"])
         $('#studentButtonName').html(user["name"] + " " + user["surname"])
         $('#stuName').html(user["name"] + " " + user["surname"])
@@ -59,6 +65,12 @@ $(document).ready(function(){
     else if(user["role"]===1) {
         course = JSON.parse(readCookie('examCourse'));
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
+        img.src = String(user["ppic"]);
+
+        var img = document.getElementById("studentImage2"); //This puts the profile picture of the student to the home page.
+        img.src = String(user["ppic"]);
+
+        var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
         img.src = String(user["ppic"]);
 
         $('#studentName').html(user["name"] + " " + user["surname"])
