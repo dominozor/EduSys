@@ -5,7 +5,7 @@
 function getInterestForStudent(userid, attendanceid) { //This function gets a specific interest data of a student for an attendance from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8080/rest/attendance/getInterestForAttendance/" +userid+ "/" +attendanceid,
+        url: "http://localhost:8090/rest/attendance/getInterestForAttendance/" +userid+ "/" +attendanceid,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -18,6 +18,13 @@ $(document).ready(function(){
         async: false,
         success: function(response) {
             user = JSON.parse(readCookie('mainuser'));
+            var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
+            img.src = String(user["ppic"]);
+
+            $('#studentName').html(user["name"] + " " + user["surname"]);
+            $('#studentButtonName').html(user["name"] + " " + user["surname"]);
+            $('#stuName').html(user["name"] + " " + user["surname"]);
+
             inter = JSON.parse(readCookie('inter'));
             console.log(user["id"],inter["id"]);
             intList=getInterestForStudent(user["id"],inter["id"]);
@@ -33,6 +40,6 @@ $(document).ready(function(){
     });
     $("#backToAttendancePage").click(function(){
         eraseCookie("inter"); // If user wants to go back to the attendance page, there is no need for this cookie
-         window.location.replace("http://localhost:8080/templates/attendance/attendance.html");
+         window.location.replace("http://localhost:8090/templates/attendance/attendance.html");
     });
 });

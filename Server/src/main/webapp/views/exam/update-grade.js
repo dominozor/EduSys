@@ -12,6 +12,14 @@ $(document).ready(function(){
 
     gradeCookie = JSON.parse(readCookie('grade'));
     exam = JSON.parse(readCookie('exam'));
+    user = JSON.parse(readCookie('mainuser'));
+
+    var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
+    img.src = String(user["ppic"]);
+
+    $('#studentName').html(user["name"] + " " + user["surname"])
+    $('#studentButtonName').html(user["name"] + " " + user["surname"])
+    $('#stuName').html(user["name"] + " " + user["surname"])
 
     $("#update-grade-form").submit(function(event) {
         event.preventDefault();
@@ -19,7 +27,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "PUT",
-            url: "http://localhost:8080/rest/studentGrade/update?userId="+gradeCookie["id"]+"&examId="+exam["examId"]+"&grade="+grade,
+            url: "http://localhost:8090/rest/studentGrade/update?userId="+gradeCookie["id"]+"&examId="+exam["examId"]+"&grade="+grade,
             success: function(response){
 
                 $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
@@ -32,7 +40,7 @@ $(document).ready(function(){
     });
 
     $("#backToExamListPage").click(function(){
-        window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
+        window.location.replace("http://localhost:8090/templates/exam/exam-list.html");
     });
 });
 

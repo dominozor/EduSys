@@ -4,13 +4,13 @@
 function getAllGradesOfAnExam(examid) {
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8080/rest/exam/getAllGrades/"+examid,
+        url: "http://localhost:8090/rest/exam/getAllGrades/"+examid,
         async: false  // This option prevents this function to execute asynchronized
     });
 }
 
 $(document).ready(function(){
-    var exam;
+    var exam, user;
     var examGradeList, examGradeListObj;
 
     $.ajax({
@@ -18,6 +18,16 @@ $(document).ready(function(){
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
+
+
+    user = JSON.parse(readCookie('mainuser'));
+
+    var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
+    img.src = String(user["ppic"]);
+
+    $('#studentName').html(user["name"] + " " + user["surname"])
+    $('#studentButtonName').html(user["name"] + " " + user["surname"])
+    $('#stuName').html(user["name"] + " " + user["surname"])
 
     exam = JSON.parse(readCookie('exam'));
 
@@ -32,22 +42,22 @@ $(document).ready(function(){
         var row = parseInt($(this)[0].id.substr(11));
         var grade = examGradeList[row];
         createCookie('grade',JSON.stringify(grade),1);
-        window.location.replace("http://localhost:8080/templates/exam/update-grade.html");
+        window.location.replace("http://localhost:8090/templates/exam/update-grade.html");
     });
 
     $("#addNewGrade").click(function(){
-        window.location.replace("http://localhost:8080/templates/exam/add-new-grade.html");
+        window.location.replace("http://localhost:8090/templates/exam/add-new-grade.html");
 
     });
 
     $("#backToExamPage").click(function(){
         eraseCookie("exam"); // If user wants to go back to the exam page, there is no need for this cookie
-        window.location.replace("http://localhost:8080/templates/exam/exam.html");
+        window.location.replace("http://localhost:8090/templates/exam/exam.html");
 
     });
 
     $("#addNewGrade").click(function(){
-        window.location.replace("http://localhost:8080/templates/exam/add-new-grade.html");
+        window.location.replace("http://localhost:8090/templates/exam/add-new-grade.html");
 
     });
 

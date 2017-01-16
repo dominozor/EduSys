@@ -16,11 +16,16 @@ $(document).ready(function(){
                 $('#stuName').html(user["name"] + " " + user["surname"]);
                 $("#course-id").html(course["id"]);
                 $("#course-name").html(course["name"]);
-                $("#instructor-name").html("<div> Instructor Name </div>" + course["instructorName"]);
-                $("#instructor-lastname").html("<div> Instructor Last Name </div>" + course["instructorLastName"]);
+                $("#instructor").html("<td> Instructor </td><td>" + course["instructorName"] + " " + course["instructorLastName"] + "</td>");
                 $("#sectionNo").html(course["sectionNo"]);
             }
             if(user["role"]===1) {
+                var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
+                img.src = String(user["ppic"]);
+
+                $('#studentName').html(user["name"] + " " + user["surname"]);
+                $('#studentButtonName').html(user["name"] + " " + user["surname"]);
+                $('#stuName').html(user["name"] + " " + user["surname"]);
                 $("#course-id").html(course["id"]);
                 $("#course-name").html(course["name"]);
                 $("#sectionNo").html(course["sectionId"]);
