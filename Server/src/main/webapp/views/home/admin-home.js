@@ -1,7 +1,7 @@
 function deleteUser(userId) { //This function deletes a student from the database.
     return $.ajax({
         type: "DELETE",
-        url: "http://localhost:8090/rest/user/delete/" + userId ,
+        url: "http://localhost:8080/rest/user/delete/" + userId ,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -24,11 +24,17 @@ $(document).ready(function(){
     });
 
     $('#adm-register').click(function () {
-        window.location.replace("http://localhost:8090/templates/register/register.html"); //Button that redirects to register page
+        window.location.replace("http://localhost:8080/templates/register/register.html"); //Button that redirects to register page
     });
 
     user = JSON.parse(readCookie('mainuser'));
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
+    img.src = String(user["ppic"]);
+
+    var img = document.getElementById("studentImage2"); //This puts the profile picture of the student to the home page.
+    img.src = String(user["ppic"]);
+
+    var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
     $('#studentName').html(user["name"] + " " + user["surname"])
@@ -49,7 +55,7 @@ $(document).ready(function(){
 
         createCookie('user',JSON.stringify(user),1); // A cookie is created for the upload page.Cookie has the information about user and keeps it as a JSON.
 
-        window.location.replace("http://localhost:8090/templates/register/update.html"); //That redirects to update page
+        window.location.replace("http://localhost:8080/templates/register/update.html"); //That redirects to update page
     });
 
 
@@ -60,7 +66,7 @@ $(document).ready(function(){
 
         deleteUser(user["id"]);
 
-        window.location.replace("http://localhost:8090/templates/home/admin-home.html"); //That redirects to update page
+        window.location.replace("http://localhost:8080/templates/home/admin-home.html"); //That redirects to update page
 
     });
 

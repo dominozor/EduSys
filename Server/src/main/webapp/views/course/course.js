@@ -36,8 +36,8 @@ $(document).ready(function(){
 
     $("#backToStudentPage").click(function(){
         eraseCookie("course"); // If user wants to go back to the student or lecturer page, there is no need for this cookie
-        if(user["role"]===2) window.location.replace("http://localhost:8090/templates/home/student-home.html");
-        if(user["role"]===1) window.location.replace("http://localhost:8090/templates/home/lecturer-home.html");
+        if(user["role"]===2) window.location.replace("http://localhost:8080/templates/home/student-home.html");
+        if(user["role"]===1) window.location.replace("http://localhost:8080/templates/home/lecturer-home.html");
     });
 });
 

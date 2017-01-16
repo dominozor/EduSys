@@ -1,7 +1,7 @@
 function getCourseDates(sectionId, course) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8090/rest/course/getSectionDates/" + course + "/" + sectionId,
+        url: "http://localhost:8080/rest/course/getSectionDates/" + course + "/" + sectionId,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -33,14 +33,14 @@ $(document).ready(function(){
 
     $("#backLecturerPage").click(function(){
         eraseCookie("lecturerCourse"); // If user wants to go back to the lecturer page, there is no need for this cookie
-        window.location.replace("http://localhost:8090/templates/home/lecturer-home.html"); //redirects back to lecturer page
+        window.location.replace("http://localhost:8080/templates/home/lecturer-home.html"); //redirects back to lecturer page
     });
 
     $(".getStudents").click(function(){
         var row=parseInt($(this)[0].id.substr(11));
         var date=courDateList[row];
         createCookie('courseDate',JSON.stringify(date),1);
-        window.location.replace("http://localhost:8090/templates/date/student-list.html"); //redirects back to lecturer page
+        window.location.replace("http://localhost:8080/templates/date/student-list.html"); //redirects back to lecturer page
     });
 
 });

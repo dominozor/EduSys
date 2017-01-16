@@ -2,7 +2,7 @@
 function getAllAttForStudent(id) { //This function gets all attendance data of a student from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8090/rest/attendance/getAllAttendance/" + id,
+        url: "http://localhost:8080/rest/attendance/getAllAttendance/" + id,
         async: false  // This option prevents this function to execute asynchronized
     });
 }
@@ -10,7 +10,7 @@ function getAllAttForStudent(id) { //This function gets all attendance data of a
 function getCourseAttForStudent(id, course) { //This function gets a specific course attendance data of a student from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8090/rest/attendance/getCourseAttendance/" +id+ "/" +course,
+        url: "http://localhost:8080/rest/attendance/getCourseAttendance/" +id+ "/" +course,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -18,7 +18,7 @@ function getCourseAttForStudent(id, course) { //This function gets a specific co
 function listAllStudentsAtt(id, course) { //This function gets attendance data of all students for a specific course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8090/rest/attendance/getAllAttendance/" +course+ "/" +id,
+        url: "http://localhost:8080/rest/attendance/getAllAttendance/" +course+ "/" +id,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -54,11 +54,11 @@ $(document).ready(function(){
         var row=parseInt($(this)[0].id.substr(15)); //Row ids are getInterestInfo#(number) so first 15 characters("course") is not important.
         var inter=courAttList[row];// After parsing row, now we have row index for courAttList.
         createCookie('inter',JSON.stringify(inter),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.*/
-        window.location.replace("http://localhost:8090/templates/attendance/interest.html"); //That redirects to interest page
+        window.location.replace("http://localhost:8080/templates/attendance/interest.html"); //That redirects to interest page
     });
 
 
     $("#backStudentPage").click(function(){
-        window.location.replace("http://localhost:8090/templates/home/student-home.html");
+        window.location.replace("http://localhost:8080/templates/home/student-home.html");
     });
 });

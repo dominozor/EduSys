@@ -5,7 +5,7 @@
 function getInterestForStudent(userid, attendanceid) { //This function gets a specific interest data of a student for an attendance from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8090/rest/attendance/getInterestForAttendance/" +userid+ "/" +attendanceid,
+        url: "http://localhost:8080/rest/attendance/getInterestForAttendance/" +userid+ "/" +attendanceid,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -40,6 +40,6 @@ $(document).ready(function(){
     });
     $("#backToAttendancePage").click(function(){
         eraseCookie("inter"); // If user wants to go back to the attendance page, there is no need for this cookie
-         window.location.replace("http://localhost:8090/templates/attendance/attendance.html");
+         window.location.replace("http://localhost:8080/templates/attendance/attendance.html");
     });
 });

@@ -4,7 +4,7 @@
 function getUserFromDate(sectionId, course, date) { //This function get all students' names that attend a lecture.
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8090/rest/attendance/getAttendanceFromDate/" + course + "/" + sectionId + "/" + date,
+        url: "http://localhost:8080/rest/attendance/getAttendanceFromDate/" + course + "/" + sectionId + "/" + date,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -38,7 +38,7 @@ $(document).ready(function(){
 
     $("#backDatePage").click(function(){
         eraseCookie("date");
-        window.location.replace("http://localhost:8090/templates/date/date.html"); //redirects back to lecturer page
+        window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
     });
 
 });

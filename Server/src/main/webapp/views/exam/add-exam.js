@@ -26,7 +26,7 @@ $(document).ready(function(){
         var examname = $("#exam-name").val(); //E-mail of the user
         $.ajax({
             type: "POST",
-            url: "http://localhost:8090/rest/exam/add?course="+courseid+"&section="+sectionno+"&type="+examname,
+            url: "http://localhost:8080/rest/exam/add?course="+courseid+"&section="+sectionno+"&type="+examname,
             success: function(response){
 
                 $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
@@ -39,11 +39,11 @@ $(document).ready(function(){
             }
         });
 
-        window.location.replace("http://localhost:8090/templates/exam/exam.html");
+        window.location.replace("http://localhost:8080/templates/exam/exam.html");
 
     });
 
     $("#backToLecturerPage").click(function(){
-        window.location.replace("http://localhost:8090/templates/exam/exam.html");
+        window.location.replace("http://localhost:8080/templates/exam/exam.html");
     });
 });

@@ -92,7 +92,7 @@ function createAttendanceTable(data,captionArr){  //This is a table creator func
     htmlString += "</tr></thead>";
     htmlString += "</table>";
 
-    if(document.URL === "http://localhost:8090/templates/home/student-home.html") {
+    if(document.URL === "http://localhost:8080/templates/home/student-home.html") {
         htmlString += '<td><input class="closeAttendanceTable" onclick="deleteTable(\'' + '#Attendances' + '\')" type="button" id="closeAttendanceTable" value="Close"/></td>';
     }
 
@@ -157,7 +157,7 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
     htmlString += "</tr></thead>";
     htmlString += "</table>";
 
-    if(document.URL === "http://localhost:8090/templates/home/student-home.html") {
+    if(document.URL === "http://localhost:8080/templates/home/student-home.html") {
         htmlString += '<td><input class="closeGradeTable" onclick="deleteTable(\'' + '#Grades' + '\')" type="button" id="closeGradeTable" value="Close"/></td>';
     }
 
