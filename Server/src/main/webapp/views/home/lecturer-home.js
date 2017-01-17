@@ -27,13 +27,13 @@ $(document).ready(function() {
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
-    $('#studentName').html(user["name"] + " " + user["surname"])
-    $('#studentButtonName').html(user["name"] + " " + user["surname"])
-    $('#stuName').html(user["name"] + " " + user["surname"])
+    $('#studentName').html(user["name"] + " " + user["surname"]);
+    $('#studentButtonName').html(user["name"] + " " + user["surname"]);
+    $('#stuName').html(user["name"] + " " + user["surname"]);
 
     courseListObj=getAllCourses(user["id"],user["role"]);
     courseList=JSON.parse(courseListObj.responseText);
-    var captions=["Course Id", "Name"];
+    var captions=["Course Id", "Name", "Section"];
     $('#Courses').html(createCourseTable(courseList,captions,1))
 
     $('.courseInfo').click(function () {
@@ -54,5 +54,45 @@ $(document).ready(function() {
         var course=courseList[row];// After parsing row, now we have row index for courselist
         createCookie('examCourse',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
         window.location.replace("http://localhost:8080/templates/exam/exam.html"); //That redirects to dates page
+    });
+
+    $('.takeAttendance').click(function(){
+        var row=parseInt($(this)[0].id.substr(14)); //Row ids are courseExam#(number) so first 10 characters("courseExam") is not important.
+        var course=courseList[row];// After parsing row, now we have row index for courselist
+        // SHOW overlay
+        $("#img").show();
+        // Retrieve data:
+        $.ajax({
+            url: "http://localhost:8080/rest/section/takeAttendance/" + course["id"] + "/"  + course["sectionId"],
+            type: 'POST',
+            success: function(data){
+                // onSuccess fill #ajax-box with response data:
+                $('#ajax-box').html(data);
+                // HIDE the overlay:
+                $("#img").hide();
+            }
+        });
+        // Prevent default action of link:
+        return false;
+    });
+
+    $('.firstLesson').click(function(){
+        var row=parseInt($(this)[0].id.substr(11)); //Row ids are courseExam#(number) so first 10 characters("courseExam") is not important.
+        var course=courseList[row];// After parsing row, now we have row index for courselist
+        // SHOW overlay
+        $("#img").show();
+        // Retrieve data:
+        $.ajax({
+            url: "http://localhost:8080/rest/section/firstLesson/" + course["id"] + "/"  + course["sectionId"],
+            type: 'POST',
+            success: function(data){
+                // onSuccess fill #ajax-box with response data:
+                $('#ajax-box').html(data);
+                // HIDE the overlay:
+                $("#img").hide();
+            }
+        });
+        // Prevent default action of link:
+        return false;
     });
 });

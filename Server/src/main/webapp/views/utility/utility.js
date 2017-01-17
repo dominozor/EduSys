@@ -43,7 +43,7 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
     for(var i=0;i<data.length;i++){// Rows are added to the table
         htmlString += "<tr>";
         for(var val in data[i]){
-            if(val === "id" || val === "name") {
+            if(val === "id" || val === "name" || val === "sectionId") {
                 htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
                 htmlString += "</td>"
@@ -56,6 +56,8 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
             htmlString += '<td><input class="courseGrades" id="courseGrad'+i+'" type="button" value="Get Grades"/></td></tr>';
         }
         else if(id == 1) {
+            htmlString += '<td><input class="firstLesson" id="firstLesson'+i+'" type="button" value="First Lesson Training"/></td>';
+            htmlString += '<td><input class="takeAttendance" id="takeAttendance'+i+'" type="button" value="Take Attendance"/></td>';
             htmlString += '<td><input class="courseDate" id="courseDate'+i+'" type="button" value="Get Dates"/></td>';
             htmlString += '<td><input class="courseExam" id="courseExam'+i+'" type="button" value="Exams"/></td></tr>';
         }
@@ -85,8 +87,9 @@ function createAttendanceTable(data,captionArr){  //This is a table creator func
             }
         }
 
-        htmlString += '<td><input class="getInterestInfo" id="getInterestInfo'+i+'" type="button" value="Get Interest Info"/></td></tr>';
-
+        if(document.URL === "http://localhost:8080/templates/attendance/attendance.html") {
+            htmlString += '<td><input class="getInterestInfo" id="getInterestInfo' + i + '" type="button" value="Get Interest Info"/></td></tr>';
+        }
     }
     htmlString +="</tbody>";
     htmlString += "</tr></thead>";

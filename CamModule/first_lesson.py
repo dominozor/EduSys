@@ -56,46 +56,38 @@ while count < 10:
     for i in range(len(bb)):
         newPoints.append(((bb[i].left(), bb[i].top()), (bb[i].right(), bb[i].bottom())))
 
-    '''for i in newPoints:
-        face = im[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
-        face_resize = cv2.resize(face, (width, height))'''
+
+    print "new ", newPoints
+    print "old ", points
 
     for i in newPoints:
+        flag = 0
         for j in points:
-            if(abs(j[0][0] - i[0][0]) < 100) and (abs(j[0][1] - i[0][1]) < 100):
-                if(abs(j[1][0] - i[1][0]) < 100) and (abs(j[1][1] - i[1][1] < 100)):
-                    # save image with a random name with length 20
-                    rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    index = points.index(j)
-                    face = im[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
-                    face_resize = cv2.resize(face, (width, height))
-                    cv2.imwrite('%s/%s.png' % (paths[index], rand), face_resize)
-                else:
-                    rand2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    unknownName = 'unknown' + rand2
-                    path = os.path.join(projectFolderPath+'datasets', unknownName)
-                    if not os.path.isdir(path):
-                        os.mkdir(path)
-                    paths.append(path)
-                    points.append(i)
-                    face = im[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
-                    face_resize = cv2.resize(face, (width, height))
-                    rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                    cv2.imwrite('%s/%s.png' % (path, rand), face_resize)
-            elif(abs(j[0][0] - i[0][0]) >= 100) and (abs(j[0][1] - i[0][1]) >= 100):
-                rand2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                unknownName = 'unknown' + rand2
-                path = os.path.join(projectFolderPath+'datasets', unknownName)
-                if not os.path.isdir(path):
-                    os.mkdir(path)
-                paths.append(path)
-                points.append(i)
+            if(abs(abs(j[0][0]) - abs(i[0][0])) < 50) and (abs(abs(j[0][1]) - abs(i[0][1])) < 50) and\
+                    (abs(abs(j[1][0]) - abs(i[1][0])) < 50) and (abs(abs(j[1][1]) - abs(i[1][1]) < 50)):
+                rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
+                index = points.index(j)
                 face = im[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
                 face_resize = cv2.resize(face, (width, height))
-                rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                cv2.imwrite('%s/%s.png' % (path, rand), face_resize)
-
-            cv2.imshow('OpenCV', im)
-            key = cv2.waitKey(10)
-            if key == 27:
+                cv2.imwrite('%s/%s.png' % (paths[index], rand), face_resize)
+                flag = 0
                 break
+            else:
+                flag = 1
+        if flag == 1:
+            rand2 = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            unknownName = 'unknown' + rand2
+            path = os.path.join(projectFolderPath + 'datasets', unknownName)
+            if not os.path.isdir(path):
+                os.mkdir(path)
+            paths.append(path)
+            points.append(i)
+            face = im[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
+            face_resize = cv2.resize(face, (width, height))
+            rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
+            cv2.imwrite('%s/%s.png' % (path, rand), face_resize)
+
+        cv2.imshow('', im)
+        key = cv2.waitKey(10)
+        if key == 27:
+            break

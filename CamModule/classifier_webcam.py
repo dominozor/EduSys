@@ -35,20 +35,20 @@ def wrongPersonDelete(): #checks if a person is tagged wrongly a few times inste
                             if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
                                 if(globalPersons[j].avBottom-globalPersons[i].avBottom<20 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
                                     
-                                    if(2*(globalPersons[i].numberOfDistances)<globalPersons[j].numberOfDistances):
+                                    if(10*(globalPersons[i].numberOfDistances)<globalPersons[j].numberOfDistances):
                                         #print globalPersons[j].name +" bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " dogru " + globalPersons[i].name + " bulunma sayisi "+ str(globalPersons[i].numberOfDistances)  + " yanlis "
-                                        globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
+                                        '''globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
                                         globalPersons[j].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
                                         globalPersons[j].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
-                                        globalPersons[j].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0
+                                        globalPersons[j].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0'''
                                         deleteunk=i
 
-                                    if(2*(globalPersons[j].numberOfDistances)<globalPersons[i].numberOfDistances):
+                                    if(10*(globalPersons[j].numberOfDistances)<globalPersons[i].numberOfDistances):
                                         #print globalPersons[i].name  +" bulunma sayisi "+ str(globalPersons[i].numberOfDistances) + " dogru " + globalPersons[j].name + " bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " yanlis "
-                                        globalPersons[i].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
+                                        '''globalPersons[i].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
                                         globalPersons[i].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
                                         globalPersons[i].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
-                                        globalPersons[i].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0
+                                        globalPersons[i].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0'''
                                         deleteunk=j
 
     if(deleteunk!=-1):
@@ -131,7 +131,6 @@ def findUnknownName(pointsi):
                 if(pointsi[1][0]-i.avRight<10 or i.avRight-pointsi[1][0]<10):
                     if(pointsi[1][1]-i.avBottom<10 or i.avBottom-pointsi[1][1]<10):
                         return i.name
-    print "yeniunknownismikoyuyorum"
     unknownCounter[0]=unknownCounter[0]+1
     return "yeniunknown"+str(unknownCounter[0])
 
@@ -331,9 +330,8 @@ if __name__ == '__main__':
         else:
             video_capture[i][j][2]=255'''
 
-    #print type(video_capture)
-    video_capture.set(3, args.width)
-    video_capture.set(4, args.height)
+    '''video_capture.set(3, args.width)
+    video_capture.set(4, args.height)'''
     counter=time.time()
     lastSave = time.time()
     confidenceList = []
@@ -369,7 +367,6 @@ if __name__ == '__main__':
                     #if(not isSame(points[i],globalPersons[index])):
                         #persons[i]="_unknown"+str(unknownCounter)
                         #unknownCounter=unknownCounter+1
-
         updateGlobalList(persons,confidences,points) #updates global list if there is a new person in the frame and also updates the distance
         check() #
 
@@ -385,7 +382,7 @@ if __name__ == '__main__':
             # get the time
             saveDiff = time.time() - lastSave
             if (saveDiff >= 60):  # save for every minute
-                print "Saving a new image of " + persons[c] + "..."
+                #print "Saving a new image of " + persons[c] + "..."
                 lastSave = time.time()
                 # make image gray
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)

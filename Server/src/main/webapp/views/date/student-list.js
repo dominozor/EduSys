@@ -38,7 +38,7 @@ $(document).ready(function(){
 
     StudentAttListObj=getUserFromDate(course["sectionId"], course["id"], date["date"]);
     StudentAttList=JSON.parse(StudentAttListObj.responseText);
-    var captions=["Students"];
+    var captions=["ID", "Name", "Surname", "Distance", "Top Coordinate", "Bottom Coordinate", "Left Coordinate", "Right Coordinate"];
     $('#student-list').html(createStudentTable(StudentAttList,captions));
 
 
