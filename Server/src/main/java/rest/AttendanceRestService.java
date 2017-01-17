@@ -260,6 +260,11 @@ public class AttendanceRestService {
 				json.accumulate("id", attendance[0]); //Putting all information from service object to JSON object.
 				json.accumulate("name", attendance[1]);
 				json.accumulate("surname", attendance[2]);
+				json.accumulate("distance", attendance[3]);
+				json.accumulate("topcoor", attendance[4]);
+				json.accumulate("bottomcoor", attendance[5]);
+				json.accumulate("leftcoor", attendance[6]);
+				json.accumulate("rightcoor", attendance[7]);
 
 				main.put(json);   //Put each JSON object to the JSON array object.
 			}

@@ -160,7 +160,7 @@ public class SectionRestService {
     public Response takeAttendance(@PathParam("course") String course_id, @PathParam("section") int section_id ) {
         try{
             cameraUtility.takeAttendance(course_id, section_id);
-            return Response.status(200).entity("attendance has been taken").build();
+            return Response.status(200).entity("Attendance has been taken successfully!").build();
         }
         catch(Exception ex){
             return Response.serverError().build();
@@ -174,7 +174,7 @@ public class SectionRestService {
     public Response firstLesson(@PathParam("course") String course_id, @PathParam("section") int section_id ) {
         try{
             cameraUtility.firstLesson();
-            return Response.status(200).entity("success").build();
+            return Response.status(200).entity("First Lesson Training has successfully completed!").build();
         }
         catch(Exception ex){
             return Response.serverError().build();
