@@ -1,5 +1,7 @@
 $(document).ready(function(){
     var exam;
+    var len;
+    var user;
 
     $.ajax({
         url: '/views/utility/utility.js',
@@ -9,6 +11,7 @@ $(document).ready(function(){
 
     exam = JSON.parse(readCookie('exam'));
     user = JSON.parse(readCookie('mainuser'));
+    len = readCookie(('length'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
@@ -28,9 +31,28 @@ $(document).ready(function(){
         event.preventDefault();
         var userid = $("#user-id").val(); //Name of the user
         var grade = $("#grade").val(); //Surname of the user
+        var average=Number(exam["average"]);
+        average = average*Number(len) + Number(grade);
+        average = average / (Number(len)+1);
+        average = average.toString();
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/rest/studentGrade/add?userId="+userid+"&examId="+exam["examId"]+"&grade="+grade,
+            success: function(response){
+
+                $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
+
+
+            },
+            error: function(xhr) {
+
+                $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+            }
+        });
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/rest/exam/update?ID="+exam["examId"]+"&course="+exam["courseId"]+"&section="+exam["sectionNo"]+"&type="+exam["type"]+"&average="+average,
             success: function(response){
 
                 $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");

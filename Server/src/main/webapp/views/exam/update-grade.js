@@ -3,6 +3,7 @@
  */
 $(document).ready(function(){
     var gradeCookie, exam;
+    var len;
 
     $.ajax({
         url: '/views/utility/utility.js',
@@ -11,6 +12,8 @@ $(document).ready(function(){
     });
 
     gradeCookie = JSON.parse(readCookie('grade'));
+    len = readCookie('lengthU');
+
     exam = JSON.parse(readCookie('exam'));
     user = JSON.parse(readCookie('mainuser'));
 
@@ -30,6 +33,17 @@ $(document).ready(function(){
     $("#update-grade-form").submit(function(event) {
         event.preventDefault();
         var grade = $("#grade").val(); //new grade
+        console.log("newgrade=" +grade);
+        console.log("len=" + len);
+
+        var average=Number(exam["average"]);
+        console.log("average=" + average);
+        average = average*Number(len);
+        average = average-Number(gradeCookie["grade"]);//subtract old grade
+        average = average+Number(grade); // add new grade
+        average = average / (Number(len));
+        average = average.toString();
+        console.log(average);
 
         $.ajax({
             type: "PUT",
@@ -43,6 +57,24 @@ $(document).ready(function(){
                 $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
             }
         });
+
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/rest/exam/update?ID="+exam["examId"]+"&course="+exam["courseId"]+"&section="+exam["sectionNo"]+"&type="+exam["type"]+"&average="+average,
+            success: function(response){
+
+                $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
+
+
+            },
+            error: function(xhr) {
+
+                $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+            }
+        });
+
+
     });
 
     $("#backToExamListPage").click(function(){
