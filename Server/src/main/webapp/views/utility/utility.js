@@ -1,3 +1,19 @@
+function getUserFromDate(sectionId, course, date) { //This function get all students' names that attend a lecture.
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendanceFromDate/" + course + "/" + sectionId + "/" + date,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+function getSectionCapacity(sectionId, course) { //This function gets capacity of a section of a course
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/course/getSectionCapacity/" + course + "/" + sectionId,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 function createUserTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
     var htmlString = '<table class="table table-bordered table-striped"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
 
@@ -122,9 +138,21 @@ function createDateTable(data,captionArr){  //This is a table creator function w
                 htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
                 htmlString += "</td>"
+                htmlString += "<td>";
+                var courseCookie = JSON.parse(readCookie('lecturerCourse'));
+                var x = getUserFromDate(courseCookie["sectionId"], courseCookie["id"], data[i][val]);
+                var StudentAttList=JSON.parse(x.responseText);
+                var capac = (getSectionCapacity(courseCookie["sectionId"], courseCookie["id"])).responseText;
+                var percentage =  Object.keys(StudentAttList).length  + "/" +  capac; // Columns are added to the table
+
+                htmlString += percentage;
+                htmlString += "</td>"
+
             }
         }
         htmlString += '<td><input class="getStudents" id="getStudents'+i+'" type="button" value="Get Student List"/></td></tr>';
+
+
 
     }
     htmlString +="</tbody>";

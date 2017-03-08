@@ -342,6 +342,11 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listDatesOfASection(courseID,sectionID);
 	}
 
+
+	public Integer  getCapacityOfASection(String courseID, String sectionID){ // service function to get all previous dates of a course
+		return hibernateUtility.listCapacityOfASection(courseID,sectionID);
+	}
+
 	public List<Object[]> getStudentCourseAttendanceDate(String courseid,String sectionid,String date){ //service function to get students who attend a lecture.
     	return hibernateUtility.listStudentCourseAttendanceDate(courseid,sectionid,date);
 

@@ -104,6 +104,24 @@ public class CourseRestService {
 		return Response.serverError().build();
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
+	@GET
+	@Path("/getSectionCapacity/{courseID}/{sectionID}")		/*This is the url of getting all previous lectures of a course.  */
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getSectionCapacity(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			Integer capacity = service.getCapacityOfASection(courseID,sectionID); //Getting all dates of the course
+
+
+			return Response.ok(capacity.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
 
 	@RolesAllowed({"ADMIN","LECTURER"})
 	@POST

@@ -428,6 +428,33 @@ public class HibernateUtility {
 		return null;
 	}
 
+	//Function to get capacity of a section
+	public Integer listCapacityOfASection(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select number_of_students from section\n" +
+					"where courseid = '" + courseID + "' and sectionno = '" + sectionID  + "'");
+
+			//in query.list() function query is executed and result set is returned
+			Integer row = (Integer) query.list().get(0);
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
 
 	//Function to get which students attend a lecture.
 	public List<Object[]> listStudentCourseAttendanceDate(String courseid,String sectionid,String date) {

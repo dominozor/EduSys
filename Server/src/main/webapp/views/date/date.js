@@ -6,6 +6,8 @@ function getCourseDates(sectionId, course) { //This function get all prev lectur
     });
 }
 
+
+
 $(document).ready(function(){
     var courDateList, courDateListObj;
     var course, user;
@@ -34,7 +36,7 @@ $(document).ready(function(){
 
     courDateListObj=getCourseDates(course["sectionId"], course["id"]);
     courDateList=JSON.parse(courDateListObj.responseText);
-    var captions=["Date"];
+    var captions=["Date","Attendance Percentage"];
     $('#course-date').html(createDateTable(courDateList,captions));
 
     $("#backLecturerPage").click(function(){
