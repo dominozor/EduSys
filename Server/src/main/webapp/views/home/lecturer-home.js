@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     var courseList, courseListObj;
     var user;
+    var htmlString = "";
     //First eduUser.js and utility.js is imported to admin-home.js
 
     $.ajax({
@@ -27,6 +28,7 @@ $(document).ready(function() {
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
+
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
     $('#stuName').html(user["name"] + " " + user["surname"]);
@@ -34,7 +36,20 @@ $(document).ready(function() {
     courseListObj=getAllCourses(user["id"],user["role"]);
     courseList=JSON.parse(courseListObj.responseText);
     var captions=["Course Id", "Name", "Section"];
-    $('#Courses').html(createCourseTable(courseList,captions,1))
+    $('#Courses').html(createCourseTable(courseList,captions,1));
+
+    for(var i=0;i<courseList.length;i++){
+            var courseId = courseList[i]["id"];
+            var sectionId = courseList[i]["sectionId"];
+            var courseName = courseList[i]["name"];
+            htmlString += '<li><a href="#" onClick="goToCourseHome('
+            htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+            htmlString += courseId;
+            htmlString += " - ";
+            htmlString += sectionId;
+            htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     $('.courseInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(6)); //Row ids are course#(number) so first 6 characters("course") is not important.

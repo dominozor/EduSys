@@ -9,7 +9,7 @@
 
 <link rel="import" href="/templates/main/main.html" >
 <link rel="stylesheet" href="../css/table.css">
-<script src="/views/home/lecturer-home.js"></script>
+<script src="/views/course/course-home.js"></script>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.6 -->
@@ -417,42 +417,166 @@
                 </li>
                 </li>
             </ul>
-            </section>
-            <!-- /.sidebar -->
+        </section>
+        <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        <section class="content-header">
-            <h1>
-                Lecturer Home
-            </h1>
-        </section>
+        <section class="content-header" id="contentHeader"></section>
 
         <section class="content">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="box box-info">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info">Home</button>
+                        <button type="button" class="btn btn-info">Dates</button>
+                        <button type="button" class="btn btn-info">Exams</button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-warning">First Lesson Training</button>
+                        <button type="button" class="btn btn-success">Take Attendance</button>
+                    </div>
+                </div>
+            </div>
+            <br></br>
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-lg-3 col-xs-12">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>150</h3>
+
+                            <p>Students</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-12">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                            <p>Attendance Rate</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-12">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>44</h3>
+
+                            <p>Exams and Assignments Graded</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-pencil"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="box box-danger">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Courses</h3>
+                            <h3 class="box-title">Seating Chart</h3>
+
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="Courses" class="box-body"></div>
+                        <div class="box-body">
+                            <canvas id="pieChart" style="height:250px"></canvas>
+                        </div>
+                        <!-- /.box-body -->
                     </div>
-
-                    <center><img src="../../lib/dist/img/gears.gif" id="img" style="display:none"/></center>
-                    <center><div id="ajax-box">
-                        <!-- This is where the response data will go (from Ajax) -->
-                    </div></center>
+                    <!-- /.box -->
                 </div>
             </div>
         </section>
     </div>
 </div>
+<!-- jQuery 2.2.3 -->
+<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="../../lib/plugins/chartjs/Chart.min.js"></script>
+<!-- FastClick -->
+<script src="../../lib/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../lib/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../lib/dist/js/demo.js"></script>
+<!-- page script -->
+<script>
+    $(function () {
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas);
+        var PieData = [
+            {
+                value: 20,
+                color: "#f56954",
+                highlight: "#f56954",
+                label: "First Three Rows"
+            },
+            {
+                value: 30,
+                color: "#00a65a",
+                highlight: "#00a65a",
+                label: "Middle Three Rows"
+            },
+            {
+                value: 10,
+                color: "#f39c12",
+                highlight: "#f39c12",
+                label: "Back Three Rows"
+            },
+        ];
+        var pieOptions = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: "#fff",
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: "easeOutBounce",
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: true,
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+        };
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart.Doughnut(PieData, pieOptions);});
+</script>
 
 </body>
 </html>

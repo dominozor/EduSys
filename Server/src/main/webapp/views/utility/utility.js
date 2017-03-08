@@ -271,3 +271,9 @@ function readCookie(name) {  // This function is implemented to read cookies
 function eraseCookie(name) {
     createCookie(name,"",-1); // Simply make the expire time -1 so automatically deleted.
 }
+
+function goToCourseHome(courseId, courseName, sectionId) {
+    var course = {id:courseId, name:courseName, sectionId:sectionId};
+    createCookie('course',JSON.stringify(course),1);
+    window.location.replace("http://localhost:8080/templates/course/course-home.html"); //That redirects to course page
+}
