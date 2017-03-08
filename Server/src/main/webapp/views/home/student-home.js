@@ -63,7 +63,7 @@ $(document).ready(function() {
     //This gets the courses of a student and puts the data after creating table of it.
     courseListObj=getAllCourses(user["id"], user["role"]);
     courseList=JSON.parse(courseListObj.responseText);
-    var captions=["Course Id", "Name"];
+    var captions=["Course Id", "Name", "Section No"];
     $('#Courses').html(createCourseTable(courseList,captions,2));
 
     $('.courseInfo').click(function () {

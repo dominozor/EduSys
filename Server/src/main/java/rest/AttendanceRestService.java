@@ -315,5 +315,89 @@ public class AttendanceRestService {
 	}
 
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
+	@GET
+	@Path("/getAttendanceNumber/{courseID}/{sectionNo}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAttendanceNumber(@PathParam("courseID") String courseID, @PathParam("sectionNo") String sectionNo ) {
+
+		try{
+
+			JSONArray main = new JSONArray();        //A new JSON array object is created.
+			int attendanceNumber = service.getNumberOfAttendance(courseID,sectionNo);
+			System.out.println(attendanceNumber);
+			JSONObject json = new JSONObject();   //A new JSON object for each attendance is created.
+			json.accumulate("attendanceNumber", attendanceNumber); //Putting all information from service object to JSON object.
+
+			main.put(json);
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return Response.serverError().build();
+
+	}
+
+
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
+	@GET
+	@Path("/getAvgInterest/{courseID}/{sectionNo}/{userID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAttendanceNumber(@PathParam("courseID") String courseID, @PathParam("sectionNo") String sectionNo, @PathParam("userID") String userID ) {
+
+		try{
+
+			JSONArray main = new JSONArray();        //A new JSON array object is created.
+			List<Object[]> averageInterest = service.getAverageInterestInfo(courseID, sectionNo, userID);
+			//System.out.println(averageInterest.size());
+			JSONObject json = new JSONObject();   //A new JSON object for each attendance is created.
+			double distance=0.0;
+			double topcoor = 0.0;
+			double bottomcoor=0.0;
+			double rightcoor = 0.0;
+			double leftcoor = 0.0;
+
+			for(Object[] avgInt : averageInterest) {
+
+				distance += Double.valueOf(String.valueOf(avgInt[0]));
+				topcoor += Double.valueOf(String.valueOf(avgInt[1]));
+				bottomcoor += Double.valueOf(String.valueOf(avgInt[2]));
+				rightcoor += Double.valueOf(String.valueOf(avgInt[3]));
+				leftcoor += Double.valueOf(String.valueOf(avgInt[4]));
+
+			}
+
+			double size = Double.valueOf(averageInterest.size());
+
+			distance /= size;
+			topcoor /= size;
+			bottomcoor /= size;
+			rightcoor /= size;
+			leftcoor /= size;
+
+
+			json.accumulate("distance", String.valueOf(distance));
+			json.accumulate("topcoor", String.valueOf(topcoor));
+			json.accumulate("bottomcoor", String.valueOf(bottomcoor));
+			json.accumulate("rightcoor", String.valueOf(rightcoor));
+			json.accumulate("leftcoor", String.valueOf(leftcoor));
+
+			main.put(json);
+
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+
+		return Response.serverError().build();
+	}
+
+
+
 
 }

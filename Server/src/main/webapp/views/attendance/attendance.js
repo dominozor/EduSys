@@ -23,8 +23,18 @@ function listAllStudentsAtt(id, course) { //This function gets attendance data o
     });
 }
 
+function getNumberOfAttendance(course, sectionID) { //This function gets attendance data of all students for a specific course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendanceNumber/" +course+ "/" +sectionID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+
+
 $(document).ready(function(){
-    var courAttList, courAttListObj;
+    var courAttList, courAttListObj, totalNumberOfAttendanceObj, totalNumberOfAttendance;
     var course, user;
 
     $.ajax({
@@ -52,8 +62,14 @@ $(document).ready(function(){
     //This gets a course attendance data of a specific student and puts the data to the table to course-attendance div of the attendance.html  
     courAttListObj=getCourseAttForStudent(user["id"], course["id"]);
     courAttList=JSON.parse(courAttListObj.responseText);
+    totalNumberOfAttendance=getNumberOfAttendance(course["id"], course["sectionNo"]);
+    //window.alert("aaaaaaaaa");
+    //totalNumberOfAttendance=JSON.parse(totalNumberOfAttendanceObj); //Bu satırda bir hata var.
+    //window.alert("bbbbbbbbbbbbb");
     var captions=["Course Id", "Date"];
-    $('#course-attendance').html(createAttendanceTable(courAttList,captions));
+    var secondTableCaption=["Number Of Student Attendance", "Total Attendance Taken"]
+    //window.alert(totalNumberOfAttendance[0]["attendanceNumber"]);
+    $('#course-attendance').html(createAttendanceTable(courAttList,captions,totalNumberOfAttendance, secondTableCaption));
 
 
     $('.getInterestInfo').click(function () {
@@ -61,6 +77,17 @@ $(document).ready(function(){
         var inter=courAttList[row];// After parsing row, now we have row index for courAttList.
         createCookie('inter',JSON.stringify(inter),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.*/
         window.location.replace("http://localhost:8080/templates/attendance/interest.html"); //That redirects to interest page
+    });
+
+    $('.getAverageInterestInfo').click(function () {
+        /*var avgInterestObj = getAverageInterest(course["id"], course["sectionNo"], user["id"]);
+        var avgInterest = JSON.parse(avgInterestObj);
+        $("#seating-distance").html(avgInterest[0]["distance"]);
+        $("#spc").html(avgInterest[0]["topcoor"]);
+        $("#spb").html(avgInterest[0]["bottomcoor"]);
+        $("#spl").html(avgInterest[0]["leftcoor"]);
+        $("#spr").html(avgInterest[0]["rightcoor"]);*/
+        window.location.replace("http://localhost:8080/templates/attendance/averageInterest.html"); //That redirects to interest page
     });
 
 

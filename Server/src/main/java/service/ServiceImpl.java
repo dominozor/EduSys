@@ -368,4 +368,12 @@ public class ServiceImpl implements Service{
 
 		return hibernateUtility.getInterestForAttendanceHib(userID,attendanceID);
 	}
+
+	public int getNumberOfAttendance(String courseID, String sectionID) {
+    	return hibernateUtility.getAttendanceNumber(courseID, sectionID);
+	}
+
+	public List<Object[]> getAverageInterestInfo(String courseID, String sectionNo, String userID) {
+    	return hibernateUtility.getAverageInterest(courseID, sectionNo, userID);
+	}
 }

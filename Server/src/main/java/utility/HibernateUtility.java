@@ -596,4 +596,62 @@ public class HibernateUtility {
 		return null;
 	}
 
+	public int getAttendanceNumber(String courseID, String sectionNo) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select count(at.id) from attendance at " +
+					"where at.courseid='"+courseID+"' and at.sectionno='"+sectionNo+"';");
+
+			//in query.list() function query is executed and result set is return
+
+
+			List<BigInteger> row = query.list();  //Doğru castingi bulup return etmek gerekiyor.
+			session.close();
+
+			return row.get(0).intValue();
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return 1;
+	}
+
+
+
+	public List<Object[]> getAverageInterest(String courseID,String sectionNo, String userID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select atList.distance, atList.topcoor, atList.bottomcoor, atList.rightcoor,atList.leftcoor " +
+					"from attendancelist atList, attendance at " +
+					"where at.courseid= '"+courseID+"' and at.sectionno='" +sectionNo+"' and atList.att_id = at.id and atList.userid='"+userID+"'"+";");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
 }

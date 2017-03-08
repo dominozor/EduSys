@@ -84,7 +84,7 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
     return htmlString += "</table>"; // HTML table string is returned
 }
 
-function createAttendanceTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
+function createAttendanceTable(data,captionArr,secondTableData, secondTableCaptions){  //This is a table creator function which is created for tables that have updatable rows.
     var htmlString = '<table class="table table-bordered table-striped" id="attendance-table"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
@@ -107,6 +107,31 @@ function createAttendanceTable(data,captionArr){  //This is a table creator func
             htmlString += '<td><input class="getInterestInfo" id="getInterestInfo' + i + '" type="button" value="Get Interest Info"/></td></tr>';
         }
     }
+
+    for(var i=0;i<secondTableCaptions.length;i++){ //All the captions of columns are added to the table from the captionArr
+        htmlString += "<th>"+secondTableCaptions[i]+"</th>";
+    }
+
+    if(document.URL === "http://localhost:8080/templates/attendance/attendance.html") {
+        htmlString += '<td><input class="getAverageInterestInfo" id="getAverageInterestInfo' + '" type="button" value="Get Average Interest Info"/></td></tr>';
+    }
+
+    for(var i=0;i<secondTableData.length+1;i++){// Rows are added to the table
+        htmlString += "<tr>";
+        for(var val in secondTableData[i]) {
+            if (val === "attendanceNumber") {
+                htmlString += "<td>";
+                htmlString += secondTableData[i][val]; // Columns are added to the table
+                htmlString += "</td>"
+            }
+            else {
+                htmlString += "<td>";
+                htmlString += data.length.toString(); // Columns are added to the table
+                htmlString += "</td>"
+            }
+        }
+    }
+
     htmlString +="</tbody>";
     htmlString += "</tr></thead>";
     htmlString += "</table>";
