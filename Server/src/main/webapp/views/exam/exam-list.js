@@ -45,6 +45,7 @@ $(document).ready(function(){
     $('#exam-grades').html(createExamTable(examGradeList,captions));
 
     $('.updateGrade').click(function () {
+        createCookie('lengthU',Object.keys(examGradeList).length,1);
         var row = parseInt($(this)[0].id.substr(11));
         var grade = examGradeList[row];
         createCookie('grade',JSON.stringify(grade),1);
@@ -52,6 +53,7 @@ $(document).ready(function(){
     });
 
     $("#addNewGrade").click(function(){
+        createCookie('length',Object.keys(examGradeList).length,1);
         window.location.replace("http://localhost:8080/templates/exam/add-new-grade.html");
 
     });
