@@ -6,10 +6,10 @@ function getCourseDates(sectionId, course) { //This function get all prev lectur
     });
 }
 
-function deleteAtt(course) { //This function get all prev lectures of a course from the Rest services of EduSys
+function deleteAtt(courseid,sectionid,date) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "DELETE",
-        url: "http://localhost:8080/rest/course/getSectionDates/" + course + "/" + sectionId,
+        url: "http://localhost:8080/rest/attendance/delete/" + courseid + "/" + sectionid + "/" + date,
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -64,7 +64,12 @@ $(document).ready(function(){
     $(".deleteAttendance").click(function(){
         var row=parseInt($(this)[0].id.substr(16));
         var date=courDateList[row];
-        deleteAtt(course["id"]);
+        createCookie('courseDate',JSON.stringify(date),1);
+        var courseCookie = JSON.parse(readCookie('courseDate'));
+        console.log(courseCookie["date"]);
+        console.log(course["id"]);
+        console.log(course["sectionId"]);
+        deleteAtt(course["id"],course["sectionId"],courseCookie["date"]);
         window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
     });
 

@@ -111,6 +111,21 @@ public class ServiceImpl implements Service{
         valueList.add(id);
 		hibernateUtility.delete(Attendance.class, valueList,columnNameList);
 	}
+
+	public void deleteAttendanceFromDate(String cid,String sid,String date){	//This function is the same as the getAttendance.
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("courseid");
+		columnNameList.add("sectionno");
+		columnNameList.add("date");
+
+		valueList.add(cid);
+		valueList.add(Integer.parseInt(sid));
+		valueList.add(date);
+
+
+		hibernateUtility.delete(Attendance.class, valueList,columnNameList);
+	}
 	
 	public void updateAttendance(Attendance attendance){ //This is explained in the Service.java.
 		hibernateUtility.update(attendance);	  //This calls the function from hibernate updates an attendace in the database.

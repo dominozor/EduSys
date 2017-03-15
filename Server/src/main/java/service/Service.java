@@ -44,6 +44,8 @@ public interface Service {
 													  //id, sectionNo, courseId and date.
 	public void deleteAttendance(String id);   //The function that deletes the attendance from database. Parameter is the id of the attendance.
 
+	public void deleteAttendanceFromDate(String cid,String sid,String Date);   //The function that deletes the attendance from database. Parameter is the id of the attendance.
+
 	public Attendance getAttendance(String id);	   //The function that gets the information of the attendance. Parameter is the id of the attendance.
 
 	public List<Attendance> getAllAttendances();   //The function that gets the information of all attendances.

@@ -120,6 +120,20 @@ public class AttendanceRestService {
 	}
 
 	@RolesAllowed({"ADMIN","LECTURER"})
+	@DELETE
+	@Path("/delete/{cid}/{sid}/{date}")		/*This is the url of the deleting an attendance from the system. When this url is called like http://localhost:8080/webapi/attendance/delete/1942085,
+								it will delete the attendance from the database via REST service.*/
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response deleteAttendanceFromDate(@PathParam("cid") String cid,@PathParam("sid") String sid,@PathParam("date") String date) {  //The function takes the id of the attendance which is going to be deleted.
+		try {
+			service.deleteAttendanceFromDate(cid,sid,date);        //This is the deletion of the course via REST service.
+			return Response.status(200).entity("success").build();
+		} catch (Exception ex) {
+			return Response.serverError().build();
+		}
+	}
+
+	@RolesAllowed({"ADMIN","LECTURER"})
 	@PUT
 	@Path("/update")
 	@Produces(MediaType.TEXT_PLAIN)
