@@ -136,6 +136,22 @@ public class ExamRestService {
     }
 
     @RolesAllowed("LECTURER")
+    @DELETE
+    @Path("/deleteGrade/{userid}/{examid}")
+    @Produces(MediaType.TEXT_PLAIN)
+    //The parameters of the deleteExam are;
+    //id: id of the exam which is going to be deleted.
+    public Response deleteExamGrade(@PathParam("userid") String uid, @PathParam("examid") String eid ) {
+        try{
+            service.deleteExamGrade(uid,eid);
+            return Response.status(200).entity("success").build();
+        }
+        catch(Exception ex){
+            return Response.serverError().build();
+        }
+    }
+
+    @RolesAllowed("LECTURER")
     @PUT
     @Path("/update")
     @Produces(MediaType.TEXT_PLAIN)

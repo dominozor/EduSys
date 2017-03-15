@@ -180,6 +180,23 @@ public class ServiceImpl implements Service{
 		hibernateUtility.delete(Exam.class, valueList,columnNameList);
 	}
 
+
+
+	public void deleteExamGrade(String uid,String eid)  {
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("examid");			//This is the array that will be used in hibernateUtility to get the courseid column.
+		columnNameList.add("userid");		//This is the array that will be used in hibernateUtility to get the sectionno column.
+		valueList.add(eid);
+		valueList.add(uid);
+		hibernateUtility.delete(StudentGrade.class, valueList,columnNameList);
+	}
+
+
+
+
+
+
 	public void updateExam(Exam exam) {
 		hibernateUtility.update(exam);
 	}

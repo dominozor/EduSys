@@ -22,6 +22,17 @@ function getAllExamsOfASection(courseid, sectionid) { //This function gets all e
     });
 }
 
+function deleteExam(exam) { //This function gets all exams of a section from the Rest services of EduSys
+    console.log("examid = " + exam["examId"]);
+    return $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8080/rest/exam/delete/" + exam["examId"],
+        async: false  // This option prevents this function to execute asynchronized
+    });
+}
+
+
+
 $(document).ready(function(){
     var courGradeList, courGradeListObj;
     var sectExamList, sectExamListObj;
@@ -89,6 +100,18 @@ $(document).ready(function(){
             createCookie('exam',JSON.stringify(exam),1); // A cookie is created for the exam page.Cookie has the information about course and keeps it as a JSON.
             window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
         });
+
+        $('.deleteExam').click(function () {
+            var row=parseInt($(this)[0].id.substr(10)); //Row ids are courseGrade#(number) so first 12 characters("courseGrade") is not important.
+            var exam=sectExamList[row];// After parsing row, now we have row index for exam list
+            //createCookie('exam',JSON.stringify(exam),1); // A cookie is created for the exam page.Cookie has the information about course and keeps it as a JSON.
+            console.log(exam);
+            deleteExam(exam);
+            window.location.replace("http://localhost:8080/templates/exam/exam.html");
+        });
+
+
+
 
         $("#add-exam").html('<input type="button" id="addExam" value="Add Exam">');
 

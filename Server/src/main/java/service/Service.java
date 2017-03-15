@@ -74,6 +74,8 @@ public interface Service {
 
 	void deleteExam(String id);	//The function that deletes the exam from database. Parameter is the id of the exam.
 
+	void deleteExamGrade(String uid,String eid); //The function that deletes the exam grade from database. Parameter is the id of the exam and id of a student.
+
 	void updateExam(Exam exam);	//The function that updates information of a exam. Parameter is just like the addExam.
 
 

@@ -164,14 +164,24 @@ function createDateTable(data,captionArr){  //This is a table creator function w
                 var x = getUserFromDate(courseCookie["sectionId"], courseCookie["id"], data[i][val]);
                 var StudentAttList=JSON.parse(x.responseText);
                 var capac = (getSectionCapacity(courseCookie["sectionId"], courseCookie["id"])).responseText;
-                var percentage =  Object.keys(StudentAttList).length  + "/" +  capac; // Columns are added to the table
+                var percentage =  Object.keys(StudentAttList).length * 100 / capac; // Columns are added to the table
 
+                //htmlString += percentage;
+                htmlString += '<div class="progress">';
+                htmlString += '<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"';
+                htmlString += 'aria-valuemin="0" aria-valuemax="100" style="width:';
                 htmlString += percentage;
+                htmlString += '%">';
+                htmlString += percentage;
+                htmlString += '% Complete';
+                htmlString += "</div> </div>";
                 htmlString += "</td>"
 
             }
         }
-        htmlString += '<td><input class="getStudents" id="getStudents'+i+'" type="button" value="Get Student List"/></td></tr>';
+        htmlString += '<td><input class="getStudents" id="getStudents'+i+'" type="button" value="Get Student List"/></td>';
+        htmlString += '<td><input class="deleteAttendance" id="deleteAttendance'+i+'" type="button" value="Delete Attendance"/></td></tr>';
+
 
 
 

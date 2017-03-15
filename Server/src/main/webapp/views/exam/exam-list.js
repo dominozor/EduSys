@@ -9,6 +9,46 @@ function getAllGradesOfAnExam(examid) {
     });
 }
 
+
+
+function deleteUserGrade(userId,examid) { //This function deletes a student from the database.
+    return $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8080/rest/exam/deleteGrade/" + userId + "/" + examid ,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+function updateExam(examid,courseid,sectionno,type,average,len,grade) {
+
+
+    var newaverage;
+    newaverage = average*Number(len) - Number(grade);
+    newaverage = newaverage / (Number(len)-1);
+    newaverage = newaverage.toString();
+
+
+    return $.ajax({
+        type: "PUT",
+        url: "http://localhost:8080/rest/exam/update?ID="+examid+"&course="+courseid+"&section="+sectionno+"&type="+type+"&average="+newaverage,
+        success: function(response){
+
+            $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
+
+
+        },
+        error: function(xhr) {
+
+            $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+        }
+    });
+
+
+}
+
+
+
+
 $(document).ready(function(){
     var exam, user;
     var examGradeList, examGradeListObj;
@@ -51,6 +91,16 @@ $(document).ready(function(){
         createCookie('grade',JSON.stringify(grade),1);
         window.location.replace("http://localhost:8080/templates/exam/update-grade.html");
     });
+
+
+    $('.deleteGrade').click(function () {
+        var row = parseInt($(this)[0].id.substr(11));
+        var grade = examGradeList[row];
+        deleteUserGrade(grade["id"],exam["examId"]);
+        updateExam(exam["examId"],exam["courseId"],exam["sectionNo"],exam["type"],exam["average"],Object.keys(examGradeList).length, grade["grade"]);
+        window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
+    });
+
 
     $("#addNewGrade").click(function(){
         createCookie('length',Object.keys(examGradeList).length,1);

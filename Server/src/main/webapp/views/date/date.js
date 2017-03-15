@@ -6,6 +6,14 @@ function getCourseDates(sectionId, course) { //This function get all prev lectur
     });
 }
 
+function deleteAtt(course) { //This function get all prev lectures of a course from the Rest services of EduSys
+    return $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8080/rest/course/getSectionDates/" + course + "/" + sectionId,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 
 
 $(document).ready(function(){
@@ -50,5 +58,16 @@ $(document).ready(function(){
         createCookie('courseDate',JSON.stringify(date),1);
         window.location.replace("http://localhost:8080/templates/date/student-list.html"); //redirects back to lecturer page
     });
+
+
+/////////
+    $(".deleteAttendance").click(function(){
+        var row=parseInt($(this)[0].id.substr(16));
+        var date=courDateList[row];
+        deleteAtt(course["id"]);
+        window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
+    });
+
+
 
 });
