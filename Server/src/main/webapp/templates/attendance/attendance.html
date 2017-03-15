@@ -31,8 +31,7 @@
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-<!-- jQuery 2.2.3 -->
-<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -40,7 +39,7 @@
     $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../../bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="../../lib/plugins/morris/morris.min.js"></script>
@@ -67,12 +66,10 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="../../lib/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../../lib/dist/js/demo.js"></script>
+<script src="../../dist/js/demo.js"></script>
 
 <body class="hold-transition skin-blue sidebar-mini">
-
 <div class="wrapper">
-
     <header class="main-header">
         <!-- Logo -->
         <a href="../home/student-home.html" class="logo">
@@ -87,7 +84,6 @@
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
-
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
@@ -293,7 +289,6 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="" class="img-circle" alt="User Image" id="studentImage3">
-
                                 <p id="stuName">
                                 </p>
                             </li>
@@ -404,9 +399,47 @@
             <div id="course-attendance" class="box-body"></div>
         </div>
 
+        <section class="content-header">
+            <h1>
+                Attendance Percentage
+            </h1>
+        </section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box box-solid">
+                        <div class="box-header">
+                            <i class="fa fa-bar-chart-o"></i>
+
+                            <h3 class="box-title">Attendance Percentage</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-3 text-center">
+                                    <input type="text" class="knob" id="knob_input" value="0" data-width="90" data-height="90" data-fgColor="#3c8dbc" data-step=".1" data-readonly="true">
+
+                                    <div class="knob-label" id="knob_label">Attendance as Percentage</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <div>
             <input type="button" id="backStudentPage" value="Back">
         </div>
     </div>
+</div>
 </body>
 </html>

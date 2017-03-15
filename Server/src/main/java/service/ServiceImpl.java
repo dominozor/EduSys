@@ -376,4 +376,8 @@ public class ServiceImpl implements Service{
 	public List<Object[]> getAverageInterestInfo(String courseID, String sectionNo, String userID) {
     	return hibernateUtility.getAverageInterest(courseID, sectionNo, userID);
 	}
+
+	public List<Object[]> listAverageInterestInfo(String userID) {
+		return hibernateUtility.listAverageInterests(userID);
+	}
 }

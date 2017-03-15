@@ -116,21 +116,17 @@ function createAttendanceTable(data,captionArr,secondTableData, secondTableCapti
         htmlString += '<td><input class="getAverageInterestInfo" id="getAverageInterestInfo' + '" type="button" value="Get Average Interest Info"/></td></tr>';
     }
 
-    for(var i=0;i<secondTableData.length+1;i++){// Rows are added to the table
-        htmlString += "<tr>";
-        for(var val in secondTableData[i]) {
-            if (val === "attendanceNumber") {
-                htmlString += "<td>";
-                htmlString += secondTableData[i][val]; // Columns are added to the table
-                htmlString += "</td>"
-            }
-            else {
-                htmlString += "<td>";
-                htmlString += data.length.toString(); // Columns are added to the table
-                htmlString += "</td>"
-            }
-        }
-    }
+    htmlString += "<tr>";
+    htmlString += "<td>";
+    htmlString += data.length.toString(); // Columns are added to the table
+    htmlString += "</td>"
+
+
+    htmlString += "<td>";
+    htmlString += secondTableData[0]["attendanceNumber"]; // Columns are added to the table
+    htmlString += "</td>"
+
+
 
     htmlString +="</tbody>";
     htmlString += "</tr></thead>";

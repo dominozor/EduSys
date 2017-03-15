@@ -31,6 +31,13 @@ function getNumberOfAttendance(course, sectionID) { //This function gets attenda
     });
 }
 
+function listAverageInterestInfo(course) { //This function gets attendance data of all students for a specific course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/listAvgInterests/" +course,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
 
 
 $(document).ready(function(){
@@ -62,15 +69,18 @@ $(document).ready(function(){
     //This gets a course attendance data of a specific student and puts the data to the table to course-attendance div of the attendance.html  
     courAttListObj=getCourseAttForStudent(user["id"], course["id"]);
     courAttList=JSON.parse(courAttListObj.responseText);
-    totalNumberOfAttendance=getNumberOfAttendance(course["id"], course["sectionNo"]);
-    //window.alert("aaaaaaaaa");
-    //totalNumberOfAttendance=JSON.parse(totalNumberOfAttendanceObj); //Bu satırda bir hata var.
-    //window.alert("bbbbbbbbbbbbb");
+
+    totalNumberOfAttendanceObj=getNumberOfAttendance(course["id"], course["sectionNo"]);
+    totalNumberOfAttendance=JSON.parse(totalNumberOfAttendanceObj.responseText); //Bu satırda bir hata var.
+
     var captions=["Course Id", "Date"];
     var secondTableCaption=["Number Of Student Attendance", "Total Attendance Taken"]
-    //window.alert(totalNumberOfAttendance[0]["attendanceNumber"]);
     $('#course-attendance').html(createAttendanceTable(courAttList,captions,totalNumberOfAttendance, secondTableCaption));
 
+    var knob_input = document.getElementById("knob_input");
+    knob_input.value =  (parseInt((parseFloat(courAttList.length) / totalNumberOfAttendance[0]["attendanceNumber"])*100)).toString();
+
+    $('.knob').knob();
 
     $('.getInterestInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(15)); //Row ids are getInterestInfo#(number) so first 15 characters("course") is not important.
@@ -80,13 +90,6 @@ $(document).ready(function(){
     });
 
     $('.getAverageInterestInfo').click(function () {
-        /*var avgInterestObj = getAverageInterest(course["id"], course["sectionNo"], user["id"]);
-        var avgInterest = JSON.parse(avgInterestObj);
-        $("#seating-distance").html(avgInterest[0]["distance"]);
-        $("#spc").html(avgInterest[0]["topcoor"]);
-        $("#spb").html(avgInterest[0]["bottomcoor"]);
-        $("#spl").html(avgInterest[0]["leftcoor"]);
-        $("#spr").html(avgInterest[0]["rightcoor"]);*/
         window.location.replace("http://localhost:8080/templates/attendance/averageInterest.html"); //That redirects to interest page
     });
 

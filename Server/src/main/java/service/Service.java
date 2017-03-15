@@ -147,4 +147,6 @@ public interface Service {
 	public int getNumberOfAttendance(String courseID, String sectionID); // Function to get how many attendance was taken
 
 	public List<Object[]> getAverageInterestInfo(String courseID, String sectionNo, String userID);
+
+	public List<Object[]> listAverageInterestInfo(String userID);
 }

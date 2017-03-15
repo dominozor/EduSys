@@ -1,10 +1,6 @@
 /**
  * Created by onur on 08.03.2017.
  */
-/**
- * Created by onur on 08.03.2017.
- */
-
 function getAverageInterest(course, sectionID, userID) { //This function gets attendance data of all students for a specific course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
@@ -37,8 +33,7 @@ $(document).ready(function(){
             $('#stuName').html(user["name"] + " " + user["surname"]);
 
             avgInterestObj = getAverageInterest(course["id"], course["sectionNo"], user["id"]);
-            avgInterest = JSON.parse(avgInterestObj);
-            window.alert(avgInterest[0]["distance"]);
+            avgInterest = JSON.parse(avgInterestObj.responseText);
             $("#seating-distance").html(avgInterest[0]["distance"]);
             $("#spc").html(avgInterest[0]["topcoor"]);
             $("#spb").html(avgInterest[0]["bottomcoor"]);
@@ -48,6 +43,8 @@ $(document).ready(function(){
 
         }
     });
+
+
     $("#backToAttendancePage").click(function(){
         eraseCookie("inter"); // If user wants to go back to the attendance page, there is no need for this cookie
         window.location.replace("http://localhost:8080/templates/attendance/attendance.html");

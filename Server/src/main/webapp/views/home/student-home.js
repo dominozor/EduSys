@@ -73,6 +73,29 @@ $(document).ready(function() {
         window.location.replace("http://localhost:8080/templates/course/course.html"); //That redirects to course page
     });
 
+
+    var avgInterestInfoObj=listAverageInterestInfo(user["id"]);
+    var avgInterestInfo=JSON.parse(avgInterestInfoObj.responseText);
+    var mainInterestInfo = [];
+    var interestInfo = new Array();
+    for(var i=0; i<avgInterestInfo.length; i++) {
+        mainInterestInfo.push(avgInterestInfo[i]["distance"] + (avgInterestInfo[i]["bottomcoor"] - avgInterestInfo[i]["topcoor"]) +
+                                (avgInterestInfo[i]["rightcoor"] - avgInterestInfo[i]["leftcoor"]));
+        interestInfo.push([avgInterestInfo[i]["courseId"], mainInterestInfo[i]]);
+    }
+
+    
+    $(".sparkline").sparkline(mainInterestInfo, {
+        type: 'pie',
+        width: '150px',
+        height: '150px',
+        tooltipFormat: '{{offset:slice}} ({{percent.1}}%)',
+        tooltipValueLookups: {
+            'slice':interestInfo
+        },
+    });
+
+
     $('.courseAttendance').click(function () {
         var row=parseInt($(this)[0].id.substr(9)); //Row ids are courseAtt#(number) so first 6 characters("course") is not important.
         var course=courseList[row];// After parsing row, now we have row index for courselist.

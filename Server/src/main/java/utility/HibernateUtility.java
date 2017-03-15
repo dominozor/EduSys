@@ -683,4 +683,35 @@ public class HibernateUtility {
 	}
 
 
+	public List<Object[]> listAverageInterests(String userID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select at.courseid, AVG(atList.distance) as dist, AVG(atList.topcoor) as top," +
+					"AVG(atList.bottomcoor) as bottom, AVG(atList.rightcoor) as right, AVG(atList.leftcoor) as left " +
+					"from attendancelist atList, attendance at, sectionstudentlist list " +
+					"where list.userid= '"+userID+"' and at.courseid = list.courseid and at.sectionno=list.sectionno and " +
+					"atList.att_id = at.id and atList.userid = '"+userID+"' " +
+					"group by at.courseid;");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
 }
