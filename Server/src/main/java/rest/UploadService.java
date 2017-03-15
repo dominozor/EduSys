@@ -1,32 +1,16 @@
 package main.java.rest;
 
-
+import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
-import java.nio.file.Files;
-import java.util.Iterator;
-
 import main.java.utility.ExcelUtility;
 import main.java.utility.PropertiesUtility;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.util.IOUtils;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -37,7 +21,7 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 public class UploadService  {
     private PropertiesUtility propertiesUtility = new PropertiesUtility().getInstance();
 
-
+    @PermitAll
     @POST
     @Path("/excelGrades")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -46,16 +30,19 @@ public class UploadService  {
             @FormDataParam("file") FormDataContentDisposition fileDetail,
             @FormDataParam("examID") String examID ){
 
+        String tempFileName = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+        String fileExtention = FilenameUtils.getExtension(fileDetail.getFileName());
+
         ExcelUtility excelUtility = new ExcelUtility();
         String homePath= (propertiesUtility.getProperty("project.basedir")).substring(0,propertiesUtility.getProperty("project.basedir").lastIndexOf('/'));
         String seperator= propertiesUtility.getProperty("project.fileSeperator");
 
-        String fileLocation = homePath+seperator+"Server"+seperator+".temp"+seperator+fileDetail.getFileName();
+        String fileLocation = homePath+seperator+"Server"+seperator+".temp"+seperator+tempFileName+"."+fileExtention;
         //saving file
         try {
             File temp=new File(fileLocation);
-            boolean b=false;
 
+            boolean b;
             b=temp.createNewFile();
 
             if(b) {
@@ -71,12 +58,24 @@ public class UploadService  {
             }
         } catch (IOException e) {e.printStackTrace();}
 
-        if(excelUtility.enterGrades(fileLocation,examID)){
-            return Response.status(200).build();
+        if(fileExtention.equals("xls")){
+            if(excelUtility.enterGradesXLS(fileLocation,examID)){
+                return Response.status(200).build();
+            }
         }
-        else{
-            return Response.status(500).build();
+        else if(fileExtention.equals("xlsx")){
+            if(excelUtility.enterGradesXLSX(fileLocation,examID)){
+                return Response.status(200).build();
+            }
         }
+        else if(fileExtention.equals("ods")){
+            if(excelUtility.enterGradesODS(fileLocation,examID)){
+                return Response.status(200).build();
+            }
+        }
+
+        return Response.status(500).build();
+
 
     }
 }

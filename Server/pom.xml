@@ -38,12 +38,7 @@
 			<artifactId>asm</artifactId>
 			<version>3.3.1</version>
 		</dependency>
-		<!--<dependency>-->
-		<!--<groupId>com.sun.jersey</groupId>-->
-		<!--<artifactId>jersey-bundle</artifactId>-->
-		<!--<version>1.19</version>-->
-		<!--</dependency>-->
-		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
@@ -56,47 +51,38 @@
 			<artifactId>json</artifactId>
 			<version>20140107</version>
 		</dependency>
-		<!--<dependency>-->
-		<!--<groupId>com.sun.jersey</groupId>-->
-		<!--<artifactId>jersey-server</artifactId>-->
-		<!--<version>1.19</version>-->
-		<!--</dependency>-->
-		<!--<dependency>-->
-		<!--<groupId>com.sun.jersey</groupId>-->
-		<!--<artifactId>jersey-core</artifactId>-->
-		<!--<version>1.19</version>-->
-		<!--</dependency>-->
-		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-config -->
 
-
-		<!-- https://mvnrepository.com/artifact/com.ibm.websphere.appserver.api/com.ibm.websphere.appserver.api.jaxrs20
-		<dependency>
-			<groupId>com.ibm.websphere.appserver.api</groupId>
-			<artifactId>com.ibm.websphere.appserver.api.jaxrs20</artifactId>
-			<version>1.0.10</version>
-		</dependency>
--->
 
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>4.0.0.RELEASE</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api
-		 	Altındakini yoruma al
-		 -->
-		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+		<!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
 			<version>2.0-m09</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jopendocument/jOpenDocument -->
+		<dependency>
+			<groupId>org.jopendocument</groupId>
+			<artifactId>jOpenDocument</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
@@ -113,12 +99,12 @@
 			<artifactId>jersey-media-multipart</artifactId>
 			<version>2.25</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.11</version>
 		</dependency>
+
 
 		<!-- Jersey 2.19 -->
 		<dependency>

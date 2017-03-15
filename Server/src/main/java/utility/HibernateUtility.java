@@ -1,6 +1,7 @@
 package main.java.utility;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +38,7 @@ public class HibernateUtility {
 		Session session=null;
 		
 		try{
+
 			session=createSession();
 			session.beginTransaction(); //Transaction starts...
 			session.save(obj); // Saves the object for transaction
@@ -50,6 +52,32 @@ public class HibernateUtility {
 			if (session!=null && session.isOpen()) {
 			    session.close();
 			    
+			}
+		}
+
+	}
+
+	public <T extends Object> String  saveArr(ArrayList<T> objs){
+
+		Session session=null;
+
+		try{
+
+			session=createSession();
+			session.beginTransaction(); //Transaction starts...
+			for(T obj:objs){
+				session.save(obj); // Saves the object for transaction
+			}
+			session.getTransaction().commit(); //Commits and create entity for the table of that specific class
+			return "success...";
+		}
+		catch(Exception e){
+			return e.getMessage();
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+				session.close();
+
 			}
 		}
 
@@ -653,5 +681,6 @@ public class HibernateUtility {
 		}
 		return null;
 	}
+
 
 }
