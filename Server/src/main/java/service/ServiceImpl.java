@@ -1,5 +1,6 @@
 package main.java.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -412,4 +413,8 @@ public class ServiceImpl implements Service{
 	public List<Object[]> listAverageInterestInfo(String userID) {
 		return hibernateUtility.listAverageInterests(userID);
 	}
+
+	public BigInteger getTotalNumOfStudents(String userID) {
+        return hibernateUtility.getTotalNumOfStudents(userID);
+    }
 }

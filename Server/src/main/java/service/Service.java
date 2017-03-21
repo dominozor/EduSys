@@ -2,6 +2,7 @@ package main.java.service;
 
 
 
+import java.math.BigInteger;
 import java.util.List;
 
 import main.java.models.*;
@@ -153,4 +154,6 @@ public interface Service {
 	public List<Object[]> getAverageInterestInfo(String courseID, String sectionNo, String userID);
 
 	public List<Object[]> listAverageInterestInfo(String userID);
+
+	public BigInteger getTotalNumOfStudents(String userID);
 }

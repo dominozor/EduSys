@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -190,8 +191,8 @@ public class CourseRestService {
 			for(Object[] exam : exams){
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-                jo.accumulate("examId", exam[0]); // Putting examid of exam
-                jo.accumulate("courseId", exam[1]); //Putting courseid of exam
+				jo.accumulate("examId", exam[0]); // Putting examid of exam
+				jo.accumulate("courseId", exam[1]); //Putting courseid of exam
 				jo.accumulate("sectionNo", exam[2]); // Putting sectionno of exam
 				jo.accumulate("average", exam[3]); // Putting average
 				jo.accumulate("type", exam[4]); // Putting type of exam (midterm, final, etc)
@@ -206,5 +207,18 @@ public class CourseRestService {
 		return Response.serverError().build();
 	}
 
-	
+	@RolesAllowed({"ADMIN","LECTURER"})
+	@GET
+	@Path("/getTotalNumOfStudents/{userID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getTotalNumOfStudents(@PathParam("userID") String userID){
+		try {
+			BigInteger capacity = service.getTotalNumOfStudents(userID); //Getting all dates of the course
+			return Response.ok(capacity.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
 }

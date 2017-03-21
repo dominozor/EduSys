@@ -713,5 +713,28 @@ public class HibernateUtility {
 		return null;
 	}
 
+	public BigInteger getTotalNumOfStudents(String userID) {
 
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select sum(number_of_students) from section\n" +
+					"where userid = '" + userID + "'");
+
+			//in query.list() function query is executed and result set is returned
+			BigInteger row = (BigInteger) query.list().get(0);
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 }
