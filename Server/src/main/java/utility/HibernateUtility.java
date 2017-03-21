@@ -737,4 +737,34 @@ public class HibernateUtility {
 		}
 		return null;
 	}
+
+
+	public List<Object[]> getInterestsOfCourses(String userID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select att.courseid, att.date, attList.distance, " +
+					"attList.bottomcoor, attList.topcoor, attList.leftcoor, attList.rightcoor " +
+					"from attendancelist as attList, attendance as att\n" +
+					"where attList.userid = '"+userID+"' and att.id = attList.att_id\n" +
+					"order by att.courseid");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 }

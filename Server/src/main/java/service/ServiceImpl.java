@@ -417,4 +417,8 @@ public class ServiceImpl implements Service{
 	public BigInteger getTotalNumOfStudents(String userID) {
         return hibernateUtility.getTotalNumOfStudents(userID);
     }
+
+    public List<Object[]> getInterestInfoOfCourses(String userID) {
+		return hibernateUtility.getInterestsOfCourses(userID);
+	}
 }

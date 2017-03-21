@@ -156,4 +156,6 @@ public interface Service {
 	public List<Object[]> listAverageInterestInfo(String userID);
 
 	public BigInteger getTotalNumOfStudents(String userID);
+
+	public List<Object[]> getInterestInfoOfCourses(String userID);
 }
