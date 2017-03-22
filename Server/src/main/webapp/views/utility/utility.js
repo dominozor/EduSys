@@ -152,6 +152,9 @@ function createDateTable(data,captionArr){  //This is a table creator function w
     htmlString += "<tfoot></tfoot>";
 
     htmlString += "<tbody>";
+    var courseCookie = JSON.parse(readCookie('lecturerCourse'));
+    var capac = (getSectionCapacity(courseCookie["sectionId"], courseCookie["id"])).responseText;
+
     for(var i=0;i<data.length;i++){// Rows are added to the table
         htmlString += "<tr>";
         for(var val in data[i]) {
@@ -160,10 +163,10 @@ function createDateTable(data,captionArr){  //This is a table creator function w
                 htmlString += data[i][val]; // Columns are added to the table
                 htmlString += "</td>";
                 htmlString += "<td>";
-                var courseCookie = JSON.parse(readCookie('lecturerCourse'));
+
                 var x = getUserFromDate(courseCookie["sectionId"], courseCookie["id"], data[i][val]);
                 var StudentAttList=JSON.parse(x.responseText);
-                var capac = (getSectionCapacity(courseCookie["sectionId"], courseCookie["id"])).responseText;
+
                 var percentage =  Object.keys(StudentAttList).length * 100 / capac; // Columns are added to the table
                 htmlString += '<div class="progress">';
                 htmlString += '<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"';

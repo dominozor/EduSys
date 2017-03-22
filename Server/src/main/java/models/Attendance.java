@@ -29,12 +29,15 @@ public class Attendance {
 
 	private String date;	//This is the date at which the attendance is taken.
 
+	private int numberOfStudents;
+
 	public Attendance(){}
-	public Attendance(String id, int sectionNo, String courseId, String date){	//Constructor of the class.
+	public Attendance(String id, int sectionNo, String courseId, String date, int numberOfStudents){	//Constructor of the class.
 		this.ID=id;
 		this.sectionNo=sectionNo;
 		this.courseId=courseId;
 		this.date=date;
+		this.numberOfStudents=numberOfStudents;
 	}
 	
 
@@ -67,5 +70,6 @@ public class Attendance {
 	public void setDate(String date){
 		this.date=date;
 	}
-	
+
+	public int getNumberOfStudents() {return this.numberOfStudents;}
 }

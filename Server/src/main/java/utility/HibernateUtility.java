@@ -246,7 +246,7 @@ public class HibernateUtility {
 			//Then Attendance objects is formed for each row of the query result and put them to the Attendance List.
 			List<Attendance> rows = new ArrayList<Attendance>();
 			for(Object[] r : row) {
-				Attendance attendance = new Attendance((String)r[0], (int)r[3], (String)r[1], (String)r[2]);
+				Attendance attendance = new Attendance((String)r[0], (int)r[3], (String)r[1], (String)r[2],(int)r[3]);
 				rows.add(attendance);
 			}
 			session.close();
@@ -286,7 +286,7 @@ public class HibernateUtility {
 			//Then Attendance objects is formed for each row of the query result and put them to the Attendance List.
 			List<Attendance> rows = new ArrayList<Attendance>();
 			for(Object[] r : row) {
-				Attendance attendance = new Attendance((String)r[0], (int)r[3], (String)r[1], (String)r[2]);
+				Attendance attendance = new Attendance((String)r[0], (int)r[3], (String)r[1], (String)r[2],(int)r[3]);
 				rows.add(attendance);
 			}
 			//List<T> rows = (List<T>) query.list();

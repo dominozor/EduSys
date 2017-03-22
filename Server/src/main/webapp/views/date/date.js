@@ -1,16 +1,16 @@
-function getCourseDates(sectionId, course) { //This function get all prev lectures of a course from the Rest services of EduSys
-    return $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/rest/course/getSectionDates/" + course + "/" + sectionId,
-        async: false // This option prevents this function to execute asynchronized
-    });
-}
 
 function deleteAtt(courseid,sectionid,date) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "DELETE",
         url: "http://localhost:8080/rest/attendance/delete/" + courseid + "/" + sectionid + "/" + date,
         async: false // This option prevents this function to execute asynchronized
+    });
+}
+function getDatesOfCourse(sectionId, course) {
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/course/getSectionDates/" + course + "/" + sectionId,
+        async: false
     });
 }
 
@@ -42,7 +42,7 @@ $(document).ready(function(){
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
     $('#stuName').html(user["name"] + " " + user["surname"])
 
-    courDateListObj=getCourseDates(course["sectionId"], course["id"]);
+    courDateListObj=getDatesOfCourse(course["sectionId"], course["id"]);
     courDateList=JSON.parse(courDateListObj.responseText);
     var captions=["Date","Attendance Percentage"];
     $('#course-date').html(createDateTable(courDateList,captions));

@@ -86,24 +86,6 @@ public class AttendanceRestService {
 		return Response.serverError().build();
 	}
 
-	@RolesAllowed({"ADMIN","LECTURER"})
-	@POST
-	@Path("/add")   /*This is the url of the adding a new course to the system. When this url is called 
-					Attendance constructor is called and then a new course is created and put to the database.*/
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response addAttendance(@QueryParam("ID") String id, @QueryParam("sectionNo") int sectionNo, @QueryParam("courseId") String courseId, @QueryParam("date") String date) {
-		//The parameters of the addCourse are;
-		//id: id of the attendance which is going to be added.
-		//sectionNo: section number of the attendance. It expresses for which section this attendance is used.
-		try {
-			Attendance attendance = new Attendance(id, sectionNo, courseId, date); //The parameters of the constructor are the same as the parameters of the addAttendace function.
-			service.addAttendance(attendance);
-			return Response.status(200).entity("success").build();    //It will return a success response if it is not failed.
-		} catch (Exception ex) {
-			return Response.serverError().build();
-		}
-
-	}
 
 	@RolesAllowed({"ADMIN","LECTURER"})
 	@DELETE
@@ -133,22 +115,6 @@ public class AttendanceRestService {
 		}
 	}
 
-	@RolesAllowed({"ADMIN","LECTURER"})
-	@PUT
-	@Path("/update")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response updateAttendance(@QueryParam("ID") String id, @QueryParam("sectionNo") int sectionNo, @QueryParam("courseId") String courseId, @QueryParam("date") String date) {
-		//These parameters are the same as the addAttendance.
-		Attendance attendance = service.getAttendance(id); //This gets the attendance which has the id in the parameter.
-		Attendance attend = new Attendance(id, sectionNo, courseId, date);  //This is the same arguments as the addAttendance function.
-		try {
-			service.updateAttendance(attend);  //This updates the attendance information.
-			return Response.status(200).entity("success").build();
-		} catch (Exception ex) {
-			return Response.serverError().build();
-		}
-
-	}
 
 	//----------------------------------------------------------------\\
 	//FUNCTIONS FOR GENERATING GENERAL INFORMATIONS

@@ -3,6 +3,7 @@ package main.java.service;
 
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import main.java.models.*;
@@ -163,5 +164,6 @@ public interface Service {
 
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID);
 
+	public String addAttendanceListArr(ArrayList<AttendanceList> arr);
 
 }

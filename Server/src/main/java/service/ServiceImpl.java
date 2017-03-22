@@ -429,4 +429,7 @@ public class ServiceImpl implements Service{
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID) {
 		return hibernateUtility.getAttendancePercentageForLecturerPerDay(userID);
 	}
+	public String addAttendanceListArr(ArrayList<AttendanceList> arr){
+    	return hibernateUtility.saveArr(arr);
+	}
 }
