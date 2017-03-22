@@ -161,4 +161,7 @@ public interface Service {
 
     public List<Object[]> getAttendancePercentageForLecturer(String userID);
 
+	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID);
+
+
 }

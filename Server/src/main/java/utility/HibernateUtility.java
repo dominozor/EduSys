@@ -795,4 +795,34 @@ public class HibernateUtility {
         }
         return null;
     }
+
+
+	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery( "select attendance.courseid, attendance.sectionno, attendance.date, count(*) as totalAtt, section.number_of_students as totalCapacity " +
+			"from section, attendance, attendancelist "+
+			"where section.userid= '" + userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id "+
+			"group by attendance.courseid, attendance.sectionno, attendance.date, section.number_of_students;");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 }
+

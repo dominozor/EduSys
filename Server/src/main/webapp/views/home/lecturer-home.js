@@ -1,3 +1,4 @@
+var graphList=[];
 function getTotalNumOfStudent(userID) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
@@ -13,6 +14,44 @@ function getAttendancePercentageForLecturer(userID) { //This function get all pr
         async: false // This option prevents this function to execute asynchronized
     });
 }
+
+function getAttendancePercentageForLecturerPerDay(userID) { //This function get all prev lectures of a course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendancePercentageForLecturerPerDay/" + userID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+
+
+function drawChart() {
+    console.log(graphList);
+    var data = google.visualization.arrayToDataTable(graphList);
+
+    var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+    var colorsUsed=[];
+    for(var i=0;i<graphList[0].length-1;i++)
+    {
+        colorsUsed.push(colorlist[i]);
+    }
+
+    var options = {
+        hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+        vAxis: {title: 'Attendance Percentage', minValue: 0},
+        pointSize: 7,
+        explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomIn: 32.0},
+        colors: colorsUsed,
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
+
 
 $(document).ready(function() {
 
@@ -143,6 +182,10 @@ $(document).ready(function() {
     var pieChart = new Chart(pieChartCanvas);
     var PieData = [];
 
+    var coursesList = [];
+    coursesList.push("Year");
+
+
     for(var i=0;i<courseList.length;i++){
         var courseId = courseList[i]["id"];
         var sectionId = courseList[i]["sectionId"];
@@ -153,6 +196,8 @@ $(document).ready(function() {
             var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
 
             if(courseId === courseId2 && sectionId === sectionId2) {
+
+                coursesList.push(courseId + "-" + sectionId);
 
                 var temp = {
                     value: val,
@@ -194,4 +239,68 @@ $(document).ready(function() {
     //Create pie or doughnut chart
     // You can switch between pie and douhnut using the method below.
     pieChart.Doughnut(PieData, pieOptions);
+
+
+
+    var dailyAttendanceListObj = getAttendancePercentageForLecturerPerDay(user["id"]);
+    var dailyAttendanceList = JSON.parse(dailyAttendanceListObj.responseText);
+    console.log(dailyAttendanceList);
+
+    console.log(coursesList);
+
+    graphList.push(coursesList);
+
+    for(var i=0;i<dailyAttendanceList.length;i++)
+    {
+        var year = dailyAttendanceList[i]["date"].substring(0, 4);
+        var month = dailyAttendanceList[i]["date"].substring(4, 6)-1;
+        var day = dailyAttendanceList[i]["date"].substring(6, 8);
+
+        var element=[];
+
+        element.push(new Date(year,month,day));
+
+        for(var j=0;j<coursesList.length-1;j++)
+        {
+            element.push(0);
+        }
+
+        var searchIndexTemp = dailyAttendanceList[i]["courseid"] + "-" + dailyAttendanceList[i]["sectionno"];
+
+        var index = coursesList.indexOf(searchIndexTemp);
+
+        var percentageValue = (dailyAttendanceList[i]["totalAtt"] / dailyAttendanceList[i]["totalCapacity"])*100;
+
+        element[index]=percentageValue;
+
+        graphList.push(element);
+
+
+    }
+
+
+    /*['Year', 'Sales', 'Expenses'],
+     [new Date(2001,00,01),  30, 50],
+     [new Date(2001,01,02),  40, 60],
+     [new Date(2001,01,03),  50, 70],
+     [new Date(2001,01,04),  60, 50],
+     [new Date(2001,01,05),  70, 80],
+     [new Date(2001,02,01),  30, 0],
+     [new Date(2001,03,01),  30, 0],
+     [new Date(2001,04,01),  30, 0],
+     [new Date(2001,05,01),  30, 0],
+     [new Date(2001,06,01),  30, 0],
+     [new Date(2001,07,01),  30, 0],
+     [new Date(2001,08,01),  0, 0]
+     ]*/
+
+
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+
+
+
+
 });
