@@ -6,6 +6,14 @@ function getTotalNumOfStudent(userID) { //This function get all prev lectures of
     });
 }
 
+function getAttendancePercentageForLecturer(userID) { //This function get all prev lectures of a course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendancePercentageForLecturer/" + userID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 $(document).ready(function() {
 
     var courseList, courseListObj;
@@ -122,32 +130,43 @@ $(document).ready(function() {
     var totalNumStu = getTotalNumOfStudent(user['id']).responseText;
     document.getElementById("stuNum").innerHTML = "<h3>" + totalNumStu + "</h3>";
 
+    var attendanceAverageListObj = getAttendancePercentageForLecturer(user["id"]);
+    var attendanceAverageList = JSON.parse(attendanceAverageListObj.responseText);
+
     //-------------
     //- PIE CHART -
     //-------------
     // Get context with jQuery - using jQuery's .get() method.
+    var colorList = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+    var counter = 0;
     var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
     var pieChart = new Chart(pieChartCanvas);
-    var PieData = [
-        {
-            value: 20,
-            color: "#f56954",
-            highlight: "#f56954",
-            label: "490-1"
-        },
-        {
-            value: 30,
-            color: "#00a65a",
-            highlight: "#00a65a",
-            label: "490-2"
-        },
-        {
-            value: 10,
-            color: "#f39c12",
-            highlight: "#f39c12",
-            label: "477-1"
-        },
-    ];
+    var PieData = [];
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+
+        for(var j=0;j<attendanceAverageList.length;j++) {
+            var courseId2 = attendanceAverageList[j]["courseid"];
+            var sectionId2 = attendanceAverageList[j]["sectionno"];
+            var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
+
+            if(courseId === courseId2 && sectionId === sectionId2) {
+
+                var temp = {
+                    value: val,
+                    color: colorList[counter],
+                    highlight: colorList[counter],
+                    label: courseId + "-" + sectionId
+                };
+                counter++;
+                if(counter == 4) counter = 0;
+                PieData.push(temp);
+            }
+        }
+    }
+
     var pieOptions = {
         //Boolean - Whether we should show a stroke on each segment
         segmentShowStroke: true,

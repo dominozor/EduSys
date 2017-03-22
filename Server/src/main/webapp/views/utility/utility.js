@@ -158,22 +158,20 @@ function createDateTable(data,captionArr){  //This is a table creator function w
             if(val === "date") {
                 htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
-                htmlString += "</td>"
+                htmlString += "</td>";
                 htmlString += "<td>";
                 var courseCookie = JSON.parse(readCookie('lecturerCourse'));
                 var x = getUserFromDate(courseCookie["sectionId"], courseCookie["id"], data[i][val]);
                 var StudentAttList=JSON.parse(x.responseText);
                 var capac = (getSectionCapacity(courseCookie["sectionId"], courseCookie["id"])).responseText;
                 var percentage =  Object.keys(StudentAttList).length * 100 / capac; // Columns are added to the table
-
-                //htmlString += percentage;
                 htmlString += '<div class="progress">';
                 htmlString += '<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"';
                 htmlString += 'aria-valuemin="0" aria-valuemax="100" style="width:';
                 htmlString += percentage;
                 htmlString += '%">';
                 htmlString += percentage;
-                htmlString += '% Complete';
+                htmlString += '%';
                 htmlString += "</div> </div>";
                 htmlString += "</td>"
 
