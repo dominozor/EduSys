@@ -157,6 +157,8 @@ public interface Service {
 
 	public BigInteger getTotalNumOfStudents(String userID);
 
+    public List<Object[]> getInterestInfoOfCourses(String userID);
+
     public List<Object[]> getAttendancePercentageForLecturer(String userID);
 
 }

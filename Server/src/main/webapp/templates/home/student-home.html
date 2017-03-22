@@ -5,10 +5,16 @@
     <title>EduSys</title>
 </head>
 
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<!--script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
+<script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script-->
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
+<script type="text/javascript" src="../../lib/d3pie.min.js"></script>
+
 <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="import" href="/templates/main/main.html" >
-<link rel="stylesheet" href="../css/table.css">
 <script src="/views/home/student-home.js"></script>
 <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
@@ -426,6 +432,8 @@
             <section class="content">
 
                 <div class="row">
+
+                    <!-- Interest Info Chart -->
                     <div class="col-md-4">
                         <div class="box box-solid">
                             <div class="box-header">
@@ -437,15 +445,71 @@
                             </div>
                             <!-- /.box-header -->
                             <div class="box-body text-center">
-                                <div class="sparkline">
+                                <!--div class="sparkline"-->
 
-                                </div>
+                                <div id="pieChartInterest"></div>
+
                             </div>
                             <!-- /.box-body -->
                         </div>
                         <!-- /.box -->
                     </div>
+                    <!-- /.Interest Info Chart -->
+
+
+                    <!-- Interest Info Chart -->
+                    <div class="col-md-4">
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <h3 class="box-title text-danger">Ratio of the interest information of the courses of the student daily, monthly</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body text-center">
+                                <!--div class="sparkline"-->
+
+                                <div id="chart_div" style="width: 800px; height: 500px;"></div>
+                                <!--div id="chart-container">FusionCharts XT will load here!</div-->
+                                <!--div id="lineChartInterest"></div-->
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.Interest Info Chart -->
                     <!-- /.col -->
+                </div>
+
+
+                <div class="row">
+
+                    <!-- Attendance Info Chart -->
+                    <div class="col-md-4">
+                        <div class="box box-solid">
+                            <div class="box-header">
+                                <h3 class="box-title text-danger">Ratio of the attendance information of the courses of the student</h3>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                </div>
+                            </div>
+                            <!-- /.box-header -->
+                            <div class="box-body text-center">
+                                <!--div class="sparkline"-->
+
+                                <div id="pieChartAttendance"></div>
+
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.Attendance Info Chart-->
+
                 </div>
 
             </section>

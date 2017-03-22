@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../css/table.css">
     <title>EduSys</title>
 </head>
 
 <link rel="import" href="/templates/main/main.html" >
+<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
 <script src="/views/attendance/attendance.js"></script>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -31,7 +32,8 @@
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-<script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- jQuery 2.2.3 -->
+<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -39,7 +41,7 @@
     $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.6 -->
-<script src="../../bootstrap/js/bootstrap.min.js"></script>
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="../../lib/plugins/morris/morris.min.js"></script>
@@ -63,10 +65,6 @@
 <script src="../../lib/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="../../lib/dist/js/app.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../../lib/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../dist/js/demo.js"></script>
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -425,7 +423,7 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-6 col-md-3 text-center">
-                                    <input type="text" class="knob" id="knob_input" value="0" data-width="90" data-height="90" data-fgColor="#3c8dbc" data-step=".1" data-readonly="true">
+                                    <input type="text" class="knob" id="knob_input" value="0" data-width="90" data-height="90" data-fgColor="#3c8dbc"  data-readonly="true">
 
                                     <div class="knob-label" id="knob_label">Attendance as Percentage</div>
                                 </div>

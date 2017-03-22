@@ -418,6 +418,10 @@ public class ServiceImpl implements Service{
         return hibernateUtility.getTotalNumOfStudents(userID);
     }
 
+    public List<Object[]> getInterestInfoOfCourses(String userID) {
+        return hibernateUtility.getInterestsOfCourses(userID);
+    }
+
     public List<Object[]> getAttendancePercentageForLecturer(String userID) {
         return hibernateUtility.getAttendancePercentageForLecturer(userID);
     }

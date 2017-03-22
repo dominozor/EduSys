@@ -39,6 +39,22 @@ function listAverageInterestInfo(course) { //This function gets attendance data 
     });
 }
 
+function listCoursesOfStudent(userID) { //This function gets attendance data of all students for a specific course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/user/getStudentCourses/" +userID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+function getInterestsOfCourses(userID) { //This function gets attendance data of all students for a specific course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getInterestInfo/" +userID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 
 $(document).ready(function(){
     var courAttList, courAttListObj, totalNumberOfAttendanceObj, totalNumberOfAttendance;
@@ -71,16 +87,21 @@ $(document).ready(function(){
     courAttList=JSON.parse(courAttListObj.responseText);
 
     totalNumberOfAttendanceObj=getNumberOfAttendance(course["id"], course["sectionNo"]);
-    totalNumberOfAttendance=JSON.parse(totalNumberOfAttendanceObj.responseText); //Bu satırda bir hata var.
+    totalNumberOfAttendance=JSON.parse(totalNumberOfAttendanceObj.responseText);
 
     var captions=["Course Id", "Date"];
     var secondTableCaption=["Number Of Student Attendance", "Total Attendance Taken"]
     $('#course-attendance').html(createAttendanceTable(courAttList,captions,totalNumberOfAttendance, secondTableCaption));
 
     var knob_input = document.getElementById("knob_input");
-    knob_input.value =  (parseInt((parseFloat(courAttList.length) / totalNumberOfAttendance[0]["attendanceNumber"])*100)).toString();
+    knob_input.value = (parseInt((parseFloat(courAttList.length) / totalNumberOfAttendance[0]["attendanceNumber"])*100)).toString();
 
-    $('.knob').knob();
+    $('.knob').knob({
+        draw: function () {
+
+
+        }
+    });
 
     $('.getInterestInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(15)); //Row ids are getInterestInfo#(number) so first 15 characters("course") is not important.
@@ -97,4 +118,5 @@ $(document).ready(function(){
     $("#backStudentPage").click(function(){
         window.location.replace("http://localhost:8080/templates/home/student-home.html");
     });
+
 });
