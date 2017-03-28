@@ -373,6 +373,17 @@
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="treeview">
                     <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Courses</span>
+                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu" id="coursesTreeView">
+
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#">
                         <i class="fa fa-dashboard"></i> <span>User Information Update</span>
                         <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -410,20 +421,36 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Course Grades</h3>
+
+        <section class="content-header" id="contentHeader"></section>
+
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="btn-group">
+                        <input type="button" class="btn btn-info" id="course-home-btn" value="Home">
+                        <input type="button" class="btn btn-info" id="course-dates-btn" value="Date">
+                        <input type="button" class="btn btn-info" id="course-exams-btn" value="Exams">
+                    </div>
+                </div>
             </div>
-            <div id="course-grade" class="box-body"></div>
-        </div>
-
-        <div id="add-exam" >
-        </div>
-
-
-        <div>
-            <input type="button" id="backToStudentPage" value="Back">
-        </div>
+            <br></br>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Course Grades</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="course-grade" class="box-body"></div>
+                        <div id="add-exam"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 

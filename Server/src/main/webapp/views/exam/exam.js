@@ -32,7 +32,6 @@ function deleteExam(exam) { //This function gets all exams of a section from the
 }
 
 
-
 $(document).ready(function(){
     var courGradeList, courGradeListObj;
     var sectExamList, sectExamListObj;
@@ -44,13 +43,32 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.ajax({
+        url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $("#course-home-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/course/course-home.html");
+    });
+
+    $("#course-dates-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
+    });
+
+    $("#course-exams-btn").click(function(){
+        window.location.reload(); //redirects back to lecturer page
+    });
+
     user = JSON.parse(readCookie('mainuser'));
+    course = JSON.parse(readCookie('course'));
+
+    document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
 
     if(user["role"]===2) {
 
         $('#shortcutToHome').attr('href', "http://localhost:8080/templates/home/student-home.html");
-
-        course  = JSON.parse(readCookie('course'));
 
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
         img.src = String(user["ppic"]);
@@ -80,7 +98,6 @@ $(document).ready(function(){
 
         $('#shortcutToHome').attr('href', "http://localhost:8080/templates/home/lecturer-home.html");
 
-        course = JSON.parse(readCookie('examCourse'));
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
         img.src = String(user["ppic"]);
 
@@ -117,20 +134,29 @@ $(document).ready(function(){
         });
 
 
+        $("#add-exam").html('<input type="button" id="addExam" value="Add Exam"> <br></br>');
 
-
-        $("#add-exam").html('<input type="button" id="addExam" value="Add Exam">');
-
-        $("#backToStudentPage").click(function(){
-            eraseCookie("examCourse"); // If user wants to go back to the lecturer page, there is no need for this cookie
-            window.location.replace("http://localhost:8080/templates/home/lecturer-home.html");
-        });
         $('#addExam').click(function () {
 
             window.location.replace("http://localhost:8080/templates/exam/add-exam.html");
         });
 
+        var courseListObj=getAllCourses(user["id"],user["role"]);
+        var courseList=JSON.parse(courseListObj.responseText);
+        var htmlString = "";
 
+        for(var i=0;i<courseList.length;i++){
+            var courseId = courseList[i]["id"];
+            var sectionId = courseList[i]["sectionId"];
+            var courseName = courseList[i]["name"];
+            htmlString += '<li><a href="#" onClick="goToCourseHome('
+            htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+            htmlString += courseId;
+            htmlString += " - ";
+            htmlString += sectionId;
+            htmlString += '</a></li>';
+        }
+        document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     }
 

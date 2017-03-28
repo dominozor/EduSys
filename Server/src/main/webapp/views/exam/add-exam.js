@@ -6,7 +6,7 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
-    var examCourseCookie=JSON.parse(readCookie("examCourse"));
+    var examCourseCookie=JSON.parse(readCookie("course"));
     document.getElementById("course-id").value= examCourseCookie["id"];
     document.getElementById("section-no").value= examCourseCookie["sectionId"];
 

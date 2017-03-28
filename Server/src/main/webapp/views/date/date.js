@@ -26,7 +26,13 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
-    course = JSON.parse(readCookie('lecturerCourse'));
+    $.ajax({
+        url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    course = JSON.parse(readCookie('course'));
     user = JSON.parse(readCookie('mainuser'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -59,6 +65,18 @@ $(document).ready(function(){
         window.location.replace("http://localhost:8080/templates/date/student-list.html"); //redirects back to lecturer page
     });
 
+    $("#course-home-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/course/course-home.html");
+    });
+
+    $("#course-dates-btn").click(function(){
+        window.location.reload(); //redirects back to lecturer page
+    });
+
+    $("#course-exams-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/exam/exam.html"); //redirects back to lecturer page
+    });
+
 
 /////////
     $(".deleteAttendance").click(function(){
@@ -73,6 +91,23 @@ $(document).ready(function(){
         window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
     });
 
+    document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
 
+    var courseListObj=getAllCourses(user["id"],user["role"]);
+    var courseList=JSON.parse(courseListObj.responseText);
+    var htmlString = "";
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
 });

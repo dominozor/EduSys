@@ -19,6 +19,7 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -29,6 +30,18 @@ $(document).ready(function() {
 
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
+
+    $("#course-home-btn").click(function(){
+        window.location.reload();
+    });
+
+    $("#course-dates-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
+    });
+
+    $("#course-exams-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/exam/exam.html"); //redirects back to lecturer page
+    });
 
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
@@ -51,7 +64,6 @@ $(document).ready(function() {
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
-    var course = JSON.parse(readCookie('course'));
     document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
 
 });
