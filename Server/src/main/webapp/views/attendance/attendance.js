@@ -66,7 +66,7 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
-    course  = JSON.parse(readCookie('courseAtt'));
+    course  = JSON.parse(readCookie('course'));
     user = JSON.parse(readCookie('mainuser'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -86,7 +86,7 @@ $(document).ready(function(){
     courAttListObj=getCourseAttForStudent(user["id"], course["id"]);
     courAttList=JSON.parse(courAttListObj.responseText);
 
-    totalNumberOfAttendanceObj=getNumberOfAttendance(course["id"], course["sectionNo"]);
+    totalNumberOfAttendanceObj=getNumberOfAttendance(course["id"], course["sectionId"]);
     totalNumberOfAttendance=JSON.parse(totalNumberOfAttendanceObj.responseText);
 
     var captions=["Course Id", "Date"];

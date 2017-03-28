@@ -311,3 +311,9 @@ function goToCourseHome(courseId, courseName, sectionId) {
     createCookie('course',JSON.stringify(course),1);
     window.location.replace("http://localhost:8080/templates/course/course-home.html"); //That redirects to course page
 }
+
+function goToStudentCourseHome(courseId, courseName, sectionId) {
+    var course = {id:courseId, name:courseName, sectionId:sectionId};
+    createCookie('course',JSON.stringify(course),1);
+    window.location.replace("http://localhost:8080/templates/course/student-course-home.html"); //That redirects to course page
+}

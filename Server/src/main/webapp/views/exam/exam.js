@@ -47,7 +47,10 @@ $(document).ready(function(){
     user = JSON.parse(readCookie('mainuser'));
 
     if(user["role"]===2) {
-        course  = JSON.parse(readCookie('courseGrad'));
+
+        $('#shortcutToHome').attr('href', "http://localhost:8080/templates/home/student-home.html");
+
+        course  = JSON.parse(readCookie('course'));
 
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
         img.src = String(user["ppic"]);
@@ -74,6 +77,9 @@ $(document).ready(function(){
         });
     }
     else if(user["role"]===1) {
+
+        $('#shortcutToHome').attr('href', "http://localhost:8080/templates/home/lecturer-home.html");
+
         course = JSON.parse(readCookie('examCourse'));
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
         img.src = String(user["ppic"]);

@@ -65,6 +65,20 @@ $(document).ready(function() {
     courseList=JSON.parse(courseListObj.responseText);
     var captions=["Course Id", "Name", "Section No"];
     $('#Courses').html(createCourseTable(courseList,captions,2));
+    var htmlString="";
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToStudentCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     $('.courseInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(6)); //Row ids are course#(number) so first 6 characters("course") is not important.
@@ -77,7 +91,7 @@ $(document).ready(function() {
     $('.courseAttendance').click(function () {
         var row=parseInt($(this)[0].id.substr(9)); //Row ids are courseAtt#(number) so first 6 characters("course") is not important.
         var course=courseList[row];// After parsing row, now we have row index for courselist.
-        createCookie('courseAtt',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
+        createCookie('course',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
         window.location.replace("http://localhost:8080/templates/attendance/attendance.html"); //That redirects to course page
     });
 
@@ -87,6 +101,7 @@ $(document).ready(function() {
         createCookie('courseGrad',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
         window.location.replace("http://localhost:8080/templates/exam/exam.html"); //That redirects to course page
     });
+
 
 
     //CHARTS!!!!!!!!!
@@ -110,16 +125,6 @@ $(document).ready(function() {
             "color":color
         });
     }
-
-    /*$(".sparkline").sparkline(mainInterestInfo, {
-     type: 'pie',
-     width: '150px',
-     height: '150px',
-     tooltipFormat: '{{offset:slice}} ({{percent.1}}%)',
-     tooltipValueLookups: {
-     'slice':interestInfo
-     },
-     });*/
 
     var pie = new d3pie("pieChartInterest", {
         /*"header": {
@@ -185,76 +190,50 @@ $(document).ready(function() {
 
 
     //Line Chart Of The Ratio Of Interests
+    var graphInfo = [];
+    var graphLegends = [];
+    var courseIndices = {};
+    graphLegends.push('Data');
 
-    /*FusionCharts.ready(function(){
-        var fusioncharts = new FusionCharts({
-                type: 'zoomline',
-                renderAt: 'chart-container',
-                width: '600',
-                height: '400',
-                dataFormat: 'json',
-                dataSource: {
-                    "chart": {
-                        "caption": "Interest Ratio",
-                        "subcaption": "Current year",
-                        "yaxisname": "Interest Point",
-                        "xaxisname": "Date",
-                        "yaxisminValue": "0",
-                        "yaxismaxValue": "100",
-                        "pixelsPerPoint": "0",
-                        "pixelsPerLabel": "30",
-                        "lineThickness": "1",
-                        "compactdatamode": "1",
-                        "dataseparator": "|",
-                        "labelHeight": "30",
-                        "theme": "fint"
-                    },
-                    "categories": [{
-                        "category": "Jan 01"
-                    }],
-                    "dataset": [{
-                        "seriesname": "harrysfoodmart.com",
-                        "data": "97,8"
-                    }, {
-                        "seriesname": "harrysfashion.com",
-                        "data": "10,53"
-                    }, {
-                        "seriesname": "aliexpress.com",
-                        "data":"50"
-                    }]
-                }
-            }
-        );
-        fusioncharts.render();
-    });*/
+    var coursesObj = listCoursesOfStudent(user["id"]);
+    var courses = JSON.parse(coursesObj.responseText);
+    for(var i=0; i<courses.length; i++) {
+        graphLegends.push(courses[i]["id"]);
+        courseIndices[courses[i]["id"]] = i+1;
+    }
+    graphInfo.push(graphLegends);
 
-    var courseInterestObj = listCoursesOfStudent(user["id"]);
+    var courseInterestObj = getInterestsOfCourses(user["id"]);
     var courseInterest = JSON.parse(courseInterestObj.responseText);
-    var graphInfo = []
+
+
     for(var i=0; i<courseInterest.length; i++) {
-        var date = new Date(2017,i,11);
-        graphInfo.push(date);
+        var year = courseInterest[i]["date"].substring(0,4);
+        var month = Number(courseInterest[i]["date"].substring(4,6))-1;
+        var day = courseInterest[i]["date"].substring(6,8);
+        var date = new Date(year, month, day);
+        var graphData = [];
+        graphData.push(date);
+
+        for(var j=0; j<courses.length; j++)
+            graphData.push(0);
+
+        graphInfo.push(graphData);
+    }
+
+    for(var i=0; i<courseInterest.length; i++) {
+        graphInfo[i+1][courseIndices[courseInterest[i]["courseId"]]] = (courseInterest[i]["distance"] + (courseInterest[i]["bottomcoor"] - courseInterest[i]["topcoor"]) +
+            (courseInterest[i]["rightcoor"] - courseInterest[i]["leftcoor"]));
+
     }
 
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Year', 'Sales', 'Expenses'],
-            [new Date(2001,00,01),  30, 50],
-            [new Date(2001,01,02),  40, 60],
-            [new Date(2001,01,03),  50, 70],
-            [new Date(2001,01,04),  60, 50],
-            [new Date(2001,01,05),  70, 80],
-            [new Date(2001,02,01),  30, 0],
-            [new Date(2001,03,01),  30, 0],
-            [new Date(2001,04,01),  30, 0],
-            [new Date(2001,05,01),  30, 0],
-            [new Date(2001,06,01),  30, 0],
-            [new Date(2001,07,01),  30, 0],
-            [new Date(2001,08,01),  0, 0]
-        ]);
+        var data = google.visualization.arrayToDataTable(
+            graphInfo
+        );
 
         var options = {
             hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
@@ -299,8 +278,6 @@ $(document).ready(function() {
             "color":color
         });
 
-        //window.alert(courAttList.length);
-        //window.alert(totalNumberOfAttendance[0]["attendanceNumber"]);
     }
 
     var pie = new d3pie("pieChartAttendance", {
@@ -359,6 +336,93 @@ $(document).ready(function() {
     });
 
 
+    window.onload = function () {
 
 
+        // helper function
+        function $(id) {
+            return document.getElementById(id);
+        };
+
+        /*  legend code */
+        // we want to display the gradient, so we have to draw it
+        var legendCanvas = document.createElement('canvas');
+        legendCanvas.width = 50;
+        legendCanvas.height = 7;
+
+        var legendCtx = legendCanvas.getContext('2d');
+        var gradientCfg = {};
+
+        function updateLegend(data) {
+            // the onExtremaChange callback gives us min, max, and the gradientConfig
+            // so we can update the legend
+            $('min').innerHTML = data.min;
+            $('max').innerHTML = data.max;
+            // regenerate gradient image
+            if (data.gradient != gradientCfg) {
+                gradientCfg = data.gradient;
+                var gradient = legendCtx.createLinearGradient(0, 0, 100, 1);
+                for (var key in gradientCfg) {
+                    gradient.addColorStop(key, gradientCfg[key]);
+                }
+
+                legendCtx.fillStyle = gradient;
+                legendCtx.fillRect(0, 0, 100, 10);
+                $('gradient').src = legendCanvas.toDataURL();
+            }
+        };
+        /* legend code end */
+
+        // create a heatmap instance
+        var heatmap = h337.create({
+            container: document.getElementById('heatmapContainer'),
+            maxOpacity: .5,
+            radius: 10,
+            blur: .75,
+            // update the legend whenever there's an extrema change
+            onExtremaChange: function onExtremaChange(data) {
+                updateLegend(data);
+            }
+        });
+        // boundaries for data generation
+        var width = (+window.getComputedStyle(document.body).width.replace(/px/,''));
+        var height = (+window.getComputedStyle(document.body).height.replace(/px/,''));
+
+        // generate 1000 datapoints
+        var generate = function () {
+            // randomly generate extremas
+            var extremas = [(Math.random() * 1000) >> 0, (Math.random() * 1000) >> 0];
+            var max = Math.max.apply(Math, extremas);
+            var min = Math.min.apply(Math, extremas);
+            var t = [];
+
+
+            for (var i = 0; i < 1000; i++) {
+                var x = (Math.random() * width) >> 0;
+                var y = (Math.random() * height) >> 0;
+                var c = ((Math.random() * max - min) >> 0) + min;
+                // btw, we can set a radius on a point basis
+                var r = (Math.random() * 80) >> 0;
+                // add to dataset
+                t.push({x: x, y: y, value: c, radius: r});
+            }
+
+            var init = +new Date;
+            // set the generated dataset
+            heatmap.setData({
+                min: min,
+                max: max,
+                data: t
+            });
+            console.log('took ', (+new Date) - init, 'ms');
+        };
+        // initial generate
+        generate();
+
+        // whenever a user clicks on the ContainerWrapper the data will be regenerated -> new max & min
+        document.getElementById('heatmapContainerWrapper').onclick = function () {
+            generate();
+        };
+
+    };
 });

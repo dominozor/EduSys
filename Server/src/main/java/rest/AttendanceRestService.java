@@ -493,10 +493,10 @@ public class AttendanceRestService {
 				jo.accumulate("courseId", interest[0]);
 				jo.accumulate("date", interest[1]);
 				jo.accumulate("distance", interest[2]); //Putting all information from service object to JSON object.
-				jo.accumulate("topcoor", interest[3]);
-				jo.accumulate("bottomcoor", interest[4]);
-				jo.accumulate("rightcoor", interest[5]);
-				jo.accumulate("leftcoor", interest[6]);
+				jo.accumulate("bottomcoor", interest[3]);
+				jo.accumulate("topcoor", interest[4]);
+				jo.accumulate("leftcoor", interest[5]);
+				jo.accumulate("rightcoor", interest[6]);
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}

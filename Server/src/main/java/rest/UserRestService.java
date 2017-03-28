@@ -253,7 +253,7 @@ public class UserRestService {
                 jo.accumulate("name", course[1]); // Putting name of courses
 				jo.accumulate("instructorName", course[2]);
 				jo.accumulate("instructorLastName", course[3]);
-				jo.accumulate("sectionNo", course[4]);
+				jo.accumulate("sectionId", course[4]);
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }

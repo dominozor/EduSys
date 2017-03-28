@@ -17,7 +17,7 @@ $(document).ready(function(){
         async: false,
         success: function(response) {
             user = JSON.parse(readCookie('mainuser'));
-            course  = JSON.parse(readCookie('courseAtt'));
+            course  = JSON.parse(readCookie('course'));
 
             var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
             img.src = String(user["ppic"]);
@@ -32,7 +32,7 @@ $(document).ready(function(){
             $('#studentButtonName').html(user["name"] + " " + user["surname"]);
             $('#stuName').html(user["name"] + " " + user["surname"]);
 
-            avgInterestObj = getAverageInterest(course["id"], course["sectionNo"], user["id"]);
+            avgInterestObj = getAverageInterest(course["id"], course["sectionId"], user["id"]);
             avgInterest = JSON.parse(avgInterestObj.responseText);
             $("#seating-distance").html(avgInterest[0]["distance"]);
             $("#spc").html(avgInterest[0]["topcoor"]);
