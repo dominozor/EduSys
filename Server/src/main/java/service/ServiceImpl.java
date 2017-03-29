@@ -54,6 +54,20 @@ public class ServiceImpl implements Service{
 	
 	/* New class addition */
 
+	//Notification Functions
+
+	public void saveNotification (Notification notification){
+		hibernateUtility.save(notification);
+	}
+
+	public List<Notification> getAllNotifications(String userID){
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("id");
+		valueList.add(userID);
+		return hibernateUtility.get(Notification.class,valueList,columnNameList);
+	}
+
 	//Course Functions
 
 	public void addCourse(Course course){  //This function is explained in Service.java

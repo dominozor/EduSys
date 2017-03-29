@@ -82,6 +82,11 @@ public interface Service {
 
 	void updateExam(Exam exam);	//The function that updates information of a exam. Parameter is just like the addExam.
 
+	//Notification Functions
+
+	public void saveNotification (Notification notification);
+
+	public List<Notification> getAllNotifications(String userID);
 
 
 
