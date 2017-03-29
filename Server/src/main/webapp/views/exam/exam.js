@@ -134,7 +134,7 @@ $(document).ready(function(){
         });
 
 
-        $("#add-exam").html('<input type="button" id="addExam" value="Add Exam"> <br></br>');
+        $("#add-exam").html('<input type="button" id="addExam" value="Add Exam">');
 
         $('#addExam').click(function () {
 

@@ -66,16 +66,13 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
             }
         }
 
-        htmlString += '<td><input class="courseInfo" id="course'+i+'" type="button" value="View Course"/></td>';
         if(id == 2) {
             htmlString += '<td><input class="courseAttendance" id="courseAtt'+i+'" type="button" value="Get Attendance"/></td>';
             htmlString += '<td><input class="courseGrades" id="courseGrad'+i+'" type="button" value="Get Grades"/></td></tr>';
         }
         else if(id == 1) {
-            htmlString += '<td><input class="firstLesson" id="firstLesson'+i+'" type="button" value="First Lesson Training"/></td>';
-            htmlString += '<td><input class="takeAttendance" id="takeAttendance'+i+'" type="button" value="Take Attendance"/></td>';
-            htmlString += '<td><input class="courseDate" id="courseDate'+i+'" type="button" value="Get Dates"/></td>';
-            htmlString += '<td><input class="courseExam" id="courseExam'+i+'" type="button" value="Exams"/></td></tr>';
+            /*htmlString += '<td><input class="firstLesson" id="firstLesson'+i+'" type="button" value="First Lesson Training"/></td>';
+            htmlString += '<td><input class="takeAttendance" id="takeAttendance'+i+'" type="button" value="Take Attendance"/></td>';*/
         }
     }
     htmlString +="</tbody>";

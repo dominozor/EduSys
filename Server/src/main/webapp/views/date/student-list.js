@@ -19,6 +19,24 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.ajax({
+        url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $("#course-home-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/course/course-home.html");
+    });
+
+    $("#course-dates-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
+    });
+
+    $("#course-exams-btn").click(function(){
+        window.location.replace("http://localhost:8080/templates/exam/exam.html"); //redirects back to lecturer page
+    });
+
     date = JSON.parse(readCookie('courseDate'));
     course = JSON.parse(readCookie('lecturerCourse'));
     user = JSON.parse(readCookie('mainuser'));
@@ -46,5 +64,24 @@ $(document).ready(function(){
         eraseCookie("date");
         window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
     });
+
+    document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
+
+    var courseListObj=getAllCourses(user["id"],user["role"]);
+    var courseList=JSON.parse(courseListObj.responseText);
+    var htmlString = "";
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
 });
