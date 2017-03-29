@@ -739,6 +739,58 @@ public class HibernateUtility {
 	}
 
 
+	public BigInteger getNumOfExamsForSection(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select count(*) from exam\n" +
+					"where courseid = '" + courseID + "'" + " and sectionno = '" + sectionID+ "'" );
+
+			//in query.list() function query is executed and result set is returned
+			BigInteger row = (BigInteger) query.list().get(0);
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+	public BigInteger getNumOfStudentsForSection(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select number_of_students from section\n" +
+					"where courseid = '" + courseID + "'" + " and sectionno = " + "'"+ sectionID +"'" );
+
+			//in query.list() function query is executed and result set is returned
+			BigInteger row =BigInteger.valueOf(((Integer)(query.list().get(0))).intValue());
+			System.out.println(row);
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
     public List<Object[]> getInterestsOfCourses(String userID) {
 
         Session session = null;
@@ -808,7 +860,37 @@ public class HibernateUtility {
 			Query query = session.createNativeQuery( "select attendance.courseid, attendance.sectionno, attendance.date, count(*) as totalAtt, section.number_of_students as totalCapacity " +
 			"from section, attendance, attendancelist "+
 			"where section.userid= '" + userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id "+
-			"group by attendance.courseid, attendance.sectionno, attendance.date, section.number_of_students;");
+			"group by attendance.courseid, attendance.sectionno, attendance.date, section.number_of_students order by attendance.date;");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
+
+	public List<Object[]> getTotalAttendanceRateForSection(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select count(*) as totalstu, section.number_of_lectures*section.number_of_students as mult from section, attendance, attendancelist\n"+
+			"where section.courseid = '" + courseID + "' and section.sectionno='" +sectionID+ "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno\n"+
+							"and attendance.id=attendancelist.att_id \n"+
+			"group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();

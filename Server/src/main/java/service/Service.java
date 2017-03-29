@@ -158,11 +158,17 @@ public interface Service {
 
 	public BigInteger getTotalNumOfStudents(String userID);
 
+	public BigInteger getNumOfStudentsForSection(String courseID,String sectionID);
+
+	public BigInteger getNumOfExamsForSection(String courseID,String sectionID);
+
     public List<Object[]> getInterestInfoOfCourses(String userID);
 
     public List<Object[]> getAttendancePercentageForLecturer(String userID);
 
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID);
+
+	public List<Object[]> getTotalAttendanceRateForSection(String courseID, String sectionID);
 
 	public String addAttendanceListArr(ArrayList<AttendanceList> arr);
 

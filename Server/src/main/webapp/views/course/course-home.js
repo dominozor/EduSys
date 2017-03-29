@@ -19,6 +19,39 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    function getNumofStudentsForSection(courseID,sectionID) {
+
+        return $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/rest/course/getNumofStudentsForSection/" + courseID + "/" + sectionID ,
+            async: false // This option prevents this function to execute asynchronized
+        });
+    }
+
+
+
+    function getNumofExamsForSection(courseID,sectionID) {
+
+        return $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/rest/course/getNumofExamsForSection/" + courseID + "/" + sectionID ,
+            async: false // This option prevents this function to execute asynchronized
+        });
+    }
+
+    function getTotalAttendanceRateForSection(courseID,sectionID) {
+
+        return $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/rest/attendance/getTotalAttendanceRateForSection/" + courseID + "/" + sectionID ,
+            async: false // This option prevents this function to execute asynchronized
+        });
+    }
+
+
+
+
+
     var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
 
@@ -62,8 +95,35 @@ $(document).ready(function() {
         htmlString += sectionId;
         htmlString += '</a></li>';
     }
+
+    var numStudents;
+    numStudents=getNumofStudentsForSection(course["id"],course["sectionId"]).responseText;
+
+    var numOfExams;
+    numOfExams = getNumofExamsForSection(course["id"],course["sectionId"]).responseText;
+
+    var attendanceRateObj;
+    attendanceRateObj = getTotalAttendanceRateForSection(course["id"],course["sectionId"]);
+    var attendanceRateList=JSON.parse(attendanceRateObj.responseText);
+    var percentageRate = parseInt(attendanceRateList[0]["totalstu"]) / parseInt(attendanceRateList[0]["mult"]);
+    percentageRate = percentageRate *100;
+
+
+
+
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
+
+    document.getElementById("numOfStudents").innerHTML = "<h3>" + numStudents + "</h3>" + "<p>Students</p>";
+
+    document.getElementById("numOfExamsGraded").innerHTML = "<h3>" + numOfExams + "</h3>" + "<p>Exams and Assignments Graded</p>";
+
+    document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + percentageRate + "</h3>" + "<p>Attendance Rate</p>";
+
+
+
+
+
 
 });

@@ -418,7 +418,16 @@ public class ServiceImpl implements Service{
         return hibernateUtility.getTotalNumOfStudents(userID);
     }
 
-    public List<Object[]> getInterestInfoOfCourses(String userID) {
+
+	public BigInteger getNumOfStudentsForSection(String courseID,String sectionID) {
+		return hibernateUtility.getNumOfStudentsForSection(courseID,sectionID);
+	}
+	public BigInteger getNumOfExamsForSection(String courseID,String sectionID){
+		return hibernateUtility.getNumOfExamsForSection(courseID,sectionID);
+	}
+
+
+	public List<Object[]> getInterestInfoOfCourses(String userID) {
         return hibernateUtility.getInterestsOfCourses(userID);
     }
 
@@ -429,6 +438,11 @@ public class ServiceImpl implements Service{
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID) {
 		return hibernateUtility.getAttendancePercentageForLecturerPerDay(userID);
 	}
+
+	public List<Object[]> getTotalAttendanceRateForSection(String courseID, String sectionID){
+		return hibernateUtility.getTotalAttendanceRateForSection( courseID, sectionID);
+	}
+
 	public String addAttendanceListArr(ArrayList<AttendanceList> arr){
     	return hibernateUtility.saveArr(arr);
 	}

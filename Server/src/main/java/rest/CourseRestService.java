@@ -221,4 +221,38 @@ public class CourseRestService {
 		}
 		return Response.serverError().build();
 	}
+
+	@RolesAllowed({"ADMIN","LECTURER"})
+	@GET
+	@Path("/getNumofStudentsForSection/{courseID}/{sectionID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getTotalNumOfStudentsForSection(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID){
+		try {
+			BigInteger capacity = service.getNumOfStudentsForSection(courseID,sectionID);
+			return Response.ok(capacity.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
+
+
+	@RolesAllowed({"ADMIN","LECTURER"})
+	@GET
+	@Path("/getNumofExamsForSection/{courseID}/{sectionID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response getTotalNumOfExamsForSection(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID){
+		try {
+			BigInteger capacity = service.getNumOfExamsForSection(courseID,sectionID);
+			return Response.ok(capacity.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
 }
+
+
