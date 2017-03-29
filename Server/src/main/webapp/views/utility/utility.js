@@ -177,8 +177,8 @@ function createDateTable(data,captionArr){  //This is a table creator function w
 
             }
         }
-        htmlString += '<td><input class="getStudents" id="getStudents'+i+'" type="button" value="Get Student List"/></td>';
-        htmlString += '<td><input class="deleteAttendance" id="deleteAttendance'+i+'" type="button" value="Delete Attendance"/></td></tr>';
+        htmlString += '<td><input class="getStudents btn btn-default" id="getStudents'+i+'" type="button" value="Get Student List"/></td>';
+        htmlString += '<td><input class="deleteAttendance btn btn-default" id="deleteAttendance'+i+'" type="button" value="Delete Attendance"/></td></tr>';
 
 
 
@@ -210,8 +210,8 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
             }
         }
         if(id==1) {
-            htmlString += '<td><input class="getGradeList" id="getGradeList'+i+'" type="button" value="Get Grade List"/></td>';
-            htmlString += '<td><input class="deleteExam" id="deleteExam'+i+'" type="button" value="Delete Exam"/></td></tr>';
+            htmlString += '<td><input class="getGradeList btn btn-default" id="getGradeList'+i+'" type="button" value="Get Grade List"/></td>';
+            htmlString += '<td><input class="deleteExam btn btn-default" id="deleteExam'+i+'" type="button" value="Delete Exam"/></td></tr>';
         }
     }
     htmlString +="</tbody>";
@@ -243,8 +243,8 @@ function createExamTable(data,captionArr){  //This is a table creator function w
             htmlString += "</td>"
 
         }
-        htmlString += '<td><input class="updateGrade" id="updateGrade'+i+'" type="button" value="Update"/></td>';
-        htmlString += '<td><input class="deleteGrade" id="deleteGrade'+i+'" type="button" value="Delete"/></td></tr>';
+        htmlString += '<td><input class="updateGrade btn btn-default" id="updateGrade'+i+'" type="button" value="Update"/></td>';
+        htmlString += '<td><input class="deleteGrade btn btn-default" id="deleteGrade'+i+'" type="button" value="Delete"/></td></tr>';
     }
     htmlString +="</tbody>";
 
