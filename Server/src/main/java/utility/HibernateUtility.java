@@ -906,5 +906,34 @@ public class HibernateUtility {
 		}
 		return null;
 	}
+
+
+	public List<Object[]> getSeatingPercentageForCourse(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select AL.distance \n" +
+                    "from attendancelist as AL, attendance as A\n" +
+                    "where A.id = AL.att_id and A.courseid='" + courseID + "' and A.sectionno='" + sectionID + "';");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
 }
 

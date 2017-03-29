@@ -26,7 +26,6 @@ function getAttendancePercentageForLecturerPerDay(userID) { //This function get 
 
 
 function drawChart() {
-    console.log(graphList);
     var data = google.visualization.arrayToDataTable(graphList);
 
     var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
@@ -244,9 +243,7 @@ $(document).ready(function() {
 
     var dailyAttendanceListObj = getAttendancePercentageForLecturerPerDay(user["id"]);
     var dailyAttendanceList = JSON.parse(dailyAttendanceListObj.responseText);
-    console.log(dailyAttendanceList);
 
-    console.log(coursesList);
 
     graphList.push(coursesList);
 

@@ -177,4 +177,6 @@ public interface Service {
 
 	public String addAttendanceListArr(ArrayList<AttendanceList> arr);
 
+	public List<Object[]> getSeatingPercentageForCourse(String courseID, String sectionID);
+
 }
