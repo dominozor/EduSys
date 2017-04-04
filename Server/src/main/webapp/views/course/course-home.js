@@ -103,7 +103,7 @@ $(document).ready(function() {
 
     $('.firstLesson').click(function(){
         // SHOW overlay
-        $("#img").show();
+        document.getElementById('loading-gif').style.display = 'block';
         // Retrieve data:
         $.ajax({
             url: "http://localhost:8080/rest/section/firstLesson/" + course["id"] + "/"  + course["sectionId"],
@@ -112,7 +112,7 @@ $(document).ready(function() {
                 // onSuccess fill #ajax-box with response data:
                 $('#ajax-box').html(data);
                 // HIDE the overlay:
-                $("#img").hide();
+                document.getElementById('loading-gif').style.display = 'none';
             }
         });
         // Prevent default action of link:
