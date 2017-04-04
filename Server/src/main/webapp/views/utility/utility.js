@@ -149,7 +149,7 @@ function createDateTable(data,captionArr){  //This is a table creator function w
     htmlString += "<tfoot></tfoot>";
 
     htmlString += "<tbody>";
-    var courseCookie = JSON.parse(readCookie('lecturerCourse'));
+    var courseCookie = JSON.parse(readCookie('course'));
     var capac = (getSectionCapacity(courseCookie["sectionId"], courseCookie["id"])).responseText;
 
     for(var i=0;i<data.length;i++){// Rows are added to the table

@@ -105,7 +105,7 @@ $(document).ready(function() {
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
-    $('.courseInfo').click(function () {
+    /*$('.courseInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(6)); //Row ids are course#(number) so first 6 characters("course") is not important.
         var course=courseList[row];// After parsing row, now we have row index for courselist.
         createCookie('course',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
@@ -163,7 +163,7 @@ $(document).ready(function() {
         });
         // Prevent default action of link:
         return false;
-    });
+    });*/
 
     var totalNumStu = getTotalNumOfStudent(user['id']).responseText;
     document.getElementById("stuNum").innerHTML = "<h3>" + totalNumStu + "</h3>";

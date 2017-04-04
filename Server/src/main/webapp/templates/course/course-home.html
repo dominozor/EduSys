@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>EduSys</title>
-
 </head>
 
 <link rel="import" href="/templates/main/main.html" >
 <link rel="stylesheet" href="../css/table.css">
+<link rel="stylesheet" href="../css/loader.css">
 <script src="/views/course/course-home.js"></script>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -79,12 +79,14 @@
 <script src="../../lib/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../lib/dist/js/demo.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 
 
 
 
 <body class="hold-transition skin-blue sidebar-mini">
-
+<div id="loading-gif" class="myModal"></div>
 <div class="wrapper">
 
     <header class="main-header">
@@ -435,8 +437,8 @@
                         <input type="button" class="btn btn-info" id="course-exams-btn" value="Exams">
                     </div>
                     <div class="btn-group">
-                        <input type="button" class="btn btn-warning" value="First Lesson Training">
-                        <input type="button" class="btn btn-success" value="Take Attendance">
+                        <input type="button" class="btn btn-warning firstLesson" value="First Lesson Training">
+                        <input type="button" class="btn btn-success takeAttendance" value="Take Attendance">
                     </div>
                 </div>
             </div>

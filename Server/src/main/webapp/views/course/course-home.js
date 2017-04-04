@@ -36,8 +36,6 @@ $(document).ready(function() {
         });
     }
 
-
-
     function getNumofExamsForSection(courseID,sectionID) {
 
         return $.ajax({
@@ -55,10 +53,6 @@ $(document).ready(function() {
             async: false // This option prevents this function to execute asynchronized
         });
     }
-
-
-
-
 
     var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
@@ -87,6 +81,43 @@ $(document).ready(function() {
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
     $('#stuName').html(user["name"] + " " + user["surname"]);
+
+
+    $('.takeAttendance').click(function(){
+        // SHOW overlay
+        document.getElementById('loading-gif').style.display = 'block';
+        // Retrieve data:
+        $.ajax({
+            url: "http://localhost:8080/rest/section/takeAttendance/" + course["id"] + "/"  + course["sectionId"],
+            type: 'POST',
+            success: function(data){
+                // onSuccess fill #ajax-box with response data:
+                $('#ajax-box').html(data);
+                // HIDE the overlay:
+                document.getElementById('loading-gif').style.display = 'none';
+            }
+        });
+        // Prevent default action of link:
+        return false;
+    });
+
+    $('.firstLesson').click(function(){
+        // SHOW overlay
+        $("#img").show();
+        // Retrieve data:
+        $.ajax({
+            url: "http://localhost:8080/rest/section/firstLesson/" + course["id"] + "/"  + course["sectionId"],
+            type: 'POST',
+            success: function(data){
+                // onSuccess fill #ajax-box with response data:
+                $('#ajax-box').html(data);
+                // HIDE the overlay:
+                $("#img").hide();
+            }
+        });
+        // Prevent default action of link:
+        return false;
+    });
 
     var courseListObj=getAllCourses(user["id"],user["role"]);
     var courseList=JSON.parse(courseListObj.responseText);

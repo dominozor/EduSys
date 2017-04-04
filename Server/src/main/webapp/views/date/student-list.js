@@ -38,7 +38,7 @@ $(document).ready(function(){
     });
 
     date = JSON.parse(readCookie('courseDate'));
-    course = JSON.parse(readCookie('lecturerCourse'));
+    course = JSON.parse(readCookie('course'));
     user = JSON.parse(readCookie('mainuser'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
