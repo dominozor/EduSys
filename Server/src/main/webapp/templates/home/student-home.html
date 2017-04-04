@@ -9,7 +9,7 @@
     </style>
 </head>
 <script src="../../lib/heatmap.js"></script>
-
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <!--script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
@@ -284,75 +284,69 @@
 
         <div class="content-wrapper">
 
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Courses</h3>
-                </div>
-                <div id="Courses" class="box-body"></div>
-            </div>
-
-            <p>
-                <tr id="button_block">
-                    <input id="getAttendance" type="button" value="Get All Attendances"/>
-                </tr>
-                <div id="Attendances"></div>
-            </p>
-
-
-            <p>
-                <tr id="button_block2">
-                    <input id="getGrades" type="button" value="Get All Grades"/>
-                </tr>
-                <div id="Grades"></div>
-            </p>
+            <section class="content-header">
+                <h1>
+                    Student Home
+                </h1>
+            </section>
 
 
             <section class="content">
 
                 <div class="row">
-
-                    <!-- Interest Info Chart -->
-                    <div class="col-md-4">
-                        <div class="box box-solid">
-                            <div class="box-header">
-                                <h3 class="box-title text-danger">Ratio of the interest information of the courses of the student</h3>
-
+                    <div class="col-md-9">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Courses</h3>
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <!-- /.box-header -->
-                            <div class="box-body text-center">
-                                <!--div class="sparkline"-->
+                            <div id="Courses" class="box-body"></div>
+                        </div>
+                    </div>
+                </div>
 
-                                <div id="pieChartInterest"></div>
+                <div class="row">
 
+                    <!-- Interest Info Chart -->
+                    <div class="col-md-6">
+                        <div class="box box-danger">
+                            <div class="box-header with-border">
+                                <a href="javascript:void(0)" class="box-title" id="pieChartInterestCaller">Ratio of the interest information of the courses of the student</a>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div id="pieChartInterest" ></div>
                             </div>
                             <!-- /.box-body -->
                         </div>
                         <!-- /.box -->
                     </div>
-                    <!-- /.Interest Info Chart -->
 
+                    <!-- /.Interest Info Chart -->
+                </div>
+
+                <div class="row">
 
                     <!-- Interest Info Chart -->
-                    <div class="col-md-4">
-                        <div class="box box-solid">
-                            <div class="box-header">
-                                <h3 class="box-title text-danger">Ratio of the interest information of the courses of the student daily, monthly</h3>
+                    <div class="col-md-6">
+                        <div class="box box-danger">
+                            <div class="box-header with-border">
+                                <a href="javascript:void(0)" class="box-title" id="lineChartInterestCaller">Ratio of the interest information of the courses of the student daily, monthly</a>
 
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <!-- /.box-header -->
-                            <div class="box-body text-center">
-                                <!--div class="sparkline"-->
-
-                                <div id="chart_div" style="width: 800px; height: 500px;"></div>
-                                <!--div id="chart-container">FusionCharts XT will load here!</div-->
-                                <!--div id="lineChartInterest"></div-->
-
+                            <div class="box-body">
+                                <div id="lineChartInterest"></div>
                             </div>
                             <!-- /.box-body -->
                         </div>
@@ -365,21 +359,18 @@
                 <div class="row">
 
                     <!-- Attendance Info Chart -->
-                    <div class="col-md-4">
-                        <div class="box box-solid">
-                            <div class="box-header">
-                                <h3 class="box-title text-danger">Ratio of the attendance information of the courses of the student</h3>
+                    <div class="col-md-6">
+                        <div class="box box-danger">
+                            <div class="box-header with-border">
+                                <a href="javascript:void(0)" class="box-title" id="pieChartAttendanceCaller">Ratio of the attendance information of the courses of the student</a>
 
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <!-- /.box-header -->
-                            <div class="box-body text-center">
-                                <!--div class="sparkline"-->
-
-                                <div id="pieChartAttendance"></div>
-
+                            <div class="box-body">
+                                <div id="pieChartAttendance" ></div>
                             </div>
                             <!-- /.box-body -->
                         </div>
@@ -392,31 +383,28 @@
                 <div class="row">
 
                     <!-- Attendance Info Chart -->
-                    <div class="col-md-4">
-                        <div class="box box-solid" id="heatmapContainerWrapper">
-                            <div class="box-header">
-                                <h3 class="box-title text-danger">Heatmeap</h3>
+                    <div class="col-md-6">
+                        <div class="box box-danger" id="heatmapContainerWrapper">
+                            <div class="box-header with-border">
+                                <a href="javascript:void(0)" class="box-title" id="heatMapCaller">Heatmeap</a>
 
                                 <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <!-- /.box-header -->
-                            <div class="box-body text-center">
-
-                                    <div id="heatmapContainer">
-
-                                    </div>
-                                    <div id="heatmapLegend">
+                            <div class="box-body">
+                                <div id="heatmapContainer" ></div>
+                                <!--div id="heatmapLegend">
                                         <h2>Descriptive Legend Title</h2>
                                         <span id="min"></span>
                                         <span id="max"></span>
                                         <img id="gradient" src="" style="width:50%" />
-                                    </div>
-
+                                    </div-->
                             </div>
                             <!-- /.box-body -->
                         </div>
+
                         <!-- /.box -->
                     </div>
                     <!-- /.Attendance Info Chart-->

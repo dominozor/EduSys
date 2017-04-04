@@ -222,7 +222,7 @@ public class CourseRestService {
 		return Response.serverError().build();
 	}
 
-	@RolesAllowed({"ADMIN","LECTURER"})
+	@RolesAllowed({"ADMIN","LECTURER", "STUDENT"})
 	@GET
 	@Path("/getNumofStudentsForSection/{courseID}/{sectionID}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -239,7 +239,7 @@ public class CourseRestService {
 
 
 
-	@RolesAllowed({"ADMIN","LECTURER"})
+	@RolesAllowed({"ADMIN","LECTURER", "STUDENT"})
 	@GET
 	@Path("/getNumofExamsForSection/{courseID}/{sectionID}")
 	@Produces(MediaType.TEXT_PLAIN)

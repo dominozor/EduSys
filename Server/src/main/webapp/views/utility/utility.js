@@ -67,8 +67,8 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
         }
 
         if(id == 2) {
-            htmlString += '<td><input class="courseAttendance" id="courseAtt'+i+'" type="button" value="Get Attendance"/></td>';
-            htmlString += '<td><input class="courseGrades" id="courseGrad'+i+'" type="button" value="Get Grades"/></td></tr>';
+            /*htmlString += '<td><input class="courseAttendance" id="courseAtt'+i+'" type="button" value="Get Attendance"/></td>';
+            htmlString += '<td><input class="courseGrades" id="courseGrad'+i+'" type="button" value="Get Grades"/></td></tr>';*/
         }
         else if(id == 1) {
             /*htmlString += '<td><input class="firstLesson" id="firstLesson'+i+'" type="button" value="First Lesson Training"/></td>';
@@ -101,7 +101,7 @@ function createAttendanceTable(data,captionArr,secondTableData, secondTableCapti
         }
 
         if(document.URL === "http://localhost:8080/templates/attendance/attendance.html") {
-            htmlString += '<td><input class="getInterestInfo" id="getInterestInfo' + i + '" type="button" value="Get Interest Info"/></td></tr>';
+            htmlString += '<td><input class="getAttendanceInfo btn btn-default" id="getAttendanceInfo' + i + '" type="button" value="Get Attendance Info"/></td></tr>';
         }
     }
 
@@ -109,9 +109,9 @@ function createAttendanceTable(data,captionArr,secondTableData, secondTableCapti
         htmlString += "<th>"+secondTableCaptions[i]+"</th>";
     }
 
-    if(document.URL === "http://localhost:8080/templates/attendance/attendance.html") {
-        htmlString += '<td><input class="getAverageInterestInfo" id="getAverageInterestInfo' + '" type="button" value="Get Average Interest Info"/></td></tr>';
-    }
+    /*if(document.URL === "http://localhost:8080/templates/attendance/attendance.html") {
+        htmlString += '<td><input class="getAverageInterestInfo btn btn-default" id="getAverageInterestInfo' + '" type="button" value="Get Average Interest Info"/></td></tr>';
+    }*/
 
     htmlString += "<tr>";
     htmlString += "<td>";

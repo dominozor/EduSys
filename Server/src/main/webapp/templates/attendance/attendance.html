@@ -1,14 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>EduSys</title>
+
+    <style>
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        /* The Close Button */
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <link rel="import" href="/templates/main/main.html" >
-<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
-<script src="/views/attendance/attendance.js"></script>
+<link rel="stylesheet" href="../css/table.css">
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="/views/course/student-course-home.js"></script>
+<!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Bootstrap 3.3.6 -->
 <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -32,6 +78,12 @@
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
 <!-- jQuery 2.2.3 -->
 <script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
@@ -65,9 +117,18 @@
 <script src="../../lib/plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="../../lib/dist/js/app.min.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="../../lib/dist/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../lib/dist/js/demo.js"></script>
+
+
+
 
 <body class="hold-transition skin-blue sidebar-mini">
+
 <div class="wrapper">
+
     <header class="main-header">
         <!-- Logo -->
         <a href="../home/student-home.html" class="logo">
@@ -82,6 +143,7 @@
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
+
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
@@ -287,6 +349,7 @@
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="" class="img-circle" alt="User Image" id="studentImage3">
+
                                 <p id="stuName">
                                 </p>
                             </li>
@@ -327,7 +390,7 @@
 
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
-        <li class="sidebar">
+        <section class="sidebar">
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
@@ -352,6 +415,17 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Courses</span>
+                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu" id="coursesTreeView">
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>User Information Update</span>
@@ -385,59 +459,119 @@
                 </li>
                 </li>
             </ul>
-            </section>
-            <!-- /.sidebar -->
+        </section>
+        <!-- /.sidebar -->
     </aside>
 
+    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Course Attendance</h3>
-            </div>
-            <div id="course-attendance" class="box-body"></div>
-        </div>
 
-        <section class="content-header">
-            <h1>
-                Attendance Percentage
-            </h1>
-        </section>
+        <section class="content-header" id="contentHeader"></section>
 
         <section class="content">
             <div class="row">
-                <div class="col-xs-12">
-                    <div class="box box-solid">
-                        <div class="box-header">
-                            <i class="fa fa-bar-chart-o"></i>
-
-                            <h3 class="box-title">Attendance Percentage</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-default btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-default btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-xs-6 col-md-3 text-center">
-                                    <input type="text" class="knob" id="knob_input" value="0" data-width="90" data-height="90" data-fgColor="#3c8dbc"  data-readonly="true">
-
-                                    <div class="knob-label" id="knob_label">Attendance as Percentage</div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="col-md-12">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-info" id="goToHome">Home</button>
+                        <button type="button" class="btn btn-info" id="goToDates">Dates</button>
+                        <button type="button" class="btn btn-info" id="goToExams">Exams</button>
                     </div>
                 </div>
             </div>
-        </section>
+            <br></br>
+            <!-- Small boxes (Stat box) -->
+            <div class="row">
+                <div class="col-lg-3 col-xs-12">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner" id="numOfStudents">
 
-        <div>
-            <input type="button" id="backStudentPage" value="Back">
-        </div>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-12">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner" id="attendanceRate">
+
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-stats-bars"></i>
+                        </div>
+                    </div>
+                </div>
+                <!-- ./col -->
+                
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Dates</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div id="course-attendance"></div>
+                        </div>
+
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Seating Chart</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                           <div id="heatmapContainer"> </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+        </section>
     </div>
 </div>
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="heatmapContainerPopUp"> </div>
+    </div>
+
+</div>
+<!-- jQuery 2.2.3 -->
+<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="../../lib/plugins/chartjs/Chart.min.js"></script>
+<!-- FastClick -->
+<script src="../../lib/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../lib/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../lib/dist/js/demo.js"></script>
 </body>
 </html>

@@ -83,6 +83,23 @@ $(document).ready(function(){
         $('#studentButtonName').html(user["name"] + " " + user["surname"])
         $('#stuName').html(user["name"] + " " + user["surname"])
 
+        var courseListObj=getAllCourses(user["id"],user["role"]);
+        var courseList=JSON.parse(courseListObj.responseText);
+        var htmlString = "";
+
+        for(var i=0;i<courseList.length;i++){
+            var courseId = courseList[i]["id"];
+            var sectionId = courseList[i]["sectionId"];
+            var courseName = courseList[i]["name"];
+            htmlString += '<li><a href="#" onClick="goToStudentCourseHome('
+            htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+            htmlString += courseId;
+            htmlString += " - ";
+            htmlString += sectionId;
+            htmlString += '</a></li>';
+        }
+        document.getElementById("coursesTreeView").innerHTML = htmlString;
+
         //This gets a course grade data of a specific student and puts the data to the table to course-grade div of the attendance.html
         courGradeListObj=getCourseGradeOfStudent(user["id"], course["id"]);
         courGradeList=JSON.parse(courGradeListObj.responseText);
