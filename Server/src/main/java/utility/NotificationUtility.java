@@ -35,13 +35,22 @@ public class NotificationUtility {
     public String onMessage(String userID){
         String result=null;
         try {
-
+            if(userID.substring(0,2).equals("££")){
+                String notificationString=userID.substring(2);
+                JSONObject notificationJSON=new JSONObject(notificationString);
+                Notification notification=new Notification(notificationJSON.getString("userid"),
+                        notificationJSON.getString("type"),notificationJSON.getString("message"),
+                        notificationJSON.getString("sender"),notificationJSON.getString("date"));
+                notification.setViewed(true);
+                service.updateNotification(notification);
+                return "OK";
+            }
             List<Notification> notifications = service.getAllNotifications(userID);
             JSONArray arr = new JSONArray();
             for (Notification notification: notifications) {
 
                 JSONObject jo = new JSONObject();
-
+                jo.put("userid",notification.getUserId());
                 jo.put("type",notification.getType());
                 jo.put("date",notification.getDate());
                 jo.put("sender",notification.getSender());

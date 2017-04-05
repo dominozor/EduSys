@@ -68,6 +68,33 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.get(Notification.class,valueList,columnNameList);
 	}
 
+	public void updateNotification (Notification notification){
+		hibernateUtility.update(notification);
+	}
+
+	public void sendMultipleNotificationsToSectionOrCourse (Notification notification, String courseId, String sectionId, boolean onlyCourse){
+		List<SectionStudentList> studentList = hibernateUtility.get(SectionStudentList.class);
+
+		ArrayList<Notification> notificationsArr = new ArrayList<>();
+		for(int i=0;i<studentList.size();i++){
+			SectionStudentList student =studentList.get(i);
+			if(onlyCourse){
+				if(student.getCourseID().equals(courseId)){
+					notification.setUserId(student.getUserID());
+					notificationsArr.add(notification);
+				}
+			}
+			else{
+				if(student.getCourseID().equals(courseId) && student.getSectionNo()==Integer.parseInt(sectionId)){
+					notification.setUserId(student.getUserID());
+					notificationsArr.add(notification);
+				}
+			}
+
+		}
+		hibernateUtility.saveArr(notificationsArr);
+	}
+
 	//Course Functions
 
 	public void addCourse(Course course){  //This function is explained in Service.java
