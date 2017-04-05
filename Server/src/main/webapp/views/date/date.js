@@ -15,7 +15,7 @@ function getDatesOfCourse(sectionId, course) {
 
 $(window).on('load', function() {
     // Animate loader off screen
-    $(".se-pre-con").fadeOut("slow");
+    $(".myModal2").fadeOut("slow");
 });
 
 $(document).ready(function(){

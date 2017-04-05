@@ -33,7 +33,7 @@ function deleteExam(exam) { //This function gets all exams of a section from the
 
 $(window).on('load', function() {
     // Animate loader off screen
-    $(".se-pre-con").fadeOut("slow");
+    $(".myModal2").fadeOut("slow");
 });
 
 $(document).ready(function(){
