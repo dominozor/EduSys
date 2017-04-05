@@ -181,6 +181,9 @@ $(document).ready(function() {
     };
     //Create pie or doughnut chart
     // You can switch between pie and douhnut using the method below.
+
+    window.localStorage.setItem("PieData", JSON.stringify(PieData)); // Saving
+
     pieChart.Doughnut(PieData, pieOptions);
 
 
@@ -236,6 +239,39 @@ $(document).ready(function() {
      [new Date(2001,07,01),  30, 0],
      [new Date(2001,08,01),  0, 0]
      ]*/
+
+    var zz=[];
+    var xx=[];
+    var yy=[];
+
+    for(var i =0 ;i< 15; i++)
+    {
+        xx.push(i.toString());
+        yy.push(i.toString());
+    }
+
+    for(var i =0 ;i< 15; i++)
+    {
+        var tempz=[];
+        for(var j =0 ;j< 15; j++)
+        {
+            tempz.push(Math.floor(Math.random() * 101) -10 );
+
+        }
+        zz.push(tempz);
+    }
+    console.log(zz);
+    var data = [
+        {
+            z: zz,
+            x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11','12','13','14','15'],
+            y: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11','12','13','14','15'],
+            type: 'heatmap'
+        }
+    ];
+
+    Plotly.newPlot('myDiv', data);
+
 
 
 

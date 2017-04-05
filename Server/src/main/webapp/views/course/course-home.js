@@ -183,6 +183,37 @@ $(document).ready(function() {
 
 
 
+    var  rankList = JSON.parse(localStorage.getItem('PieData'));
+
+    var ranks=[];
+    for(var i =0;i<rankList.length;i++)
+    {
+        var templist=[];
+        templist.push(rankList[i]["label"]);
+        templist.push(rankList[i]["value"]);
+        ranks.push(templist);
+    }
+
+    ranks.sort(function(a, b) {
+        return parseFloat(a[1]) - parseFloat(b[1]);
+    });
+
+    var coursesectionid = course["id"] + "-" + course["sectionId"];
+
+    var ind=0;
+    for(var i =0 ;i< ranks.length;i++)
+    {
+        if(ranks[i][0]===coursesectionid){
+            ind=i+1;
+            break;
+        }
+    }
+
+
+    var newind=ranks.length-ind+1;
+
+    var courseRank=newind;
+
 
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
@@ -193,6 +224,9 @@ $(document).ready(function() {
     document.getElementById("numOfExamsGraded").innerHTML = "<h3>" + numOfExams + "</h3>" + "<p>Exams and Assignments Graded</p>";
 
     document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + percentageRate + "</h3>" + "<p>Attendance Rate</p>";
+
+    document.getElementById("rankOfCourse").innerHTML = "<h3>" + courseRank + "</h3>" + "<p>Rank Among Your Courses</p>";
+
 
 
     var seatPercentageListObj = getSeatingPercentageForCourse(course["id"],course["sectionId"]);
