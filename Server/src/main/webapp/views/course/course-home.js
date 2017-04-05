@@ -54,6 +54,35 @@ $(document).ready(function() {
         });
     }
 
+    var graphList=[];
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable(newgraphlist);
+
+        var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+        var colorsUsed=[];
+        for(var i=0;i<newgraphlist[0].length-1;i++)
+        {
+            colorsUsed.push(colorlist[i]);
+        }
+
+        var options = {
+            hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+            vAxis: {title: 'Attendance Percentage', minValue: 0},
+            pointSize: 7,
+            explorer: {
+                actions: ['dragToZoom', 'rightClickToReset'],
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomIn: 32.0},
+            colors: colorsUsed,
+        };
+
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+
     var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
 
@@ -219,6 +248,72 @@ $(document).ready(function() {
     //Create pie or doughnut chart
     // You can switch between pie and douhnut using the method below.
     pieChart.Doughnut(PieData, pieOptions);
+
+
+    var newgraphlist=[];
+
+    graphList = JSON.parse(localStorage.getItem('graphList'));
+
+
+    var coursesectionid = course["id"] + "-" + course["sectionId"];
+
+    var index = graphList[0].indexOf(coursesectionid);
+
+    var templist=[];
+
+    templist.push("Year");
+    templist.push(graphList[0][index]);
+
+    newgraphlist.push(templist);
+
+    for(var i=1;i<graphList.length;i++)
+    {
+        if(graphList[i][index]!='0'){
+
+            var tempdate;
+            tempdate=graphList[i][0];
+
+            var year = tempdate.substring(0, 4);
+
+            var month = tempdate.substring(5,7);
+
+            var day = tempdate.substring(8,10);
+
+            if(day<30)
+            {
+                day = parseInt(day)+1;
+            }
+
+            if(day==31)
+            {
+                day = 1;
+                month = parseInt(month)+1;
+                if(month==13)
+                {
+                    month=1;
+                    year=parseInt(year)+1;
+                }
+            }
+            month= parseInt(month)-1;
+
+            var element=[];
+
+            element.push(new Date(year,month,day));
+
+            element.push(graphList[i][index]);
+
+            newgraphlist.push(element);
+
+        }
+
+
+    }
+
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+
 
 
 

@@ -212,6 +212,8 @@ $(document).ready(function() {
 
         graphList.push(element);
 
+        window.localStorage.setItem("graphList", JSON.stringify(graphList)); // Saving
+
 
     }
 
