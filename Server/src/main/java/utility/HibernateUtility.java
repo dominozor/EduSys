@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import main.java.models.Attendance;
+import main.java.models.Notification;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -934,6 +935,7 @@ public class HibernateUtility {
 		}
 		return null;
 	}
+
 
 }
 

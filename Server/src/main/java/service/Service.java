@@ -86,9 +86,11 @@ public interface Service {
 
 	public void saveNotification (Notification notification);
 
+	public void updateNotification (Notification notification);
+
 	public List<Notification> getAllNotifications(String userID);
 
-
+	public void sendMultipleNotificationsToSectionOrCourse (Notification notification, String courseId, String sectionId , boolean onlyCourse);
 
 	//Section Functions
 

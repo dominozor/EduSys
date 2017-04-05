@@ -3,6 +3,7 @@ package main.java.utility;
 import main.java.models.Attendance;
 import main.java.models.AttendanceList;
 import main.java.models.EduUser;
+import main.java.models.Notification;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -68,7 +69,8 @@ public class CameraUtility {
 
         }
         Attendance attendance = new Attendance(attID, sectionNo, courseID, sdt, attArr.size()); // A new attendance has been created
-
+        service.sendMultipleNotificationsToSectionOrCourse(new Notification("","2","New Attendance Taken\nCourse: "+courseID+"\n" +
+                "Section: "+sectionNo+"\nDate: "+sdt,"System",sdt.toString()),courseID,sectionNo+"",false);
 
         service.addAttendanceListArr(attArr); // Stored at database
         service.addAttendance(attendance); // Attendance is stored at database

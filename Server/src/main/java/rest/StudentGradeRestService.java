@@ -10,12 +10,16 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import main.java.models.Exam;
+import main.java.models.Notification;
 import main.java.models.StudentGrade;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -94,7 +98,10 @@ public class StudentGradeRestService {
 		//grade: grade of the student for a specific exam.
 		try{
 			StudentGrade studentGrade=new StudentGrade(userId, examId, grade); //The parameters of the constructor are the same as the parameters of the addStudentGrade function.
-			service.addStudentGrade(studentGrade);								
+			service.addStudentGrade(studentGrade);
+			Exam exam=service.getExam(examId);
+			service.saveNotification(new Notification(userId,"2","Grade Announcement\nCourse: "+exam.getCourseID()+"\n" +
+					"Section: "+exam.getSectionNo()+"\nGrade: "+grade,"System",(new SimpleDateFormat("yyyyMMdd  HH:mm").format(new Date(System.currentTimeMillis()))).toString()));
 			return Response.status(200).entity("success").build();	//It will return a success response if it is not failed.
 		}
 		catch(Exception ex){
