@@ -1,4 +1,3 @@
-
 function deleteAtt(courseid,sectionid,date) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "DELETE",
@@ -14,7 +13,10 @@ function getDatesOfCourse(sectionId, course) {
     });
 }
 
-
+$(window).on('load', function() {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");
+});
 
 $(document).ready(function(){
     var courDateList, courDateListObj;
@@ -34,6 +36,23 @@ $(document).ready(function(){
 
     course = JSON.parse(readCookie('course'));
     user = JSON.parse(readCookie('mainuser'));
+
+    var courseListObj=getAllCourses(user["id"],user["role"]);
+    var courseList=JSON.parse(courseListObj.responseText);
+    var htmlString = "";
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
@@ -93,21 +112,5 @@ $(document).ready(function(){
 
     document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
 
-    var courseListObj=getAllCourses(user["id"],user["role"]);
-    var courseList=JSON.parse(courseListObj.responseText);
-    var htmlString = "";
-
-    for(var i=0;i<courseList.length;i++){
-        var courseId = courseList[i]["id"];
-        var sectionId = courseList[i]["sectionId"];
-        var courseName = courseList[i]["name"];
-        htmlString += '<li><a href="#" onClick="goToCourseHome('
-        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
-        htmlString += courseId;
-        htmlString += " - ";
-        htmlString += sectionId;
-        htmlString += '</a></li>';
-    }
-    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
 });

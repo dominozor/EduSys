@@ -31,6 +31,10 @@ function deleteExam(exam) { //This function gets all exams of a section from the
     });
 }
 
+$(window).on('load', function() {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");
+});
 
 $(document).ready(function(){
     var courGradeList, courGradeListObj;
@@ -113,6 +117,8 @@ $(document).ready(function(){
     }
     else if(user["role"]===1) {
 
+        var htmlString = "";
+
         $('#shortcutToHome').attr('href', "http://localhost:8080/templates/home/lecturer-home.html");
 
         var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -158,9 +164,10 @@ $(document).ready(function(){
             window.location.replace("http://localhost:8080/templates/exam/add-exam.html");
         });
 
-        var courseListObj=getAllCourses(user["id"],user["role"]);
-        var courseList=JSON.parse(courseListObj.responseText);
-        var htmlString = "";
+        courseListObj=getAllCourses(user["id"],user["role"]);
+        courseList=JSON.parse(courseListObj.responseText);
+        var captions=["Course Id", "Name", "Section"];
+        $('#Courses').html(createCourseTable(courseList,captions,1));
 
         for(var i=0;i<courseList.length;i++){
             var courseId = courseList[i]["id"];

@@ -4,6 +4,12 @@ $(document).ready(function(){
     var user;
 
     $.ajax({
+        url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $.ajax({
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
@@ -26,6 +32,24 @@ $(document).ready(function(){
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
     $('#stuName').html(user["name"] + " " + user["surname"])
 
+    var courseListObj=getAllCourses(user["id"],user["role"]);
+    var courseList=JSON.parse(courseListObj.responseText);
+    var captions=["Course Id", "Name", "Section"];
+    var htmlString = "";
+    $('#Courses').html(createCourseTable(courseList,captions,1));
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     $("#add-new-grade-form").submit(function(event) { // All the information about user is got from the fields.
         event.preventDefault();

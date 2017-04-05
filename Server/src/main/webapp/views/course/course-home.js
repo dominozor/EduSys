@@ -6,6 +6,11 @@ function getSeatingPercentageForCourse(courseID, sectionID) { //This function ge
     });
 }
 
+$(window).on('load', function() {
+    // Animate loader off screen
+    $(".se-pre-con").fadeOut("slow");
+});
+
 $(document).ready(function() {
 
     //First and utility.js is imported to course-home.js

@@ -345,7 +345,7 @@
 
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
-        <li class="sidebar">
+        <section class="sidebar">
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
@@ -370,6 +370,17 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">MAIN NAVIGATION</li>
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Courses</span>
+                        <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                    </a>
+                    <ul class="treeview-menu" id="coursesTreeView">
+
+                    </ul>
+                </li>
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-dashboard"></i> <span>User Information Update</span>
@@ -403,8 +414,8 @@
                 </li>
                 </li>
             </ul>
-            </section>
-            <!-- /.sidebar -->
+        </section>
+        <!-- /.sidebar -->
     </aside>
 
     <!-- Content Wrapper. Contains page content -->
@@ -444,8 +455,8 @@
                     </div>
 
                     <div class="box-footer">
-                        <button type="submit" id="button" class="btn btn-info pull-right"> Add Exam</button>
-                        <button type="submit" class="btn btn-default" id="backToLecturerPage">Back</button>
+                        <button type="submit" id="button" class="btn btn-info pull-right">Add Exam</button>
+                        <button type="button" id="backToLecturerPage" class="btn btn-default">Back</button>
                     </div>
 
                 </form>
@@ -455,6 +466,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
     <!-- ./wrapper -->

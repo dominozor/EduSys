@@ -1,16 +1,23 @@
 $(document).ready(function(){
 
     $.ajax({
+        url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $.ajax({
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
 
-    var examCourseCookie=JSON.parse(readCookie("course"));
-    document.getElementById("course-id").value= examCourseCookie["id"];
-    document.getElementById("section-no").value= examCourseCookie["sectionId"];
+    var htmlString = "";
+    var course=JSON.parse(readCookie("course"));
+    document.getElementById("course-id").value= course["id"];
+    document.getElementById("section-no").value= course["sectionId"];
 
-    user = JSON.parse(readCookie('mainuser'));
+    var user = JSON.parse(readCookie('mainuser'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
@@ -21,9 +28,27 @@ $(document).ready(function(){
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
-    $('#studentName').html(user["name"] + " " + user["surname"])
-    $('#studentButtonName').html(user["name"] + " " + user["surname"])
-    $('#stuName').html(user["name"] + " " + user["surname"])
+    $('#studentName').html(user["name"] + " " + user["surname"]);
+    $('#studentButtonName').html(user["name"] + " " + user["surname"]);
+    $('#stuName').html(user["name"] + " " + user["surname"]);
+
+    var courseListObj=getAllCourses(user["id"],user["role"]);
+    var courseList=JSON.parse(courseListObj.responseText);
+    var captions=["Course Id", "Name", "Section"];
+    $('#Courses').html(createCourseTable(courseList,captions,1));
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
 
     $("#add-exam-form").submit(function(event) { // All the information about user is got from the fields.
         event.preventDefault();
