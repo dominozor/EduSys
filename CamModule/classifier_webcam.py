@@ -285,8 +285,8 @@ if __name__ == '__main__':
                         help="Default image dimension.", default=96)
     parser.add_argument(
         '--captureDevice',
-        type=int,
-        default=0,
+        type=str,
+        default="0",
         help='Capture device. 0 for latop webcam and 1 for usb webcam')
     parser.add_argument('--width', type=int, default=320)
     parser.add_argument('--height', type=int, default=240)
@@ -309,7 +309,8 @@ if __name__ == '__main__':
         cuda=args.cuda)
 
     # Capture device. Usually 0 will be webcam and 1 will be usb cam.
-
+    if args.captureDevice=="0":
+		args.captureDevice=0
     video_capture = cv2.VideoCapture(args.captureDevice)
 
     #video_capture=cv2.imread('/home/ata/Downloads/envenon.jpg')
