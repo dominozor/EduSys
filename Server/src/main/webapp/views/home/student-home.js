@@ -4,7 +4,11 @@ $(document).ready(function() {
     var attList, attListObj;
     var gradeList, gradeListObj;
     var user;
-
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     //First attendance.js, eduUser.js, utility.js and exam.js areimported to student-home.js
     $.ajax({
         url: '/views/attendance/attendance.js',
@@ -24,14 +28,15 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
-    $.ajax({
-        url: '/views/exam/exam.js',
-        dataType: 'script',
-        async: false  // This option prevents this function to execute asynchronized
-    });
+
 
     $.ajax({
         url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+    $.ajax({
+        url: '/views/exam/exam.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
@@ -39,6 +44,7 @@ $(document).ready(function() {
     user = JSON.parse(readCookie('mainuser'));
 
     wsSendMessage(user["id"]);
+
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
@@ -47,6 +53,7 @@ $(document).ready(function() {
 
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
+
 
     $('#studentName').html(user["name"] + " " + user["surname"])
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
@@ -94,6 +101,7 @@ $(document).ready(function() {
         createCookie('course',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
         window.location.replace("http://localhost:8080/templates/course/course.html"); //That redirects to course page
     });
+
 
 
     $('.courseAttendance').click(function () {

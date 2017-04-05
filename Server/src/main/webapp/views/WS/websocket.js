@@ -37,31 +37,33 @@ function wsCloseConnection(){
 function wsGetMessage(message){
     var result = JSON.parse(message.data);
     var resSize=result.length;
-    console.log(result);
-    console.log(resSize);
     var warningSize=0;
     var notSize=0;
     var messageSize=0;
-    for(var i=0;i<resSize;i++){
+    for(var i=0;i<resSize && i<5;i++){
+        var newRow="";
+        if(!result[i]["isviewed"]){
+            newRow+='<li role="button" style="background:#b4cde4"><a onclick="notification('+i+')" class="notification" id="notification"+i ><i class="fa fa-users text-aqua" ></i>';
+        }
+        else{
+            newRow+='<li role="button" ><a onclick="notification('+i+')" class="notification" id="notification"+i><i class="fa fa-users text-aqua"></i>';
+        }
+        newRow += result[i]["sender"]+' - '+result[i]["message"].split("\n")[0]+'</a></li>';
+
         if(result[i]["type"]==="1"){
-            messageSize++;
-            $("#messageList").append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+
-                result[i]["sender"]+' - '+result[i]["message"]+'</a></li>');
+            if(!result[i]["isviewed"])
+                messageSize++;
+            $("#messageList").append(newRow);
         }
         else if(result[i]["type"]==="2"){
-            console.log(result[i]);
-            notSize++;
-            var ul = document.getElementById("notificationList");
-            var li = document.createElement("li");
-            li.innerHTML='<a href="#"><i class="fa fa-users text-aqua"></i>'+
-                result[i]["sender"]+' - '+result[i]["message"]+'</a>';
-            ul.appendChild(li);
-
+            if(!result[i]["isviewed"])
+                notSize++;
+            $("#notificationList").append(newRow);
         }
         else if(result[i]["type"]==="3"){
-            warningSize++;
-            $("#warningList").append('<li><a href="#"><i class="fa fa-users text-aqua"></i>'+
-                result[i]["sender"]+' - '+result[i]["message"]+'</a></li>');
+            if(!result[i]["isviewed"])
+                warningSize++;
+            $("#warningList").append(newRow);
         }
 
     }
@@ -72,6 +74,9 @@ function wsGetMessage(message){
     document.getElementById("messageHeader").innerHTML = 'You have '+messageSize.toString()+' new messages';
     document.getElementById("notificationHeader").innerHTML = 'You have '+notSize.toString()+' notifications';
     document.getElementById("warningHeader").innerHTML = 'You have '+warningSize.toString()+' warnings';
+
+    window.localStorage.setItem("notificationList", JSON.stringify(result)); // Saving
+
 
 
 //        echoText.value += "Message received from to the server : " + message.data + "\n";
