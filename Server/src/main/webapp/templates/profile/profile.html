@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>EduSys</title>
 
 </head>
 
+
 <link rel="import" href="/templates/main/main.html" >
-<script src="/views/exam/add-new-grade.js"></script>
+<link rel="stylesheet" href="../css/table.css">
+<link rel="stylesheet" href="../css/loader.css">
+<script src="/views/profile/profile.js"></script>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.6 -->
@@ -49,6 +52,12 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
 <!-- Bootstrap 3.3.6 -->
 <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
@@ -75,14 +84,18 @@
 <!-- AdminLTE App -->
 <script src="../../lib/dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="../../lib/plugins/jQueryUI/jquery-ui.js"></script>
+
 <script src="../../lib/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../lib/dist/js/demo.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 
 
 
 <body class="hold-transition skin-blue sidebar-mini">
-
+<div class="myModal2"></div>
 <div class="wrapper">
 
     <header class="main-header">
@@ -422,45 +435,27 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        <div class="col-md-6">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Add New Grade</h3>
-                </div>
+        <section class="content-header" id="contentHeader"></section>
 
-                <form id="add-new-grade-form" class="form-horizontal">
-                    <div class="box-body">
-
-                        <div class="form-group">
-                            <div class="col-sm-10">
-                                <label>User ID</label>
-                                <input type="input" class="form-control" placeholder="ID" id="user-id">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-sm-10">
-                                <label>Grade</label>
-                                <input type="input" class="form-control" placeholder="Grade" id="grade">
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="box-footer">
-                        <button type="submit" id="button" class="btn btn-info pull-right"> Add New Entry</button>
-                        <button type="button" class="btn btn-default" id="backToExamListPage">Back</button>
-                    </div>
-
-
-                </form>
-
-                <div id="error_rgs_msg"></div>
-
-            </div>
-        </div>
-
+        <section class="content">
+            asdasdsad
+        </section>
     </div>
-
 </div>
+
+<!-- jQuery 2.2.3 -->
+<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="../../lib/plugins/chartjs/Chart.min.js"></script>
+<!-- FastClick -->
+<script src="../../lib/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../lib/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../lib/dist/js/demo.js"></script>
+
+
 </body>
 </html>
