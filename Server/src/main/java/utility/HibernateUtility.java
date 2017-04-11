@@ -35,9 +35,9 @@ public class HibernateUtility {
 	//Since I want this function to be generic, save function takes an Object object as an input.
 	//You can send objects from any class, this funtion is going to use save function of Hibernate Session which finds the right table for the input object.
 	public String save(Object obj){
-		
+
 		Session session=null;
-		
+
 		try{
 
 			session=createSession();
@@ -52,7 +52,7 @@ public class HibernateUtility {
 		finally {
 			if (session!=null && session.isOpen()) {
 			    session.close();
-			    
+
 			}
 		}
 
@@ -88,7 +88,7 @@ public class HibernateUtility {
 	//"valueList" : Values of the filter parameters that are going to be used in queries
 	//"columnNameList" : Names of the parameters
 	public <T> List<T> get(Class<?> type, List<Serializable> valueList,List<String> columnNameList) {
-		
+
 		Session session=null;
 
 		try{
@@ -115,19 +115,19 @@ public class HibernateUtility {
 		}
 		finally {
 	        if (session!=null && session.isOpen()) {
-	        	
-	            session.close();	            
+
+	            session.close();
 	        }
 		}
 		return null;
-		
+
 	}
 	//Gets all of the entities of a specific table
 	//"clazz": Class of any type
 	public <T> List<T> get(Class<?> clazz) {
-		
+
 		Session session=null;
-		
+
 		try{
 
 			session=createSession();
@@ -145,21 +145,21 @@ public class HibernateUtility {
 		}
 		finally {
 	        if (session!=null && session.isOpen()) {
-	        	
-	            session.close();   
+
+	            session.close();
 	        }
 		}
 		return null;
-		
+
 	}
 	//Deletes from a specific table which is determined by the class
 	//"type" : Class of any type
 	//"valueList" : Values of the filter parameters that are going to be used in queries
 	//"columnNameList" : Names of the parameters
 	public void delete(Class<?> type, List<String> valueList,List<String> columnNameList) {
-		
+
 		Session session=null;
-		
+
 		try{
 			session=createSession();
 
@@ -192,24 +192,24 @@ public class HibernateUtility {
 		}
 		finally {
 	        if (session!=null && session.isOpen()) {
-	        	
+
 	            session.close();
-	           
+
 	        }
 		}
-		
+
 	}
-	
+
 	//"obj" : Object of any class which is going to be updated
 	public void update(Object obj){
 		Session session=null;
-		
+
 		try{
 			session=createSession();
 			session.beginTransaction();
 			session.update(obj);// Saves the object for transaction
 			session.getTransaction().commit();//Commits and update entity for the table of that specific class
-			
+
 			}
 		catch(Exception e){
 			System.err.print(e);
@@ -800,11 +800,11 @@ public class HibernateUtility {
             session = createSession(); //Create session
 
             //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select att.courseid, att.date, attList.distance, " +
+            Query query = session.createNativeQuery("select att.courseid, att.sectionno, att.date, attList.distance, " +
                     "attList.bottomcoor, attList.topcoor, attList.leftcoor, attList.rightcoor " +
                     "from attendancelist as attList, attendance as att\n" +
                     "where attList.userid = '"+userID+"' and att.id = attList.att_id\n" +
-                    "order by att.courseid");
+                    "order by att.date");
 
             //in query.list() function query is executed and result set is returned
             List<Object[]> row = query.list();
@@ -936,6 +936,64 @@ public class HibernateUtility {
 		return null;
 	}
 
+
+	public List<Object[]> getAllAttendanceCountsOfStudent(String userID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select att.courseid, count(att.courseid)\n" +
+					" from attendancelist attList, attendance att\n" +
+					" where att.id = attList.att_id and attList.userid='"+userID+"'\n" +
+					" group by att.courseid");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+
+	public List<Object[]> getAllAttendanceCountsOfCourse(String userID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select DISTINCT attendance.courseid, attendance.sectionno, count(*) as totalstu\n" +
+					" from section, attendance, attendancelist, sectionstudentlist secStuList\n" +
+					" where secStuList.userid= '"+userID+"' and attendance.courseid=secStuList.courseid and secStuList.sectionno=attendance.sectionno\n" +
+					" and attendance.id=attendancelist.att_id \n" +
+					" group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 
 }
 

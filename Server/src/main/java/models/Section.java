@@ -36,13 +36,23 @@ public class Section {
 
     private int number_of_lectures;
 
+    private int exam_percentage;
+
+    private int seating_place_percentage;
+
+    private int attendance_percentage;
+
     public Section(){}
-    public Section(String courseID, int sectionNo, String userID, int number_of_students, int number_of_lectures){
+    public Section(String courseID, int sectionNo, String userID, int number_of_students, int number_of_lectures,
+                        int exam_percentage, int seating_place_percentage, int attendance_percentage){
         this.courseID=courseID;
         this.sectionNo=sectionNo;
         this.userID=userID;
         this.number_of_lectures=number_of_lectures;
         this.number_of_students=number_of_students;
+        this.exam_percentage=exam_percentage;
+        this.seating_place_percentage=seating_place_percentage;
+        this.attendance_percentage=attendance_percentage;
     }
 
 
@@ -85,4 +95,16 @@ public class Section {
     public int getNumber_of_lectures() {
         return number_of_lectures;
     }
+
+    public void setExam_percentage(int exam_percentage) { this.exam_percentage = exam_percentage; }
+
+    public void setSeating_place_percentage(int seating_place_percentage) { this.seating_place_percentage = seating_place_percentage; }
+
+    public void setAttendance_percentage(int attendance_percentage) { this.attendance_percentage = attendance_percentage; }
+
+    public int getExam_percentage() { return exam_percentage; }
+
+    public int getSeating_place_percentage() { return seating_place_percentage; }
+
+    public int getAttendance_percentage() { return attendance_percentage; }
 }

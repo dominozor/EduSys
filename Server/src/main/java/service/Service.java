@@ -181,4 +181,8 @@ public interface Service {
 
 	public List<Object[]> getSeatingPercentageForCourse(String courseID, String sectionID);
 
+	public List<Object[]> getAllAttendanceCountsOfStudents(String userID);
+
+	public List<Object[]> getAllAttendanceCountsOfCourses(String userID);
+
 }

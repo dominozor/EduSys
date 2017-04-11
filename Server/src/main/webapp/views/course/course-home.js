@@ -59,6 +59,8 @@ $(document).ready(function() {
         });
     }
 
+
+
     var graphList=[];
 
     function drawChart() {

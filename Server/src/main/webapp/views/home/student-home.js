@@ -1,3 +1,38 @@
+function getAllSectionInfo() {
+
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/section/get/",
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+
+function getAllCourseGradesOfStudent(userid) { //This function gets course grade data of a student from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/user/getExamGrades/"+userid,
+        async: false  // This option prevents this function to execute asynchronized
+    });
+}
+
+function getAttendanceCountsOfStudents(userid) {
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAllAttendanceNumbers/"+userid,
+        async: false  // This option prevents this function to execute asynchronized
+    });
+}
+
+function getAttendanceCountsOfSection(userid) {
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAllAttendanceNumbersForCourse/"+userid,
+        async: false  // This option prevents this function to execute asynchronized
+    });
+}
+
+
 $(document).ready(function() {
 
     var courseList, courseListObj;
@@ -59,21 +94,20 @@ $(document).ready(function() {
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
     $('#stuName').html(user["name"] + " " + user["surname"])
 
-    //When get attendance button is clicked, this function is called and gets data and create the table for attendance.
-    $('#getAttendance').click(function () {
-        attListObj=getAllAttForStudent(user["id"]);
-        attList=JSON.parse(attListObj.responseText);
-        var captions=["Course Id", "Date"];
-        $('#Attendances').html(createAttendanceTable(attList,captions));
-    });
+    var gradeInfoObj = getAllCourseGradesOfStudent(user["id"]);
+    var gradeInfo = JSON.parse(gradeInfoObj.responseText);
 
-    //This gets the grades of a student and puts the data after creating table of it.
-    $('#getGrades').click(function () {
-        gradeListObj=getAllGradesOfStudent(user["id"]);
-        gradeList=JSON.parse(gradeListObj.responseText);
-        var captions=["Course Id", "Course Name", "Grade", "Type"];
-        $('#Grades').html(createGradeTable(gradeList,captions))
-    });
+    var sectionInfoObj = getAllSectionInfo();
+    var sectionInfo = JSON.parse(sectionInfoObj.responseText);
+
+    var coursesObj = listCoursesOfStudent(user["id"]);
+    var courses = JSON.parse(coursesObj.responseText);
+
+    var attendanceCountsForStudentsObj = getAttendanceCountsOfStudents(user["id"]);
+    var attendanceCountsForStudents = JSON.parse(attendanceCountsForStudentsObj.responseText);
+
+    var attendanceCountsOfCoursesObj = getAttendanceCountsOfSection(user["id"]);
+    var attendanceCountsOfCourses = JSON.parse(attendanceCountsOfCoursesObj.responseText);
 
     //This gets the courses of a student and puts the data after creating table of it.
     courseListObj=getAllCourses(user["id"], user["role"]);
@@ -117,7 +151,6 @@ $(document).ready(function() {
         createCookie('courseGrad',JSON.stringify(course),1); // A cookie is created for the course page.Cookie has the information about course and keeps it as a JSON.
         window.location.replace("http://localhost:8080/templates/exam/exam.html"); //That redirects to course page
     });
-
 
 
     //CHARTS!!!!!!!!!
@@ -219,8 +252,6 @@ $(document).ready(function() {
         var courseIndices = {};
         graphLegends.push('Data');
 
-        var coursesObj = listCoursesOfStudent(user["id"]);
-        var courses = JSON.parse(coursesObj.responseText);
         for(var i=0; i<courses.length; i++) {
             graphLegends.push(courses[i]["id"]);
             courseIndices[courses[i]["id"]] = i+1;
@@ -230,8 +261,8 @@ $(document).ready(function() {
         var courseInterestObj = getInterestsOfCourses(user["id"]);
         var courseInterest = JSON.parse(courseInterestObj.responseText);
 
-
         for(var i=0; i<courseInterest.length; i++) {
+
             var year = courseInterest[i]["date"].substring(0,4);
             var month = Number(courseInterest[i]["date"].substring(4,6))-1;
             var day = courseInterest[i]["date"].substring(6,8);
@@ -246,8 +277,50 @@ $(document).ready(function() {
         }
 
         for(var i=0; i<courseInterest.length; i++) {
-            graphInfo[i+1][courseIndices[courseInterest[i]["courseId"]]] = (courseInterest[i]["distance"] + (courseInterest[i]["bottomcoor"] - courseInterest[i]["topcoor"]) +
-            (courseInterest[i]["rightcoor"] - courseInterest[i]["leftcoor"]));
+
+            var numberOfAttendanceOfStudent=0;
+            for(var j=0; j<attendanceCountsForStudents.length; j++) {
+                if(attendanceCountsForStudents[j]["courseID"] == courseInterest[i]["courseId"])
+                numberOfAttendanceOfStudent = attendanceCountsForStudents[j]["attendanceCount"];
+            }
+
+            var numberOfAttendanceOfCourse=0;
+            for(var j=0; j<attendanceCountsOfCourses.length; j++) {
+                if(attendanceCountsOfCourses[j]["courseID"] == courseInterest[i]["courseId"])
+                    numberOfAttendanceOfCourse = attendanceCountsOfCourses[j]["attendanceCount"];
+            }
+
+            var attendancePerc = parseInt((numberOfAttendanceOfStudent/numberOfAttendanceOfCourse), 10);
+
+
+            var averageGrade=0;
+            var gradeCounter=0;
+            for(var j=0; j<gradeInfo.length; j++) {
+                if(gradeInfo[j]["id"] == courseInterest[i]["courseId"]) {
+                    averageGrade += gradeInfo[j]["grade"];
+                    gradeCounter++;
+                }
+            }
+
+            if(gradeCounter != 0)
+                averageGrade /= gradeCounter;
+
+
+            var seating_place_percentage, exam_percentage, attendance_percentage;
+
+            for(var j=0; j<sectionInfo.length; j++) {
+                if (sectionInfo[j]["course_id"] == courseInterest[i]["courseId"] && sectionInfo[j]["section_no"] == courseInterest[i]["sectionId"]) {
+                    seating_place_percentage = sectionInfo[j]["seating_place_percentage"];
+                    exam_percentage = sectionInfo[j]["exam_percentage"];
+                    attendance_percentage = sectionInfo[j]["attendance_percentage"];
+                }
+            }
+
+            var seatingInfo = (courseInterest[i]["bottomcoor"] - courseInterest[i]["topcoor"]) * (courseInterest[i]["rightcoor"] - courseInterest[i]["leftcoor"]);
+
+            var interestPoint = seatingInfo * seating_place_percentage + averageGrade * exam_percentage + attendancePerc * attendance_percentage;
+
+            graphInfo[i+1][courseIndices[courseInterest[i]["courseId"]]] = interestPoint;
 
         }
 

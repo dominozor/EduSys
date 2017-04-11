@@ -522,12 +522,13 @@ public class AttendanceRestService {
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
 				jo.accumulate("courseId", interest[0]);
-				jo.accumulate("date", interest[1]);
-				jo.accumulate("distance", interest[2]); //Putting all information from service object to JSON object.
-				jo.accumulate("bottomcoor", interest[3]);
-				jo.accumulate("topcoor", interest[4]);
-				jo.accumulate("leftcoor", interest[5]);
-				jo.accumulate("rightcoor", interest[6]);
+				jo.accumulate("sectionId", interest[1]);
+				jo.accumulate("date", interest[2]);
+				jo.accumulate("distance", interest[3]); //Putting all information from service object to JSON object.
+				jo.accumulate("bottomcoor", interest[4]);
+				jo.accumulate("topcoor", interest[5]);
+				jo.accumulate("leftcoor", interest[6]);
+				jo.accumulate("rightcoor", interest[7]);
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
@@ -554,6 +555,63 @@ public class AttendanceRestService {
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
 				jo.accumulate("distance", seat.toString());
 				main.put(jo);   //Put each JSON object to the JSON array object.
+			}
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
+
+	@RolesAllowed({"ADMIN","LECTURER", "STUDENT"})
+	@GET
+	@Path("/getAllAttendanceNumbers/{userID}")		/*This is the url of getting an exam grade and type of a student for a specific course.
+									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed
+									for the courses of the student with given id. Then the object is returned.*/
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllAttendanceNumbersForStudent( @PathParam("userID") String userID){
+		try {
+			List <Object[]> attendanceCounts = service.getAllAttendanceCountsOfStudents(userID); //Getting an exam grade and type of student with given id.
+
+			JSONArray main = new JSONArray();
+			for(Object[] attCount : attendanceCounts){
+
+				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+				jo.accumulate("courseID", attCount[0]);
+				jo.accumulate("attendanceCount", attCount[1]);
+
+				main.put(jo);
+			}
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
+
+	@RolesAllowed({"ADMIN","LECTURER", "STUDENT"})
+	@GET
+	@Path("/getAllAttendanceNumbersForCourse/{userID}")		/*This is the url of getting an exam grade and type of a student for a specific course.
+									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed
+									for the courses of the student with given id. Then the object is returned.*/
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAllAttendanceNumbersForCourse( @PathParam("userID") String userID){
+		try {
+			List <Object[]> attendanceCounts = service.getAllAttendanceCountsOfCourses(userID); //Getting an exam grade and type of student with given id.
+
+			JSONArray main = new JSONArray();
+			for(Object[] attCount : attendanceCounts){
+
+				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+				jo.accumulate("courseID", attCount[0]);
+				jo.accumulate("sectionID", attCount[1]);
+				jo.accumulate("attendanceCount", attCount[2]);
+
+				main.put(jo);
 			}
 			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 					.build();
