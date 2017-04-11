@@ -1,5 +1,5 @@
 /**
- * Created by Onat1 on 10/04/2017.
+ * Created by Onat1 on 11/04/2017.
  */
 $(window).on('load', function() {
     // Animate loader off screen
@@ -36,13 +36,13 @@ $(document).ready(function() {
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
-    var img = document.getElementById("studentImage4"); //This puts the profile picture of the student to the home page.
-    img.src = String(user["ppic"]);
+    /*var img = document.getElementById("studentImage4"); //This puts the profile picture of the student to the home page.
+    img.src = String(user["ppic"]);*/
 
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
     $('#stuName').html(user["name"] + " " + user["surname"]);
-    $('.profile-username').html(user["name"] + " " + user["surname"]);
+    /*$('.profile-username').html(user["name"] + " " + user["surname"]);
 
     if(user["role"]===0) {
         $('#userRole').html("Admin");
@@ -56,7 +56,7 @@ $(document).ready(function() {
 
     $('#userID').html(user["id"]);
     $('#userEmail').html(user["email"]);
-    $('#userProPic').html(user["ppic"]);
+    $('#userProPic').html(user["ppic"]);*/
 
     document.getElementById("contentHeader").innerHTML = '<h1>' + user["name"] + " " + user["surname"] + " Profile" + '</h1>';
 
@@ -78,4 +78,34 @@ $(document).ready(function() {
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
+    $("#e-mail").val(user["email"]);
+    $("#propic").val(user["ppic"]);
+
+    $("#update-profile-form").submit(function(event) {
+        event.preventDefault();
+        var email = $("#e-mail").val(); //new grade
+        var propic = $("#propic").val(); //new profile picture link
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/rest/user/update?ID="+user['id']+"&name="+user['name']+"&surname="+user['surname']+"&email="+email+"&ppicLink="+propic+"&role="+user['role'],
+            success: function(response){
+
+                $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
+            },
+            error: function(xhr) {
+
+                $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+            }
+        });
+        eraseCookie("mainuser");
+
+        window.location.replace("http://localhost:8080/templates/profile/profile.html");
+    });
+
+    $("#backToProfilePage").click(function(){
+        window.location.replace("http://localhost:8080/templates/profile/profile.html");
+    });
+
 });
+

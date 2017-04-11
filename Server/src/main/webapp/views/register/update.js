@@ -51,6 +51,7 @@ $(document).ready(function(){
         var email = $("#update-email").val();
         var id = $("#update-id").val();
         var role = 0; //Default user : admin
+        var ppic = user["ppic"];
 
         if(document.getElementById("u-lecturer").checked==true){
             role=1;
@@ -60,9 +61,9 @@ $(document).ready(function(){
         }
 
         $.ajax({
-                type: "PUT", //We use PUT for update
-                url: "http://localhost:8080/rest/user/update?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&role="+role,
-                success: function(response){
+            type: "PUT", //We use PUT for update
+            url: "http://localhost:8080/rest/user/update?ID="+id+"&name="+name+"&surname="+surname+"&email="+email+"&ppicLink="+ppic+"&role="+role,
+            success: function(response){
 
                     $("#error_upt_msg").html("</br><b style='color:green'>Success!</b>");
                     eraseCookie("user"); // If success, we don't need this cookie.

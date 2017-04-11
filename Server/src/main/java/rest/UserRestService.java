@@ -152,9 +152,9 @@ public class UserRestService {
 	public Response updatePerson(@QueryParam("ID") String id,@QueryParam("name")String name, @QueryParam("surname") String surname,@QueryParam("email") String email,@QueryParam("ppicLink") String ppicLink,@QueryParam("role") int role) {
 		//These parameters are the same as the addPerson.
 		EduUser user = service.getPerson(id); //This gets the person who has the id in the parameter.
-		EduUser person=new EduUser(id, name, surname, email, user.getPassword(), user.getTrainLink(), user.getProfilePic(), role);  //This is the same arguments as the addPerson function. Only difference
-																												  //is this has the real link of the trained photo.
-		try{
+		EduUser person=new EduUser(id, name, surname, email, user.getPassword(), user.getTrainLink(), ppicLink, role);  //This is the same arguments as the addPerson function. Only difference
+        person.setActive(true);																										  //is this has the real link of the trained photo.
+        try{
 			service.updatePerson(person);  //This updates the person's information.
 			return Response.status(200).entity("success").build();   
 		}
