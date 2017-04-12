@@ -5,7 +5,15 @@ function getSeatingPercentageForCourse(courseID, sectionID) { //This function ge
         async: false // This option prevents this function to execute asynchronized
     });
 }
-
+//degisiklik
+function getAllSeatingsForLecturerCourse(userID, sectionID, courseID) { //This function get all prev lectures of a course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAllSeatingsForLecturerCourse/" + userID + "/" + sectionID + "/" + courseID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+//degisiklik
 $(window).on('load', function() {
     // Animate loader off screen
     $(".myModal2").fadeOut("slow");
@@ -349,14 +357,36 @@ $(document).ready(function() {
 
 
     }
-
+/// degisiklik
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
 
+    var lecturerSeatingObj=getAllSeatingsForLecturerCourse(user["id"],course["sectionId"], course["id"]);
+    var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
+    console.log(lecturerSeatingList);
 
+    var zz=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
 
+    var data = [
+        {
+            z: zz,
+            x: ['x1', 'x2', 'x3', 'x4', 'x5','x6', 'x7', 'x8', 'x9', 'x10','x11', 'x12', 'x13', 'x14', 'x15'],
+            y: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6','y7', 'y8', 'y9'],
+            type: 'heatmap'
+        }
+    ];
 
+    Plotly.newPlot('myDiv', data);
 
+/// degisiklik
 
 });

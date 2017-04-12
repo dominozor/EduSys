@@ -192,4 +192,9 @@ public interface Service {
 
 	public List<Object[]> getAllSeatingsForLecturer(String userID);
 
+	public List<Object[]> getAllSeatingsForLecturerCourse(String userID, String sectionID, String courseID);
+
+
+
+
 }

@@ -547,4 +547,10 @@ public class ServiceImpl implements Service{
 	public List<Object[]> getAllSeatingsForLecturer(String userID) {
 		return hibernateUtility.getAllSeatingsForLecturer(userID);
 	}
+
+	public List<Object[]> getAllSeatingsForLecturerCourse(String userID, String sectionID, String courseID) {
+		return hibernateUtility.getAllSeatingsForLecturerCourse(userID, sectionID, courseID);
+	}
+
+
 }

@@ -1024,5 +1024,33 @@ public class HibernateUtility {
 		return null;
 	}
 
+
+	public List<Object[]> getAllSeatingsForLecturerCourse(String userID, String sectionID, String courseID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select attendancelist.distance, attendancelist.topcoor, attendancelist.bottomcoor, attendancelist.leftcoor, attendancelist.rightcoor\n" +
+					"from attendancelist, section, attendance\n" +
+					"where section.userid='" + userID +"' and section.sectionno='" + sectionID + "' and section.courseid='" + courseID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id = attendancelist.att_id\n");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
 }
 
