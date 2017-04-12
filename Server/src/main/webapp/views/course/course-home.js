@@ -127,6 +127,14 @@ $(document).ready(function() {
     $('#stuName').html(user["name"] + " " + user["surname"]);
 
 
+    $('.takeAttImg').click(function(){
+
+        window.localStorage.setItem("course",course["id"]);
+        window.localStorage.setItem("section",course["sectionId"]);
+        window.location.replace("http://localhost:8080/templates/attendance/imgAttendance.html"); //redirects back to lecturer page
+
+    });
+
     $('.takeAttendance').click(function(){
         // SHOW overlay
         document.getElementById('loading-gif').style.display = 'block';
