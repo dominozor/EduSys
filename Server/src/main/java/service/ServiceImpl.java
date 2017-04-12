@@ -500,4 +500,7 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.getAllAttendanceCountsOfCourse(userID);
 	}
 
+	public List<Object[]> getAllSeatingsForLecturer(String userID) {
+		return hibernateUtility.getAllSeatingsForLecturer(userID);
+	}
 }

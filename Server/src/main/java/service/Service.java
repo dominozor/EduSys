@@ -185,4 +185,6 @@ public interface Service {
 
 	public List<Object[]> getAllAttendanceCountsOfCourses(String userID);
 
+	public List<Object[]> getAllSeatingsForLecturer(String userID);
+
 }
