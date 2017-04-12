@@ -13,6 +13,9 @@ function getSectionInfo(courseID,sectionID) {
 
 $(document).ready(function(){
 
+    var courseList, courseListObj;
+    var htmlString = "";
+
     $.ajax({
         url: '/views/eduUser/eduUser.js',
         dataType: 'script',
@@ -38,12 +41,34 @@ $(document).ready(function(){
     var img = document.getElementById("studentImage3"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
-    $('#studentName').html(user["name"] + " " + user["surname"])
-    $('#studentButtonName').html(user["name"] + " " + user["surname"])
-    $('#stuName').html(user["name"] + " " + user["surname"])
+    $('#studentName').html(user["name"] + " " + user["surname"]);
+    $('#studentButtonName').html(user["name"] + " " + user["surname"]);
+    $('#stuName').html(user["name"] + " " + user["surname"]);
 
     var sectionInfoObj = getSectionInfo(course["id"], course["sectionId"]);
     var sectionInfo=JSON.parse(sectionInfoObj.responseText);
+
+    courseListObj=getAllCourses(user["id"],user["role"]);
+    courseList=JSON.parse(courseListObj.responseText);
+    var captions=["Course Id", "Name", "Section"];
+    $('#Courses').html(createCourseTable(courseList,captions,1));
+
+    for(var i=0;i<courseList.length;i++){
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
+    }
+    document.getElementById("coursesTreeView").innerHTML = htmlString;
+
+    $("#update-exam-perc").val(sectionInfo["exam_percentage"]);
+    $("#update-seating-perc").val(sectionInfo["seating_place_percentage"]);
+    $("#update-attendance-perc").val(sectionInfo["attendance_percentage"]);
 
     $("#update-form").submit(function(event) { // After clicking on "Update" button, all the information again is got from the fields to send request.
         event.preventDefault();
@@ -66,11 +91,11 @@ $(document).ready(function(){
                 $("#error_upt_msg").html("</br><b style='color:red'>Fail!</b>");
             }
         });
-
+        window.location.replace("http://localhost:8080/templates/course/course-home.html");
     });
 
-    $("#backToAdminPage").click(function(){
-        window.location.replace("http://localhost:8080/templates/home/admin-home.html");
+    $("#backToCourseHomePage").click(function(){
+        window.location.replace("http://localhost:8080/templates/course/course-home.html");
     });
 });
 
