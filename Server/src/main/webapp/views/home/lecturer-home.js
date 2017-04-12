@@ -22,6 +22,15 @@ function getAttendancePercentageForLecturerPerDay(userID) { //This function get 
         async: false // This option prevents this function to execute asynchronized
     });
 }
+///degisiklik
+function getAllSeatingsForLecturer(userID) { //This function get all prev lectures of a course from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAllSeatingsForLecturer/" + userID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+///degisiklik
 
 
 
@@ -224,23 +233,122 @@ $(document).ready(function() {
 
     }
 
+////degisiklik
 
-    /*['Year', 'Sales', 'Expenses'],
-     [new Date(2001,00,01),  30, 50],
-     [new Date(2001,01,02),  40, 60],
-     [new Date(2001,01,03),  50, 70],
-     [new Date(2001,01,04),  60, 50],
-     [new Date(2001,01,05),  70, 80],
-     [new Date(2001,02,01),  30, 0],
-     [new Date(2001,03,01),  30, 0],
-     [new Date(2001,04,01),  30, 0],
-     [new Date(2001,05,01),  30, 0],
-     [new Date(2001,06,01),  30, 0],
-     [new Date(2001,07,01),  30, 0],
-     [new Date(2001,08,01),  0, 0]
-     ]*/
 
-    var zz=[];
+    var lecturerSeatingObj=getAllSeatingsForLecturer(user["id"]);
+    var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
+
+
+    var zz=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+
+
+    console.log(lecturerSeatingList);
+    var seatCounter=0;
+
+    for(var i = 0; i<lecturerSeatingList.length;i++)
+    {
+        if(lecturerSeatingList[i]["distance"]>0 && lecturerSeatingList[i]["distance"]<100)
+        {
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[0][seat] += 1;
+            seatCounter++;
+        }
+
+        if(lecturerSeatingList[i]["distance"]>=100 && lecturerSeatingList[i]["distance"]<200)
+        {
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[1][seat] += 1;
+            seatCounter++;
+        }
+
+        if(lecturerSeatingList[i]["distance"]>=200 && lecturerSeatingList[i]["distance"]<300)
+        {
+
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[2][seat] += 1;
+            seatCounter++;
+        }
+
+        if(lecturerSeatingList[i]["distance"]>=300 && lecturerSeatingList[i]["distance"]<400)
+        {
+
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[3][seat] += 1;
+            seatCounter++;
+        }
+
+        if(lecturerSeatingList[i]["distance"]>=400 && lecturerSeatingList[i]["distance"]<500)
+        {
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[4][seat] += 1;
+            seatCounter++;
+        }
+
+
+        if(lecturerSeatingList[i]["distance"]>=500 && lecturerSeatingList[i]["distance"]<600)
+        {
+
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[5][seat] += 1;
+            seatCounter++;
+        }
+
+        if(lecturerSeatingList[i]["distance"]>=600 && lecturerSeatingList[i]["distance"]<700)
+        {
+
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[6][seat] += 1;
+            seatCounter++;
+        }
+
+
+        if(lecturerSeatingList[i]["distance"]>=700 && lecturerSeatingList[i]["distance"]<800)
+        {
+
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[7][seat] += 1;
+            seatCounter++;
+        }
+
+        if(lecturerSeatingList[i]["distance"]>=800 && lecturerSeatingList[i]["distance"]<900)
+        {
+            var seat;
+            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+            zz[8][seat]++;
+            seatCounter++;
+        }
+
+
+    }
+
+
+
+    for(var i=0;i<zz.length;i++)
+    {
+        for(var j=0 ; j<zz[i].length;j++)
+        {
+            zz[i][j]=(zz[i][j]/seatCounter)*100;
+        }
+    }
+
+
     var xx=[];
     var yy=[];
 
@@ -250,25 +358,27 @@ $(document).ready(function() {
         yy.push(i.toString());
     }
 
-    for(var i =0 ;i< 15; i++)
+    /*for(var i =0 ;i< 15; i++)
     {
         var tempz=[];
-        for(var j =0 ;j< 15; j++)
+        for(var j =0 ;j< 9; j++)
         {
             tempz.push(Math.floor(Math.random() * 101) -10 );
 
         }
         zz.push(tempz);
-    }
-    console.log(zz);
+    }*/
     var data = [
         {
-            z: zz,
-            x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11','12','13','14','15'],
-            y: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10','11','12','13','14','15'],
+            z : zz,
+            x: ['x1', 'x2', 'x3', 'x4', 'x5','x6', 'x7', 'x8', 'x9', 'x10','x11', 'x12', 'x13', 'x14', 'x15'],
+            y: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6','y7', 'y8', 'y9'],
             type: 'heatmap'
         }
     ];
+
+    ///degisiklik
+
 
     Plotly.newPlot('myDiv', data);
 
