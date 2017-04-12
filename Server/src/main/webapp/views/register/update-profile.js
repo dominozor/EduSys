@@ -99,7 +99,8 @@ $(document).ready(function() {
             }
         });
         eraseCookie("mainuser");
-
+        var mainUserObj = {"id":user["id"], "name":user["name"], "surname":user["surname"], "email":email, "ppic":propic, "role":user['role']};
+        createCookie("mainuser", JSON.stringify(mainUserObj), 1);
         window.location.replace("http://localhost:8080/templates/profile/profile.html");
     });
 
