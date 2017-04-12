@@ -21,7 +21,8 @@ modelDir = os.path.join(fileDir, 'models')
 dlibModelDir = os.path.join(modelDir, 'dlib')
 openfaceModelDir = os.path.join(modelDir, 'openface')
 unknownCounter=[0]
-globalPersons = [] #the list that keeps the information about who appeared on the frame
+globalPersons = [] #the list that keeps the information about who appeared on the 
+
 
 
 def wrongPersonDelete(): #checks if a person is tagged wrongly a few times instead of a person
@@ -36,19 +37,11 @@ def wrongPersonDelete(): #checks if a person is tagged wrongly a few times inste
                                 if(globalPersons[j].avBottom-globalPersons[i].avBottom<20 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
                                     
                                     if(10*(globalPersons[i].numberOfDistances)<globalPersons[j].numberOfDistances):
-                                        #print globalPersons[j].name +" bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " dogru " + globalPersons[i].name + " bulunma sayisi "+ str(globalPersons[i].numberOfDistances)  + " yanlis "
-                                        '''globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
-                                        globalPersons[j].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
-                                        globalPersons[j].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
-                                        globalPersons[j].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0'''
+                                       
                                         deleteunk=i
 
                                     if(10*(globalPersons[j].numberOfDistances)<globalPersons[i].numberOfDistances):
-                                        #print globalPersons[i].name  +" bulunma sayisi "+ str(globalPersons[i].numberOfDistances) + " dogru " + globalPersons[j].name + " bulunma sayisi "+ str(globalPersons[j].numberOfDistances) + " yanlis "
-                                        '''globalPersons[i].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
-                                        globalPersons[i].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
-                                        globalPersons[i].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
-                                        globalPersons[i].avBottom=(globalPersons[j].avBottom+globalPersons[i].avBottom)/2.0'''
+                                       
                                         deleteunk=j
 
     if(deleteunk!=-1):
@@ -70,7 +63,7 @@ def check(): #checks if coordinates of an unknown is very similar to a known per
                         if(globalPersons[j].avLeft-globalPersons[i].avLeft<20 or globalPersons[i].avLeft-globalPersons[j].avLeft<20):
                             if(globalPersons[j].avRight-globalPersons[i].avRight<20 or globalPersons[i].avRight-globalPersons[j].avRight<20):
                                 if(globalPersons[j].avBottom-globalPersons[i].avBottom<10 or globalPersons[i].avBottom-globalPersons[j].avBottom<20):
-                                    #print globalPersons[i].name + " and " + globalPersons[j].name +" are same person "
+                                    
                                     globalPersons[j].avTop=(globalPersons[j].avTop+globalPersons[i].avTop)/2.0
                                     globalPersons[j].avLeft=(globalPersons[j].avLeft+globalPersons[i].avLeft)/2.0
                                     globalPersons[j].avRight=(globalPersons[j].avRight+globalPersons[i].avRight)/2.0
@@ -290,6 +283,7 @@ if __name__ == '__main__':
         help='Capture device. 0 for latop webcam and 1 for usb webcam')
     parser.add_argument('--width', type=int, default=320)
     parser.add_argument('--height', type=int, default=240)
+    parser.add_argument('--picPath', type=str , default="")
     parser.add_argument('--time', type=int, default=15) #time option that determines how long the calculations and video will be
     parser.add_argument('--threshold', type=float, default=0.60)
     parser.add_argument('--cuda', action='store_true')
@@ -309,45 +303,10 @@ if __name__ == '__main__':
         cuda=args.cuda)
 
     # Capture device. Usually 0 will be webcam and 1 will be usb cam.
-    if args.captureDevice=="0":
-		args.captureDevice=0
-    video_capture = cv2.VideoCapture(args.captureDevice)
-
-    #video_capture=cv2.imread('/home/ata/Downloads/envenon.jpg')
-    '''for i in range(0,len(video_capture)):
-    for j in range(0,len(video_capture[0])):
-        if(video_capture[i][j][0]<205):
-            video_capture[i][j][0]+=50
-        else:
-            video_capture[i][j][0]=255
-
-        if(video_capture[i][j][1]<205):
-            video_capture[i][j][1]+=50
-        else:
-            video_capture[i][j][1]=255
-
-        if(video_capture[i][j][2]<205):
-            video_capture[i][j][2]+=50
-        else:
-            video_capture[i][j][2]=255'''
-
-    '''video_capture.set(3, args.width)
-    video_capture.set(4, args.height)'''
-    counter=time.time()
-    lastSave = time.time()
-    confidenceList = []
-    while True:
-        diff=time.time()-counter
-        if (diff>args.time):
-			for i in globalPersons:
-				print "{ \"name\": \""+i.name +"\" ,\"distance\": "+ str(i.averageDistance) +" , \"topCoor\": " +str(i.avTop) +", \"bottomCoor\": " +str(i.avBottom) +", \"rightCoor\":"+ str(i.avRight)+", \"leftCoor\": " +str(i.avLeft)+"}"
-			break
-        if(diff>5 and diff%5<1):
-            wrongPersonDelete()
-            
-        ret, frame = video_capture.read()
-        #frame=video_capture
-        persons, confidences, points = infer(frame, args)
+    if(args.picPath!=""):
+    	frame = cv2.imread(args.picPath,1)
+    	persons, confidences, points = infer(frame, args)
+    	updateGlobalList(persons,confidences,points)
         try:
             # append with two floating point precision
             confidenceList.append('%.2f' % confidences[0])
@@ -364,47 +323,82 @@ if __name__ == '__main__':
                  #   name = findUnknownName(points[i])
 
                 persons[i]=name
-                #else:
-                    #if(not isSame(points[i],globalPersons[index])):
-                        #persons[i]="_unknown"+str(unknownCounter)
-                        #unknownCounter=unknownCounter+1
-        updateGlobalList(persons,confidences,points) #updates global list if there is a new person in the frame and also updates the distance
-        check() #
+        for i in globalPersons:
+				print "{ \"name\": \""+i.name +"\" ,\"distance\": "+ str(i.averageDistance) +" , \"topCoor\": " +str(i.avTop) +", \"bottomCoor\": " +str(i.avBottom) +", \"rightCoor\":"+ str(i.avRight)+", \"leftCoor\": " +str(i.avLeft)+"}"
+					
 
 
-        #print "P: " + str(persons) + " C: " + str(confidences)
-        
 
-                # Print the person name and conf value on the frame
-        cv2.putText(frame, "P: {} C: {}".format(persons, confidences),
-                    (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-        c=0
-        for i in points:
-            # get the time
-            saveDiff = time.time() - lastSave
-            if (saveDiff >= 60):  # save for every minute
-                #print "Saving a new image of " + persons[c] + "..."
-                lastSave = time.time()
-                # make image gray
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                # take the face as a rectangle
-                face = gray[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
-                # resize the face
-                face_resize = cv2.resize(face, (130, 100))
-                # save image with a random name with lenght 20
-                rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
-                path = os.path.join('datasets', persons[c])  # get the path to dataset with name
-                cv2.imwrite('%s/%s.png' % (path, rand), face_resize)
+    else:
+	    if args.captureDevice=="0":
+			args.captureDevice=0
+	    video_capture = cv2.VideoCapture(args.captureDevice)
+	    counter=time.time()
+	    lastSave = time.time()
+	    confidenceList = []
+	    while True:
+	        diff=time.time()-counter
+	        if (diff>args.time):
+				for i in globalPersons:
+					print "{ \"name\": \""+i.name +"\" ,\"distance\": "+ str(i.averageDistance) +" , \"topCoor\": " +str(i.avTop) +", \"bottomCoor\": " +str(i.avBottom) +", \"rightCoor\":"+ str(i.avRight)+", \"leftCoor\": " +str(i.avLeft)+"}"
+				break
+	        if(diff>5 and diff%5<1):
+	            wrongPersonDelete()
+	            
+	        ret, frame = video_capture.read()
+	        
 
-            cv2.rectangle(frame,(i[0][0],i[0][1]),(i[1][0],i[1][1]), (0,255,0),2)
-            cv2.putText(frame, str(persons[c]) ,(i[1][0]+5, i[1][1]+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
-            cv2.putText(frame, str(globalPersons[findIndex(persons[c],globalPersons)].averageDistance) ,(i[1][0]+15 , i[1][1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )  #puts average distance on the rectangle
-            c=c+1
-        cv2.imshow('', frame)
-        # quit the program on the press of key 'q'
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    # When everything is done, release the capture
+	        persons, confidences, points = infer(frame, args)
+	        try:
+	            # append with two floating point precision
+	            confidenceList.append('%.2f' % confidences[0])
+	        except:
+	            # If there is no face detected, confidences matrix will be empty.
+	            # We can simply ignore it.
+	            pass
 
-    video_capture.release()
-    cv2.destroyAllWindows()
+	        for i, c in enumerate(confidences): 
+	            if c <= args.threshold:  # 0.5 is kept as threshold for known face.
+
+	                name="_unknown"
+	               
+
+	                persons[i]=name
+	                
+	        updateGlobalList(persons,confidences,points) #updates global list if there is a new person in the frame and also updates the distance
+	        check() #
+	        
+
+	                # Print the person name and conf value on the frame
+	        cv2.putText(frame, "P: {} C: {}".format(persons, confidences),
+	                    (50, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+	        c=0
+	        for i in points:
+	            # get the time
+	            saveDiff = time.time() - lastSave
+	            if (saveDiff >= 60):  # save for every minute
+	                #print "Saving a new image of " + persons[c] + "..."
+	                lastSave = time.time()
+	                # make image gray
+	                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+	                # take the face as a rectangle
+	                face = gray[i[0][1]:i[0][1] + (i[1][1] - i[0][1]), i[0][0]:i[0][0] + (i[1][0] - i[0][0])]
+	                # resize the face
+	                face_resize = cv2.resize(face, (130, 100))
+	                # save image with a random name with lenght 20
+	                rand = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(20))
+	                path = os.path.join('datasets', persons[c])  # get the path to dataset with name
+	                cv2.imwrite('%s/%s.png' % (path, rand), face_resize)
+
+	            cv2.rectangle(frame,(i[0][0],i[0][1]),(i[1][0],i[1][1]), (0,255,0),2)
+	            cv2.putText(frame, str(persons[c]) ,(i[1][0]+5, i[1][1]+5), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )
+	            cv2.putText(frame, str(globalPersons[findIndex(persons[c],globalPersons)].averageDistance) ,(i[1][0]+15 , i[1][1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.5 ,(0,0,255) , 1 )  #puts average distance on the rectangle
+	            c=c+1
+	        cv2.imshow('', frame)
+	        # quit the program on the press of key 'q'
+	        if cv2.waitKey(1) & 0xFF == ord('q'):
+	            break
+	    # When everything is done, release the capture
+
+	    video_capture.release()
+	    cv2.destroyAllWindows()

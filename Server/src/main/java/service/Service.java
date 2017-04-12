@@ -2,11 +2,13 @@ package main.java.service;
 
 
 
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.java.models.*;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import sun.plugin.dom.core.CoreConstants;
 
 
@@ -39,6 +41,9 @@ public interface Service {
 
 	public void updateCourse(Course course);  //The function updates information of a course. Parameter is just like the getCourse.
 
+// File Upload
+
+	public List<String> createTemporaryFileLocation(InputStream uploadedInputStream, FormDataContentDisposition fileDetail);
 
 	//Attendance Functions
 

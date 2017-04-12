@@ -13,4 +13,6 @@ public class StudentGrade_PKEY implements Serializable {
         this.userId=userId;
         this.examId=examId;
     }
+
+
 }

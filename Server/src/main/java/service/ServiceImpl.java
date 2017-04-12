@@ -1,5 +1,9 @@
 package main.java.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,11 +11,16 @@ import java.util.List;
 import main.java.models.*;
 import main.java.service.Service;
 import main.java.utility.HibernateUtility;
+import main.java.utility.PropertiesUtility;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 
 public class ServiceImpl implements Service{
-	
+
 	HibernateUtility hibernateUtility= new HibernateUtility();
+	PropertiesUtility propertiesUtility= new PropertiesUtility().getInstance();
 	private static Service instance = null;
 	
 	
@@ -93,6 +102,41 @@ public class ServiceImpl implements Service{
 
 		}
 		hibernateUtility.saveArr(notificationsArr);
+	}
+
+	public List<String> createTemporaryFileLocation(InputStream uploadedInputStream, FormDataContentDisposition fileDetail){
+		List<String> resultArr=new ArrayList<>();
+
+		String tempFileName = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+		String fileExtention = FilenameUtils.getExtension(fileDetail.getFileName());
+		String homePath= (propertiesUtility.getProperty("project.basedir")).substring(0,propertiesUtility.getProperty("project.basedir").lastIndexOf('/'));
+		String seperator= propertiesUtility.getProperty("project.fileSeperator");
+
+		String fileLocation = homePath+seperator+"Server"+seperator+".temp"+seperator+tempFileName+"."+fileExtention;
+		//saving file
+		resultArr.add(tempFileName);
+		resultArr.add(fileExtention);
+		resultArr.add(fileLocation);
+		try {
+			File temp=new File(fileLocation);
+
+			boolean b;
+			b=temp.createNewFile();
+
+			if(b) {
+				FileOutputStream out = new FileOutputStream(fileLocation, false);
+				int read = 0;
+				byte[] bytes = new byte[1024];
+				out = new FileOutputStream(new File(fileLocation));
+				while ((read = uploadedInputStream.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				out.flush();
+				out.close();
+			}
+			else return null;
+		} catch (IOException e) {e.printStackTrace(); return null;}
+		return resultArr;
 	}
 
 	//Course Functions

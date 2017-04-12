@@ -1,7 +1,10 @@
 package main.java.models;
 
+import main.java.Composite_PKEY.Notification_PKEY;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -9,12 +12,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @Entity
+@IdClass(Notification_PKEY.class)
 public class Notification {
 
-    private String id;	//This is id of the student whose grade is going to be saved.
+    @Id
+    private String id;
 
-    private String type;  //This is the of the notification.
+    private String type;  //This is the type of the notification.
 
+    @Id
     private String message;
 
     private String sender;
