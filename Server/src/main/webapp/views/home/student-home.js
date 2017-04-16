@@ -163,9 +163,53 @@ $(document).ready(function() {
         var avgInterestInfo = JSON.parse(avgInterestInfoObj.responseText);
         var mainInterestInfo = [];
         var interestInfo = [];
+
         for (var i = 0; i < avgInterestInfo.length; i++) {
-            mainInterestInfo.push(avgInterestInfo[i]["distance"] + (avgInterestInfo[i]["bottomcoor"] - avgInterestInfo[i]["topcoor"]) +
-                (avgInterestInfo[i]["rightcoor"] - avgInterestInfo[i]["leftcoor"]));
+
+            var numberOfAttendanceOfStudent=0;
+            for(var j=0; j<attendanceCountsForStudents.length; j++) {
+                if(attendanceCountsForStudents[j]["courseID"] == avgInterestInfo[i]["courseId"])
+                    numberOfAttendanceOfStudent = attendanceCountsForStudents[j]["attendanceCount"];
+            }
+
+            var numberOfAttendanceOfCourse=0;
+            for(var j=0; j<attendanceCountsOfCourses.length; j++) {
+                if(attendanceCountsOfCourses[j]["courseID"] == avgInterestInfo[i]["courseId"])
+                    numberOfAttendanceOfCourse = attendanceCountsOfCourses[j]["attendanceCount"];
+            }
+
+            var attendancePerc=0;
+            if(numberOfAttendanceOfCourse != 0)
+                attendancePerc = parseInt((numberOfAttendanceOfStudent/numberOfAttendanceOfCourse), 10);
+
+            var averageGrade=0;
+            var totalGradePercentage=0;
+            for(var j=0; j<gradeInfo.length; j++) {
+                if(gradeInfo[j]["id"] == avgInterestInfo[i]["courseId"]) {
+                    averageGrade += gradeInfo[j]["grade"]*gradeInfo[j]["percentage"];
+                    totalGradePercentage++;
+                }
+            }
+
+            if(totalGradePercentage != 0)
+                averageGrade /= totalGradePercentage;
+
+            var seating_place_percentage, exam_percentage, attendance_percentage;
+
+            for(var j=0; j<sectionInfo.length; j++) {
+                if (sectionInfo[j]["course_id"] == avgInterestInfo[i]["courseId"] && sectionInfo[j]["section_no"] == avgInterestInfo[i]["sectionId"]) {
+                    seating_place_percentage = sectionInfo[j]["seating_place_percentage"];
+                    exam_percentage = sectionInfo[j]["exam_percentage"];
+                    attendance_percentage = sectionInfo[j]["attendance_percentage"];
+                }
+            }
+
+            var seatingInfo = (avgInterestInfo[i]["bottomcoor"] - avgInterestInfo[i]["topcoor"]) * (avgInterestInfo[i]["rightcoor"] - avgInterestInfo[i]["leftcoor"]);
+
+            var interestPoint = seatingInfo * seating_place_percentage + averageGrade * exam_percentage + attendancePerc * attendance_percentage;
+
+            mainInterestInfo.push(interestPoint);
+
             var letters = '0123456789ABCDEF';
             var color = "#";
             for (var j = 0; j < 6; j++) {
@@ -290,7 +334,9 @@ $(document).ready(function() {
                     numberOfAttendanceOfCourse = attendanceCountsOfCourses[j]["attendanceCount"];
             }
 
-            var attendancePerc = parseInt((numberOfAttendanceOfStudent/numberOfAttendanceOfCourse), 10);
+            var attendancePerc=0;
+            if(numberOfAttendanceOfCourse != 0)
+                attendancePerc = parseInt((numberOfAttendanceOfStudent/numberOfAttendanceOfCourse), 10);
 
 
             var averageGrade=0;

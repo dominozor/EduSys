@@ -306,9 +306,10 @@ public class UserRestService {
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
 				jo.accumulate("id", exam[0]);
-				jo.accumulate("name", exam[1]); // Putting name of course
-				jo.accumulate("grade", exam[2]); // Putting grade
-				jo.accumulate("type", exam[3]); // Putting type of exam (midterm, final, etc)
+				jo.accumulate("name", exam[1]);
+				jo.accumulate("grade", exam[2]);
+				jo.accumulate("type", exam[3]);
+				jo.accumulate("percentage", exam[4]);
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
@@ -350,5 +351,8 @@ public class UserRestService {
 		return Response.serverError().build();
 	}
 }
+
+
+
 
 

@@ -50,6 +50,7 @@ public class SectionRestService {
                 jo.accumulate("exam_percentage", section.getExam_percentage());
                 jo.accumulate("seating_place_percentage", section.getSeating_place_percentage());
                 jo.accumulate("attendance_percentage", section.getAttendance_percentage());
+                jo.accumulate("class_size", section.getClass_size());
 
             }
 
@@ -81,6 +82,7 @@ public class SectionRestService {
                 jo.accumulate("exam_percentage", section.getExam_percentage());
                 jo.accumulate("seating_place_percentage", section.getSeating_place_percentage());
                 jo.accumulate("attendance_percentage", section.getAttendance_percentage());
+                jo.accumulate("class_size", section.getClass_size());
 
                 main.put(jo);
             }
@@ -102,11 +104,15 @@ public class SectionRestService {
     //user_id: user id of the section which is going to be added.
     //number_of_students: number of students of the section which is going to be added.
     //number_of_lectures: number of lectures of the section which is going to be added.
-    public Response addSection(@QueryParam("course")String course_id, @QueryParam("section") int section_no,@QueryParam("user_id") String user_id,@QueryParam("number_of_students") int number_of_students, @QueryParam("number_of_lectures") int number_of_lectures, @QueryParam("exam_percentage") int exam_percentage, @QueryParam("seating_place_percentage") int seating_plage_percentage, @QueryParam("attendance_percentage") int attendance_percentage ) {
+    public Response addSection(@QueryParam("course")String course_id, @QueryParam("section") int section_no,@QueryParam("user_id") String user_id,
+                               @QueryParam("number_of_students") int number_of_students, @QueryParam("number_of_lectures") int number_of_lectures,
+                               @QueryParam("exam_percentage") int exam_percentage, @QueryParam("seating_place_percentage") int seating_plage_percentage,
+                               @QueryParam("attendance_percentage") int attendance_percentage, @QueryParam("class_size") String class_size ) {
 
         try{
 
-            Section section=new Section(course_id, section_no, user_id, number_of_students, number_of_lectures, exam_percentage, seating_plage_percentage, attendance_percentage);
+            Section section=new Section(course_id, section_no, user_id, number_of_students, number_of_lectures, exam_percentage,
+                                        seating_plage_percentage, attendance_percentage, class_size);
             service.addSection(section);
 
             return Response.status(200).entity("success").build();
@@ -145,11 +151,15 @@ public class SectionRestService {
     //user_id: user id of the section which is going to be updated.
     //number_of_students: number of students of the section which is going to be updated.
     //number_of_lectures: number of lectures of the section which is going to be updated.
-    public Response updateSection(@QueryParam("course")String course_id, @QueryParam("section") int section_no,@QueryParam("user_id") String user_id,@QueryParam("number_of_students") int number_of_students, @QueryParam("number_of_lectures") int number_of_lectures, @QueryParam("exam_percentage") int exam_percentage, @QueryParam("seating_place_percentage") int seating_plage_percentage, @QueryParam("attendance_percentage") int attendance_percentage ) {
+    public Response updateSection(@QueryParam("course")String course_id, @QueryParam("section") int section_no,@QueryParam("user_id") String user_id,
+                                  @QueryParam("number_of_students") int number_of_students, @QueryParam("number_of_lectures") int number_of_lectures,
+                                  @QueryParam("exam_percentage") int exam_percentage, @QueryParam("seating_place_percentage") int seating_plage_percentage,
+                                  @QueryParam("attendance_percentage") int attendance_percentage, @QueryParam("class_size") String class_size ) {
 
         try{
             Section section = service.getSection(course_id,section_no);
-            section=new Section(section.getCourseID(), section.getSectionNo(), user_id, number_of_students, number_of_lectures, exam_percentage, seating_plage_percentage, attendance_percentage);
+            section=new Section(section.getCourseID(), section.getSectionNo(), user_id, number_of_students, number_of_lectures, exam_percentage,
+                                seating_plage_percentage, attendance_percentage, class_size);
             service.updateSection(section);
 
             return Response.status(200).entity("success").build();

@@ -393,11 +393,12 @@ public class AttendanceRestService {
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
 				jo.accumulate("courseId", interest[0]);
-				jo.accumulate("distance", interest[1]); //Putting all information from service object to JSON object.
-				jo.accumulate("topcoor", interest[2]);
-				jo.accumulate("bottomcoor", interest[3]);
-				jo.accumulate("rightcoor", interest[4]);
-				jo.accumulate("leftcoor", interest[5]);
+				jo.accumulate("sectionId", interest[1]);
+				jo.accumulate("distance", interest[2]); //Putting all information from service object to JSON object.
+				jo.accumulate("topcoor", interest[3]);
+				jo.accumulate("bottomcoor", interest[4]);
+				jo.accumulate("rightcoor", interest[5]);
+				jo.accumulate("leftcoor", interest[6]);
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}

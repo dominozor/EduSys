@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>EduSys</title>
+
 </head>
+
 
 <link rel="import" href="/templates/main/main.html" >
 <link rel="stylesheet" href="../css/table.css">
 <link rel="stylesheet" href="../css/loader.css">
-<script src="/views/date/student-list.js"></script>
+<script src="/views/update/update-class-size.js"></script>
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.6 -->
@@ -49,6 +52,12 @@
 <script>
     $.widget.bridge('uibutton', $.ui.button);
 </script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
 <!-- Bootstrap 3.3.6 -->
 <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
@@ -75,6 +84,8 @@
 <!-- AdminLTE App -->
 <script src="../../lib/dist/js/app.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="../../lib/plugins/jQueryUI/jquery-ui.js"></script>
+
 <script src="../../lib/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../lib/dist/js/demo.js"></script>
@@ -82,8 +93,8 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
 
 
+
 <body class="hold-transition skin-blue sidebar-mini">
-<div class="myModal2"></div>
 <div class="wrapper">
 
     <header class="main-header">
@@ -347,7 +358,7 @@
 
     <aside class="main-sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
-        <li class="sidebar">
+        <section class="sidebar">
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
@@ -428,45 +439,64 @@
                 </li>
                 </li>
             </ul>
-            </section>
-            <!-- /.sidebar -->
+        </section>
+        <!-- /.sidebar -->
     </aside>
 
+    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-
-        <section class="content-header" id="contentHeader"></section>
 
         <section class="content">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="btn-group">
-                        <input type="button" class="btn btn-info" id="course-home-btn" value="Home">
-                        <input type="button" class="btn btn-info" id="course-dates-btn" value="Date">
-                        <input type="button" class="btn btn-info" id="course-exams-btn" value="Exams">
-                    </div>
-                </div>
-            </div>
-            <br></br>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box box-success">
+                <div class="col-md-6">
+                    <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Students</h3>
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                                </button>
-                            </div>
+                            <h3 class="box-title">Update Interest Percentages</h3>
                         </div>
-                        <div id="student-list" class="box-body"></div>
-                        <input type="button" class="btn btn-default" id="backDatePage" value="Back">
+
+                        <form id="update-form" class="form-horizontal">
+                            <div class="box-body">
+
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <label>Number of Rows</label>
+                                        <input type="input" class="form-control" placeholder="Number of Rows" id="number-of-rows">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <label>Number of Seats In One Row</label>
+                                        <input type="input" class="form-control" placeholder="Number of Seats In One Row" id="number-of-seats">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="box-footer">
+                                <button type="submit" id="button" class="btn btn-info pull-right"> Update</button>
+                                <button type="button" class="btn btn-default" id="backToCourseHomePage">Back</button>
+                            </div>
+                        </form>
                     </div>
-
-
                 </div>
             </div>
         </section>
     </div>
 </div>
+
+<!-- jQuery 2.2.3 -->
+<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- ChartJS 1.0.1 -->
+<script src="../../lib/plugins/chartjs/Chart.min.js"></script>
+<!-- FastClick -->
+<script src="../../lib/plugins/fastclick/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../../lib/dist/js/app.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../lib/dist/js/demo.js"></script>
+
 
 </body>
 </html>

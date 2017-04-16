@@ -23,16 +23,18 @@ public class Exam {
     private String sectionNo;
     private String type;
     private double average;
+    private int examPercentage;
 
     public Exam(){}
 
-    public Exam(String exam_id,String courseID,String sectionNo,String type,double average){
+    public Exam(String exam_id,String courseID,String sectionNo,String type,double average, int examPercentage){
 
         this.exam_id=exam_id;
         this.courseID=courseID;
         this.sectionNo=sectionNo;
         this.type=type;
         this.average=average;
+        this.examPercentage=examPercentage;
 
     }
 
@@ -75,4 +77,8 @@ public class Exam {
     public void setAverage(double average) {
         this.average = average;
     }
+
+    public int getExamPercentage() { return examPercentage; }
+
+    public void setExamPercentage() { this.examPercentage=examPercentage; }
 }

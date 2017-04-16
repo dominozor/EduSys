@@ -410,7 +410,7 @@ public class HibernateUtility {
             session = createSession(); //Create session
 
             //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select cr.id, cr.name, stugra.grade, ex.type\n" +
+            Query query = session.createNativeQuery("select cr.id, cr.name, stugra.grade, ex.type, ex.exampercentage\n" +
                     "from studentgrade as stugra, exam as ex, course as cr\n" +
                     "where stugra.userid = '" + userID + "' and stugra.examid = ex.exam_id and ex.courseid = cr.id " +
 					"order by cr.id");
@@ -577,7 +577,7 @@ public class HibernateUtility {
             session = createSession(); //Create session
 
             //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select us.id, us.name, us.surname, grad.grade\n" +
+            Query query = session.createNativeQuery("select us.id, us.name, us.surname, grad.grade, grad.exampercentage\n" +
                     "from eduuser us, studentgrade grad\n" +
                     "where grad.examid='" + examID + "' and us.id=grad.userid;");
 
@@ -692,12 +692,12 @@ public class HibernateUtility {
 			session = createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-			Query query = session.createNativeQuery("select at.courseid, AVG(atList.distance) as dist, AVG(atList.topcoor) as top," +
+			Query query = session.createNativeQuery("select at.courseid, at.sectionno, AVG(atList.distance) as dist, AVG(atList.topcoor) as top," +
 					"AVG(atList.bottomcoor) as bottom, AVG(atList.rightcoor) as right, AVG(atList.leftcoor) as left " +
 					"from attendancelist atList, attendance at, sectionstudentlist list " +
 					"where list.userid= '"+userID+"' and at.courseid = list.courseid and at.sectionno=list.sectionno and " +
 					"atList.att_id = at.id and atList.userid = '"+userID+"' " +
-					"group by at.courseid;");
+					"group by at.courseid, at.sectionno;");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();

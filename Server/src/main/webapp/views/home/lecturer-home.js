@@ -32,6 +32,15 @@ function getAllSeatingsForLecturer(userID) { //This function get all prev lectur
 }
 ///degisiklik
 
+function getAllSectionInfo() {
+
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/section/get/",
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 
 
 function drawChart() {
@@ -123,6 +132,9 @@ $(document).ready(function() {
 
     var attendanceAverageListObj = getAttendancePercentageForLecturer(user["id"]);
     var attendanceAverageList = JSON.parse(attendanceAverageListObj.responseText);
+
+    var sectionInfoObj = getAllSectionInfo();
+    var sectionInfo = JSON.parse(sectionInfoObj.responseText);
 
     //-------------
     //- PIE CHART -
@@ -240,15 +252,43 @@ $(document).ready(function() {
     var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
 
 
-    var zz=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+    var numberOfRow = 0;
+    var numberOfSeat = 0;
+
+    for(var i=0; i<sectionInfo.length; i++) {
+        var class_size = sectionInfo[i]["class_size"];
+        var old_row_number = "";
+        var old_seat_number = "";
+        var flag = 0;
+
+        for(var i=0; i<class_size.length; i++) {
+            if(flag == 0) {
+                if(class_size[i] != "x") {
+                    old_row_number += class_size[i];
+                }
+                else
+                    flag = 1;
+            }
+            else
+                old_seat_number += class_size[i];
+        }
+
+        numberOfRow = Math.max(parseInt(old_row_number, 10), numberOfRow);
+        numberOfSeat = Math.max(parseInt(old_seat_number, 10), numberOfSeat);
+    }
+
+    //window.alert(numberOfRow + " " + numberOfSeat);
+
+
+    var zz=[];
+
+    for(var i=0; i<numberOfRow; i++) {
+        var zzRow = [];
+        for(var j=0; j<numberOfSeat; j++) {
+            zzRow.push(0);
+        }
+        zz.push(zzRow);
+    }
 
 
     console.log(lecturerSeatingList);
@@ -256,7 +296,18 @@ $(document).ready(function() {
 
     for(var i = 0; i<lecturerSeatingList.length;i++)
     {
-        if(lecturerSeatingList[i]["distance"]>0 && lecturerSeatingList[i]["distance"]<100)
+
+        for(var j=0; j<zz.length; j++) {
+            if(lecturerSeatingList[i]["distance"]>=j*100 && lecturerSeatingList[i]["distance"]<(j+1)*100)
+            {
+                var seat;
+                seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+                zz[j][seat] += 1;
+                seatCounter++;
+            }
+        }
+
+        /*if(lecturerSeatingList[i]["distance"]>0 && lecturerSeatingList[i]["distance"]<100)
         {
             var seat;
             seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
@@ -333,7 +384,7 @@ $(document).ready(function() {
             seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
             zz[8][seat]++;
             seatCounter++;
-        }
+        }*/
 
 
     }
@@ -368,11 +419,23 @@ $(document).ready(function() {
         }
         zz.push(tempz);
     }*/
+
+    var xList = [];
+    var yList = [];
+
+    for(var i=0; i<numberOfSeat; i++) {
+        xList.push('x' + i.toString());
+    }
+
+    for(var i=0; i<numberOfRow; i++) {
+        yList.push('y' + i.toString());
+    }
+
     var data = [
         {
             z : zz,
-            x: ['x1', 'x2', 'x3', 'x4', 'x5','x6', 'x7', 'x8', 'x9', 'x10','x11', 'x12', 'x13', 'x14', 'x15'],
-            y: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6','y7', 'y8', 'y9'],
+            x: xList,
+            y: yList,
             type: 'heatmap'
         }
     ];

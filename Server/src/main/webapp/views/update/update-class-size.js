@@ -66,21 +66,39 @@ $(document).ready(function(){
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
-    $("#update-exam-perc").val(sectionInfo["exam_percentage"]);
-    $("#update-seating-perc").val(sectionInfo["seating_place_percentage"]);
-    $("#update-attendance-perc").val(sectionInfo["attendance_percentage"]);
+    var old_class_size = sectionInfo["class_size"];
+    var old_row_number = "";
+    var old_seat_number = "";
+    var flag = 0;
+
+    for(var i=0; i<old_class_size.length; i++) {
+        if(flag == 0) {
+            if(old_class_size[i] != "x") {
+                old_row_number += old_class_size[i];
+            }
+            else
+                flag = 1;
+        }
+        else
+            old_seat_number += old_class_size[i];
+    }
+
+    $("#number-of-rows").val(old_row_number);
+    $("#number-of-seats").val(old_seat_number);
 
     $("#update-form").submit(function(event) { // After clicking on "Update" button, all the information again is got from the fields to send request.
         event.preventDefault();
-        var exam_perc = $("#update-exam-perc").val();
-        var seating_perc = $("#update-seating-perc").val();
-        var attendance_perc = $("#update-attendance-perc").val();
+        var number_of_rows = $("#number-of-rows").val();
+        var number_of_seats = $("#number-of-seats").val();
+
+        var class_size = number_of_rows.toString() + "x" + number_of_seats.toString();
 
         $.ajax({
             type: "PUT", //We use PUT for update
             url: "http://localhost:8080/rest/section/update?course="+sectionInfo["course_id"]+"&section="+sectionInfo["section_no"]+"&user_id="+sectionInfo["user_id"]+
-                 "&number_of_students="+sectionInfo["number_of_students"]+"&number_of_lectures="+sectionInfo["number_of_lectures"]+"&exam_percentage="+exam_perc+
-                 "&seating_place_percentage="+seating_perc+"&attendance_percentage="+attendance_perc+"&class_size="+sectionInfo["class_size"],
+            "&number_of_students="+sectionInfo["number_of_students"]+"&number_of_lectures="+sectionInfo["number_of_lectures"]+"&exam_percentage="+sectionInfo["exam_percentage"]+
+            "&seating_place_percentage="+sectionInfo["seating_place_percentage"]+"&attendance_percentage="+sectionInfo["attendance_percentage"]+
+            "&class_size="+class_size,
             success: function(response){
 
                 $("#error_upt_msg").html("</br><b style='color:green'>Success!</b>");
@@ -99,3 +117,6 @@ $(document).ready(function(){
     });
 });
 
+/**
+ * Created by onur on 16.04.2017.
+ */

@@ -57,6 +57,7 @@ public class ExamRestService {
                 jo.accumulate("section_no", exam.getSectionNo());
                 jo.accumulate("type", exam.getType());
                 jo.accumulate("average", exam.getAverage());
+                jo.accumulate("percentage", exam.getExamPercentage());
             }
 
             return Response.ok(jo.toString()).header("Access-Control-Allow-Origin", "*")
@@ -84,6 +85,7 @@ public class ExamRestService {
                 jo.accumulate("section_no", exam.getSectionNo());
                 jo.accumulate("type", exam.getType());
                 jo.accumulate("average", exam.getAverage());
+                jo.accumulate("percentage", exam.getExamPercentage());
 
                 main.put(jo);
             }
@@ -104,11 +106,11 @@ public class ExamRestService {
     //id: section number of the exam which is going to be added.
     //id: type of the exam which is going to be added.
     @Produces(MediaType.TEXT_PLAIN)
-    public Response addExam(@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type) {
+    public Response addExam(@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type, @QueryParam("examPercentage") int examPercentage) {
         String id = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
         try{
 
-            Exam exam=new Exam(id, course_id, section_no, type, 0.0);
+            Exam exam=new Exam(id, course_id, section_no, type, 0.0, examPercentage);
             service.addExam(exam);
 
             return Response.status(200).entity("success").build();
@@ -160,11 +162,11 @@ public class ExamRestService {
     //id: course id of the exam which is going to be updated.
     //id: section number of the exam which is going to be updated.
     //id: type of the exam which is going to be updated.
-    public Response updateExam(@QueryParam("ID") String id,@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type,@QueryParam("average") double average) {
+    public Response updateExam(@QueryParam("ID") String id,@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type,@QueryParam("average") double average, @QueryParam("percentage") int percentage) {
 
         try{
             Exam exam = service.getExam(id);
-            Exam ex=new Exam(exam.getExam_id(), course_id, section_no, type, average);
+            Exam ex=new Exam(exam.getExam_id(), course_id, section_no, type, average, percentage);
             service.updateExam(ex);
 
             return Response.status(200).entity("success").build();
@@ -184,16 +186,17 @@ public class ExamRestService {
     //id: id of the exam which is going to be got.
     public Response getAllGradesOfAnExam(@PathParam("ID") String examID){
         try {
-            JSONArray main = new JSONArray();		//A new JSON array object is created.
+            JSONArray main = new JSONArray();       //A new JSON array object is created.
             List <Object[]> grades = service.getAllGradesOfACourse(examID); //Getting all exam grades
             System.out.println();
             for(Object[] grade : grades){
 
                 JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-                jo.accumulate("id", grade[0]); // Putting id of student
-                jo.accumulate("name", grade[1]); // Putting name of student
-                jo.accumulate("surname", grade[2]); // Putting surname of student
-                jo.accumulate("grade", grade[3]); // Putting grade
+                jo.accumulate("id", grade[0]);
+                jo.accumulate("name", grade[1]);
+                jo.accumulate("surname", grade[2]);
+                jo.accumulate("grade", grade[3]);
+                jo.accumulate("percentage", grade[4]);
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }
