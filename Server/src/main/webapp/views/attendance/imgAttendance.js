@@ -39,6 +39,7 @@ $(document).ready(function() {
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
     $('#stuName').html(user["name"] + " " + user["surname"]);
+    $('#userIdHeader').html(user["id"]);
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);

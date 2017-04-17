@@ -43,6 +43,7 @@ $(document).ready(function(){
     $('#studentName').html(mainuser["name"] + " " + mainuser["surname"])
     $('#studentButtonName').html(mainuser["name"] + " " + mainuser["surname"])
     $('#stuName').html(mainuser["name"] + " " + mainuser["surname"])
+    $('#userIdHeader').html(user["id"]);
 
     $("#update-form").submit(function(event) { // After clicking on "Update" button, all the information again is got from the fields to send request.
         event.preventDefault();

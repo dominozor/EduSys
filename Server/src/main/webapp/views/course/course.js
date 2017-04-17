@@ -24,6 +24,7 @@ $(document).ready(function(){
                 $("#course-name").html(course["name"]);
                 $("#instructor").html("<td> Instructor </td><td>" + course["instructorName"] + " " + course["instructorLastName"] + "</td>");
                 $("#sectionNo").html(course["sectionNo"]);
+                $('#userIdHeader').html(user["id"]);
             }
             if(user["role"]===1) {
                 var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -41,6 +42,7 @@ $(document).ready(function(){
                 $("#course-id").html(course["id"]);
                 $("#course-name").html(course["name"]);
                 $("#sectionNo").html(course["sectionId"]);
+                $('#userIdHeader').html(user["id"]);
             }
         }
     });

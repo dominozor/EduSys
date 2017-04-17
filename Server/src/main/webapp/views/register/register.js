@@ -27,6 +27,7 @@ $(document).ready(function(){
     $('#studentName').html(user["name"] + " " + user["surname"])
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
     $('#stuName').html(user["name"] + " " + user["surname"])
+    $('#userIdHeader').html(user["id"]);
 
     $('#register-repass').keyup(function() { //This function is for comparing password and confirmed password
         var pass =$("#register-pass").val();

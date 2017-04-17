@@ -42,6 +42,7 @@ $(document).ready(function() {
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
     $('#stuName').html(user["name"] + " " + user["surname"]);
+    $('#userIdHeader').html(user["id"]);
     /*$('.profile-username').html(user["name"] + " " + user["surname"]);
 
     if(user["role"]===0) {

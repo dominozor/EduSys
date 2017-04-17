@@ -31,6 +31,7 @@ $(document).ready(function(){
             $('#studentName').html(user["name"] + " " + user["surname"]);
             $('#studentButtonName').html(user["name"] + " " + user["surname"]);
             $('#stuName').html(user["name"] + " " + user["surname"]);
+            $('#userIdHeader').html(user["id"]);
 
             avgInterestObj = getAverageInterest(course["id"], course["sectionId"], user["id"]);
             avgInterest = JSON.parse(avgInterestObj.responseText);

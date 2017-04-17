@@ -86,6 +86,7 @@ $(document).ready(function(){
         $('#studentName').html(user["name"] + " " + user["surname"])
         $('#studentButtonName').html(user["name"] + " " + user["surname"])
         $('#stuName').html(user["name"] + " " + user["surname"])
+        $('#userIdHeader').html(user["id"]);
 
         var courseListObj=getAllCourses(user["id"],user["role"]);
         var courseList=JSON.parse(courseListObj.responseText);
@@ -133,6 +134,7 @@ $(document).ready(function(){
         $('#studentName').html(user["name"] + " " + user["surname"])
         $('#studentButtonName').html(user["name"] + " " + user["surname"])
         $('#stuName').html(user["name"] + " " + user["surname"])
+        $('#userIdHeader').html(user["id"]);
         //This gets a  exam data of a specific section and puts the data to the table to course-grade div of the attendance.html
         sectExamListObj=getAllExamsOfASection(course["id"], course["sectionId"]);
         sectExamList=JSON.parse(sectExamListObj.responseText);

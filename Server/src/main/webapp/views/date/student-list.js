@@ -58,6 +58,7 @@ $(document).ready(function(){
     $('#studentName').html(user["name"] + " " + user["surname"])
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
     $('#stuName').html(user["name"] + " " + user["surname"])
+    $('#userIdHeader').html(user["id"]);
 
     StudentAttListObj=getUserFromDate(course["sectionId"], course["id"], date["date"]);
     StudentAttList=JSON.parse(StudentAttListObj.responseText);

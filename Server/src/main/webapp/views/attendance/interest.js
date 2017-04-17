@@ -30,6 +30,7 @@ $(document).ready(function(){
             $('#studentName').html(user["name"] + " " + user["surname"]);
             $('#studentButtonName').html(user["name"] + " " + user["surname"]);
             $('#stuName').html(user["name"] + " " + user["surname"]);
+            $('#userIdHeader').html(user["id"]);
 
             inter = JSON.parse(readCookie('inter'));
             console.log(user["id"],inter["id"]);

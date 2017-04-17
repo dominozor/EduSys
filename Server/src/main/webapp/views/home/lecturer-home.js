@@ -108,6 +108,7 @@ $(document).ready(function() {
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
     $('#stuName').html(user["name"] + " " + user["surname"]);
+    $('#userIdHeader').html(user["id"]);
 
     courseListObj=getAllCourses(user["id"],user["role"]);
     courseList=JSON.parse(courseListObj.responseText);
