@@ -1,5 +1,5 @@
 /**
- * Created by Onat1 on 11/04/2017.
+ * Created by Onat1 on 17/04/2017.
  */
 $(window).on('load', function() {
     // Animate loader off screen
@@ -37,7 +37,7 @@ $(document).ready(function() {
     img.src = String(user["ppic"]);
 
     /*var img = document.getElementById("studentImage4"); //This puts the profile picture of the student to the home page.
-    img.src = String(user["ppic"]);*/
+     img.src = String(user["ppic"]);*/
 
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);
@@ -64,15 +64,17 @@ $(document).ready(function() {
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
-    $("#e-mail").val(user["email"]);
-    $("#propic").val(user["ppic"]);
-
-    $("#update-profile-form").submit(function(event) {
+    $("#change-password-form").submit(function(event) {
         event.preventDefault();
-        var email = $("#e-mail").val(); //new grade
-        var propic = $("#propic").val(); //new profile picture link
+        var currentPassword = $("#current-password").val();
+        var newPassword = $("#new-password").val();
+        var newPasswordRetype = $("#new-password-retype").val();
 
-        $.ajax({
+        console.log(currentPassword);
+        console.log(newPassword);
+        console.log(newPasswordRetype);
+
+        /*$.ajax({
             type: "PUT",
             url: "http://localhost:8080/rest/user/update?ID="+user['id']+"&name="+user['name']+"&surname="+user['surname']+"&email="+email+"&ppicLink="+propic+"&role="+user['role'],
             success: function(response){
@@ -83,10 +85,7 @@ $(document).ready(function() {
 
                 $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
             }
-        });
-        eraseCookie("mainuser");
-        var mainUserObj = {"id":user["id"], "name":user["name"], "surname":user["surname"], "email":email, "ppic":propic, "role":user['role']};
-        createCookie("mainuser", JSON.stringify(mainUserObj), 1);
+        });*/
         window.location.replace("http://localhost:8080/templates/profile/profile.html");
     });
 
@@ -95,4 +94,3 @@ $(document).ready(function() {
     });
 
 });
-
