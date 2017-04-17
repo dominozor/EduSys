@@ -5,7 +5,7 @@ function getSeatingPercentageForCourse(courseID, sectionID) { //This function ge
         async: false // This option prevents this function to execute asynchronized
     });
 }
-//degisiklik
+
 function getAllSeatingsForLecturerCourse(userID, sectionID, courseID) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
@@ -13,7 +13,16 @@ function getAllSeatingsForLecturerCourse(userID, sectionID, courseID) { //This f
         async: false // This option prevents this function to execute asynchronized
     });
 }
-//degisiklik
+
+function getAllSectionInfo() {
+
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/section/get/",
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 $(window).on('load', function() {
     // Animate loader off screen
     $(".myModal2").fadeOut("slow");
@@ -100,6 +109,9 @@ $(document).ready(function() {
 
     var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
+
+    var sectionInfoObj = getAllSectionInfo();
+    var sectionInfo = JSON.parse(sectionInfoObj.responseText);
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
@@ -366,36 +378,109 @@ $(document).ready(function() {
 
 
     }
-/// degisiklik
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
+
+
+
+
+    var numberOfRow = 0;
+    var numberOfSeat = 0;
+
+    for(var i=0; i<sectionInfo.length; i++) {
+        var class_size = sectionInfo[i]["class_size"];
+        var old_row_number = "";
+        var old_seat_number = "";
+        var flag = 0;
+
+        for(var i=0; i<class_size.length; i++) {
+            if(flag == 0) {
+                if(class_size[i] != "x") {
+                    old_row_number += class_size[i];
+                }
+                else
+                    flag = 1;
+            }
+            else
+                old_seat_number += class_size[i];
+        }
+
+        numberOfRow = Math.max(parseInt(old_row_number, 10), numberOfRow);
+        numberOfSeat = Math.max(parseInt(old_seat_number, 10), numberOfSeat);
+    }
+
+
+
+    var zz=[];
+
+    for(var i=0; i<numberOfRow; i++) {
+        var zzRow = [];
+        for(var j=0; j<numberOfSeat; j++) {
+            zzRow.push(0);
+        }
+        zz.push(zzRow);
+    }
+
+
+
 
     var lecturerSeatingObj=getAllSeatingsForLecturerCourse(user["id"],course["sectionId"], course["id"]);
     var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
     console.log(lecturerSeatingList);
 
-    var zz=[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+    var seatCounter=0;
+
+    for(var i = 0; i<lecturerSeatingList.length;i++)
+    {
+
+        for(var j=0; j<zz.length; j++) {
+            if(lecturerSeatingList[i]["distance"]>=j*100 && lecturerSeatingList[i]["distance"]<(j+1)*100)
+            {
+                var seat;
+                seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+                zz[j][seat] += 1;
+                seatCounter++;
+            }
+        }
+
+
+    }
+
+
+    var xx=[];
+    var yy=[];
+
+    for(var i =0 ;i< 15; i++)
+    {
+        xx.push(i.toString());
+        yy.push(i.toString());
+    }
+
+
+    var xList = [];
+    var yList = [];
+
+
+
+    for(var i=0; i<numberOfSeat; i++) {
+        xList.push('x' + i.toString());
+    }
+
+    for(var i=0; i<numberOfRow; i++) {
+        yList.push('y' + i.toString());
+    }
 
     var data = [
         {
-            z: zz,
-            x: ['x1', 'x2', 'x3', 'x4', 'x5','x6', 'x7', 'x8', 'x9', 'x10','x11', 'x12', 'x13', 'x14', 'x15'],
-            y: ['y1', 'y2', 'y3', 'y4', 'y5', 'y6','y7', 'y8', 'y9'],
+            z : zz,
+            x: xList,
+            y: yList,
             type: 'heatmap'
         }
     ];
 
     Plotly.newPlot('myDiv', data);
 
-/// degisiklik
 
 });
