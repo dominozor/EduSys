@@ -25,6 +25,8 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.getScript("/views/utility/sha256.js", function(){});
+
     user = JSON.parse(readCookie('mainuser'));
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -64,28 +66,35 @@ $(document).ready(function() {
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
+    $('#new-password-retype').keyup(function() { //This function is for comparing password and confirmed password
+        var newPassword = $("#new-password").val();
+        var newPasswordRetype = $("#new-password-retype").val();
+        if(newPassword===newPasswordRetype){
+            $("#confirmedPassMsg").html("<b style='color:green'>Matched </b>");
+        }
+        else{
+            $("#confirmedPassMsg").html("<b style='color:red'>Passwords don't match </b>");
+        }
+    });
+
     $("#change-password-form").submit(function(event) {
         event.preventDefault();
         var currentPassword = $("#current-password").val();
         var newPassword = $("#new-password").val();
         var newPasswordRetype = $("#new-password-retype").val();
+        var currentPassCheck = 0;
 
-        console.log(currentPassword);
-        console.log(newPassword);
-        console.log(newPasswordRetype);
-
-        /*$.ajax({
-            type: "PUT",
-            url: "http://localhost:8080/rest/user/update?ID="+user['id']+"&name="+user['name']+"&surname="+user['surname']+"&email="+email+"&ppicLink="+propic+"&role="+user['role'],
-            success: function(response){
-
-                $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/rest/user/login?ID="+user["id"]+"&password="+sha256_digest(currentPassword),
+            success: function(response,status){
+                console.log("current password true");
             },
             error: function(xhr) {
 
-                $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+                console.log("current password wrong");
             }
-        });*/
+        });
         window.location.replace("http://localhost:8080/templates/profile/profile.html");
     });
 
