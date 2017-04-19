@@ -1,8 +1,18 @@
 $(document).ready(function(){
     var user, mainuser;
-
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({
         url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $.ajax({
+        url: '/views/WS/websocket.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
@@ -31,6 +41,8 @@ $(document).ready(function(){
     });
 
     mainuser = JSON.parse(readCookie('mainuser'));
+
+    wsSendMessage(mainuser["id"]);
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(mainuser["ppic"]);
 

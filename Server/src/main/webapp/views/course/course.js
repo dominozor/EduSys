@@ -1,11 +1,23 @@
 $(document).ready(function(){
     var course,user;
+
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({ //While importing utility.py, other fields are filled with the information that is read from cookie if the result is success.
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false,
         success: function(response) {
+            $.ajax({
+                url: '/views/WS/websocket.js',
+                dataType: 'script',
+                async: false  // This option prevents this function to execute asynchronized
+            });
             user = JSON.parse(readCookie('mainuser'));
+            wsSendMessage(user["id"]);
             course = JSON.parse(readCookie('course'));
             if(user["role"]===2) {
                 var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
@@ -46,6 +58,8 @@ $(document).ready(function(){
             }
         }
     });
+
+
 
 
     $("#backToStudentPage").click(function(){

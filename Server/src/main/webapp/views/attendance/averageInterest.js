@@ -11,11 +11,24 @@ function getAverageInterest(course, sectionID, userID) { //This function gets at
 
 $(document).ready(function(){
     var inter,user, course, avgInterestObj,avgInterest;
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({ //While importing utility.py, other fields are filled with the information that is read from cookie if the result is success.
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false,
         success: function(response) {
+            $.ajax({
+                url: '/views/WS/websocket.js',
+                dataType: 'script',
+                async: false  // This option prevents this function to execute asynchronized
+            });
+
+            wsSendMessage(user["id"]);
+
             user = JSON.parse(readCookie('mainuser'));
             course  = JSON.parse(readCookie('course'));
 

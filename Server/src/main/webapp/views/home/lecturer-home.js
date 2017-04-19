@@ -106,6 +106,8 @@ $(document).ready(function() {
     });
 
     user = JSON.parse(readCookie('mainuser'));
+    console.log(user);
+    wsSendMessage(user["id"]);
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
@@ -304,7 +306,7 @@ $(document).ready(function() {
     }
 
 
-    //console.log(lecturerSeatingList);
+    console.log(lecturerSeatingList);
     var seatCounter=0;
 
     for(var i = 0; i<lecturerSeatingList.length;i++)
@@ -459,12 +461,11 @@ $(document).ready(function() {
     Plotly.newPlot('myDiv', data);
 
 
-    /*
 
-     google.charts.load('current', {'packages':['corechart']});
-     google.charts.setOnLoadCallback(drawChart);*/
 
-    google.load('visualization', '1', {packages:['corechart'], callback: drawChart});
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
 
 
 

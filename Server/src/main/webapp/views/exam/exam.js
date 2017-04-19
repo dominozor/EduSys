@@ -42,6 +42,11 @@ $(document).ready(function(){
     var course, user;
 
     $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+    $.ajax({
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
@@ -49,6 +54,12 @@ $(document).ready(function(){
 
     $.ajax({
         url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $.ajax({
+        url: '/views/WS/websocket.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
@@ -67,6 +78,8 @@ $(document).ready(function(){
 
     user = JSON.parse(readCookie('mainuser'));
     course = JSON.parse(readCookie('course'));
+    wsSendMessage(user["id"]);
+
 
     document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
 

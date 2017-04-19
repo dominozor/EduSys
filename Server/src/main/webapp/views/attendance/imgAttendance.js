@@ -8,7 +8,11 @@ $(window).on('load', function() {
 });
 
 $(document).ready(function() {
-
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({
         url: '/views/eduUser/eduUser.js',
         dataType: 'script',
@@ -35,6 +39,7 @@ $(document).ready(function() {
 
     var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
+    wsSendMessage(user["id"]);
 
     $('#studentName').html(user["name"] + " " + user["surname"]);
     $('#studentButtonName').html(user["name"] + " " + user["surname"]);

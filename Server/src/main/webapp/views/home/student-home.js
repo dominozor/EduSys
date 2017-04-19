@@ -39,11 +39,7 @@ $(document).ready(function() {
     var attList, attListObj;
     var gradeList, gradeListObj;
     var user;
-    $.ajax({
-        url: '/views/main/main.js',
-        dataType: 'script',
-        async: false  // This option prevents this function to execute asynchronized
-    });
+
     //First attendance.js, eduUser.js, utility.js and exam.js areimported to student-home.js
     $.ajax({
         url: '/views/attendance/attendance.js',

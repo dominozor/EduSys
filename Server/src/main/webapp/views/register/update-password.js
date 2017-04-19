@@ -12,6 +12,11 @@ $(document).ready(function() {
     var user;
     var htmlString = "";
     //First eduUser.js and utility.js is imported to admin-home.js
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
 
     $.ajax({
         url: '/views/eduUser/eduUser.js',
@@ -27,8 +32,14 @@ $(document).ready(function() {
 
     $.getScript("/views/utility/sha256.js", function(){});
 
-    user = JSON.parse(readCookie('mainuser'));
+    $.ajax({
+        url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
 
+    user = JSON.parse(readCookie('mainuser'));
+    wsSendMessage(user["id"]);
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 

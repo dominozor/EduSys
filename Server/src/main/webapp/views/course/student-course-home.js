@@ -22,6 +22,12 @@ function getNumofExamsForSection(courseID,sectionID) {
 
 $(document).ready(function() {
 
+
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     //First and utility.js is imported to course-home.js
     $.ajax({
         url: '/views/eduUser/eduUser.js',
@@ -41,6 +47,12 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.ajax({
+        url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
 
     $.ajax({
         url: '../../lib/plugins/chartjs/Chart.min.js',
@@ -51,7 +63,7 @@ $(document).ready(function() {
 
 
     var user = JSON.parse(readCookie('mainuser'));
-
+    wsSendMessage(user["id"]);
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 

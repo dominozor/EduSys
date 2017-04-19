@@ -1,6 +1,11 @@
 $(document).ready(function(){
 
     $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+    $.ajax({
         url: '/views/eduUser/eduUser.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
@@ -11,6 +16,11 @@ $(document).ready(function(){
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
+    $.ajax({
+        url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
 
     var htmlString = "";
     var course=JSON.parse(readCookie("course"));
@@ -18,7 +28,7 @@ $(document).ready(function(){
     document.getElementById("section-no").value= course["sectionId"];
 
     var user = JSON.parse(readCookie('mainuser'));
-
+    wsSendMessage(user["id"]);
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 

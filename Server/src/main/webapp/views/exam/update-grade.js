@@ -6,6 +6,11 @@ $(document).ready(function(){
     var len;
 
     $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+    $.ajax({
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
@@ -17,11 +22,19 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.ajax({
+        url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
     gradeCookie = JSON.parse(readCookie('grade'));
     len = readCookie('lengthU');
 
     exam = JSON.parse(readCookie('exam'));
     user = JSON.parse(readCookie('mainuser'));
+
+    wsSendMessage(user["id"]);
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);

@@ -23,6 +23,11 @@ $(document).ready(function(){
     var course, user;
 
     $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+    $.ajax({
         url: '/views/utility/utility.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
@@ -34,8 +39,15 @@ $(document).ready(function(){
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.ajax({
+        url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
     course = JSON.parse(readCookie('course'));
     user = JSON.parse(readCookie('mainuser'));
+    wsSendMessage(user["id"]);
 
     var courseListObj=getAllCourses(user["id"],user["role"]);
     var courseList=JSON.parse(courseListObj.responseText);

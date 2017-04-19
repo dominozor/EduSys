@@ -1,11 +1,17 @@
 $(document).ready(function(){
 
-    loadNavBar();
-    console.log("HELOO");
+
 
 });
 function main(){
     loadNavBar();
+}
+
+function logout(){
+
+    for (var it in $.cookie()) $.removeCookie(it);
+    localStorage.clear();
+    window.location.replace("http://localhost:8080");
 }
 
 function notification(id) {

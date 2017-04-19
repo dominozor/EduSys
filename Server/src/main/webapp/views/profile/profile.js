@@ -12,7 +12,11 @@ $(document).ready(function() {
     var user;
     var htmlString = "";
     //First eduUser.js and utility.js is imported to admin-home.js
-
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({
         url: '/views/eduUser/eduUser.js',
         dataType: 'script',
@@ -21,6 +25,11 @@ $(document).ready(function() {
 
     $.ajax({
         url: '/views/utility/utility.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+    $.ajax({
+        url: '/views/WS/websocket.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
@@ -56,7 +65,7 @@ $(document).ready(function() {
     }
 
     document.getElementById("homePage").onclick = function() {
-        console.log("asjhdkjasdasjkdahsd");
+
         if(user["role"]===0) {
             window.location.replace("http://localhost:8080/templates/home/admin-home.html");
         }

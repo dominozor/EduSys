@@ -32,6 +32,12 @@ $(document).ready(function() {
 
     //First and utility.js is imported to course-home.js
     $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $.ajax({
         url: '/views/eduUser/eduUser.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
@@ -49,6 +55,11 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
+    $.ajax({
+        url: '/views/WS/websocket.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     function getNumofStudentsForSection(courseID,sectionID) {
 
         return $.ajax({
@@ -109,7 +120,7 @@ $(document).ready(function() {
 
     var course = JSON.parse(readCookie('course'));
     var user = JSON.parse(readCookie('mainuser'));
-
+    wsSendMessage(user["id"]);
     var sectionInfoObj = getAllSectionInfo();
     var sectionInfo = JSON.parse(sectionInfoObj.responseText);
 
@@ -208,7 +219,9 @@ $(document).ready(function() {
 
     var attendanceRateObj;
     attendanceRateObj = getTotalAttendanceRateForSection(course["id"],course["sectionId"]);
+    console.log(attendanceRateObj);
     var attendanceRateList=JSON.parse(attendanceRateObj.responseText);
+    console.log(attendanceRateList);
     var percentageRate = parseInt(attendanceRateList[0]["totalstu"]) / parseInt(attendanceRateList[0]["mult"]);
     percentageRate = percentageRate *100;
 

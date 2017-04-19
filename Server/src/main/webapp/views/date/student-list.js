@@ -18,6 +18,12 @@ $(document).ready(function(){
     var StudentAttList, StudentAttListObj;
     var date, course, user;
 
+
+    $.ajax({
+        url: '/views/main/main.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({
         url: '/views/utility/utility.js',
         dataType: 'script',
@@ -26,6 +32,12 @@ $(document).ready(function(){
 
     $.ajax({
         url: '/views/eduUser/eduUser.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
+
+    $.ajax({
+        url: '/views/WS/websocket.js',
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
@@ -45,7 +57,7 @@ $(document).ready(function(){
     date = JSON.parse(readCookie('courseDate'));
     course = JSON.parse(readCookie('course'));
     user = JSON.parse(readCookie('mainuser'));
-
+    wsSendMessage(user["id"]);
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
 
