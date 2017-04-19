@@ -55,6 +55,19 @@ $(document).ready(function() {
         $('#userRole').html("Student");
     }
 
+    document.getElementById("homePage").onclick = function() {
+        console.log("asjhdkjasdasjkdahsd");
+        if(user["role"]===0) {
+            window.location.replace("http://localhost:8080/templates/home/admin-home.html");
+        }
+        else if(user["role"]===1) {
+            window.location.replace("http://localhost:8080/templates/home/lecturer-home.html");
+        }
+        else if(user["role"]===2) {
+            window.location.replace("http://localhost:8080/templates/home/student-home.html");
+        }
+    };
+
     $('#userID').html(user["id"]);
     $('#userEmail').html(user["email"]);
     $('#userProPic').html(user["ppic"]);

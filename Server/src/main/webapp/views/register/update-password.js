@@ -46,6 +46,19 @@ $(document).ready(function() {
     $('#stuName').html(user["name"] + " " + user["surname"]);
     $('#userIdHeader').html(user["id"]);
 
+    document.getElementById("homePage").onclick = function() {
+        console.log("asjhdkjasdasjkdahsd");
+        if(user["role"]===0) {
+            window.location.replace("http://localhost:8080/templates/home/admin-home.html");
+        }
+        else if(user["role"]===1) {
+            window.location.replace("http://localhost:8080/templates/home/lecturer-home.html");
+        }
+        else if(user["role"]===2) {
+            window.location.replace("http://localhost:8080/templates/home/student-home.html");
+        }
+    };
+
     document.getElementById("contentHeader").innerHTML = '<h1>' + user["name"] + " " + user["surname"] + " Profile" + '</h1>';
 
     courseListObj=getAllCourses(user["id"],user["role"]);
