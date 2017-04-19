@@ -106,7 +106,6 @@ $(document).ready(function() {
     });
 
     user = JSON.parse(readCookie('mainuser'));
-    wsSendMessage(user["id"]);
 
     var img = document.getElementById("studentImage"); //This puts the profile picture of the student to the home page.
     img.src = String(user["ppic"]);
@@ -129,15 +128,15 @@ $(document).ready(function() {
     $('#Courses').html(createCourseTable(courseList,captions,1));
 
     for(var i=0;i<courseList.length;i++){
-            var courseId = courseList[i]["id"];
-            var sectionId = courseList[i]["sectionId"];
-            var courseName = courseList[i]["name"];
-            htmlString += '<li><a href="#" onClick="goToCourseHome('
-            htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
-            htmlString += courseId;
-            htmlString += " - ";
-            htmlString += sectionId;
-            htmlString += '</a></li>';
+        var courseId = courseList[i]["id"];
+        var sectionId = courseList[i]["sectionId"];
+        var courseName = courseList[i]["name"];
+        htmlString += '<li><a href="#" onClick="goToCourseHome('
+        htmlString += courseId + ',' + "'" + courseName + "'" +  ',' + sectionId + ')"><i class="fa fa-circle-o"></i>';
+        htmlString += courseId;
+        htmlString += " - ";
+        htmlString += sectionId;
+        htmlString += '</a></li>';
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
@@ -305,7 +304,7 @@ $(document).ready(function() {
     }
 
 
-    console.log(lecturerSeatingList);
+    //console.log(lecturerSeatingList);
     var seatCounter=0;
 
     for(var i = 0; i<lecturerSeatingList.length;i++)
@@ -322,83 +321,83 @@ $(document).ready(function() {
         }
 
         /*if(lecturerSeatingList[i]["distance"]>0 && lecturerSeatingList[i]["distance"]<100)
-        {
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[0][seat] += 1;
-            seatCounter++;
-        }
+         {
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[0][seat] += 1;
+         seatCounter++;
+         }
 
-        if(lecturerSeatingList[i]["distance"]>=100 && lecturerSeatingList[i]["distance"]<200)
-        {
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[1][seat] += 1;
-            seatCounter++;
-        }
+         if(lecturerSeatingList[i]["distance"]>=100 && lecturerSeatingList[i]["distance"]<200)
+         {
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[1][seat] += 1;
+         seatCounter++;
+         }
 
-        if(lecturerSeatingList[i]["distance"]>=200 && lecturerSeatingList[i]["distance"]<300)
-        {
+         if(lecturerSeatingList[i]["distance"]>=200 && lecturerSeatingList[i]["distance"]<300)
+         {
 
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[2][seat] += 1;
-            seatCounter++;
-        }
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[2][seat] += 1;
+         seatCounter++;
+         }
 
-        if(lecturerSeatingList[i]["distance"]>=300 && lecturerSeatingList[i]["distance"]<400)
-        {
+         if(lecturerSeatingList[i]["distance"]>=300 && lecturerSeatingList[i]["distance"]<400)
+         {
 
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[3][seat] += 1;
-            seatCounter++;
-        }
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[3][seat] += 1;
+         seatCounter++;
+         }
 
-        if(lecturerSeatingList[i]["distance"]>=400 && lecturerSeatingList[i]["distance"]<500)
-        {
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[4][seat] += 1;
-            seatCounter++;
-        }
-
-
-        if(lecturerSeatingList[i]["distance"]>=500 && lecturerSeatingList[i]["distance"]<600)
-        {
-
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[5][seat] += 1;
-            seatCounter++;
-        }
-
-        if(lecturerSeatingList[i]["distance"]>=600 && lecturerSeatingList[i]["distance"]<700)
-        {
-
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[6][seat] += 1;
-            seatCounter++;
-        }
+         if(lecturerSeatingList[i]["distance"]>=400 && lecturerSeatingList[i]["distance"]<500)
+         {
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[4][seat] += 1;
+         seatCounter++;
+         }
 
 
-        if(lecturerSeatingList[i]["distance"]>=700 && lecturerSeatingList[i]["distance"]<800)
-        {
+         if(lecturerSeatingList[i]["distance"]>=500 && lecturerSeatingList[i]["distance"]<600)
+         {
 
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[7][seat] += 1;
-            seatCounter++;
-        }
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[5][seat] += 1;
+         seatCounter++;
+         }
 
-        if(lecturerSeatingList[i]["distance"]>=800 && lecturerSeatingList[i]["distance"]<900)
-        {
-            var seat;
-            seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-            zz[8][seat]++;
-            seatCounter++;
-        }*/
+         if(lecturerSeatingList[i]["distance"]>=600 && lecturerSeatingList[i]["distance"]<700)
+         {
+
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[6][seat] += 1;
+         seatCounter++;
+         }
+
+
+         if(lecturerSeatingList[i]["distance"]>=700 && lecturerSeatingList[i]["distance"]<800)
+         {
+
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[7][seat] += 1;
+         seatCounter++;
+         }
+
+         if(lecturerSeatingList[i]["distance"]>=800 && lecturerSeatingList[i]["distance"]<900)
+         {
+         var seat;
+         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
+         zz[8][seat]++;
+         seatCounter++;
+         }*/
 
 
     }
@@ -424,15 +423,15 @@ $(document).ready(function() {
     }
 
     /*for(var i =0 ;i< 15; i++)
-    {
-        var tempz=[];
-        for(var j =0 ;j< 9; j++)
-        {
-            tempz.push(Math.floor(Math.random() * 101) -10 );
+     {
+     var tempz=[];
+     for(var j =0 ;j< 9; j++)
+     {
+     tempz.push(Math.floor(Math.random() * 101) -10 );
 
-        }
-        zz.push(tempz);
-    }*/
+     }
+     zz.push(tempz);
+     }*/
 
     var xList = [];
     var yList = [];
@@ -460,11 +459,12 @@ $(document).ready(function() {
     Plotly.newPlot('myDiv', data);
 
 
+    /*
 
+     google.charts.load('current', {'packages':['corechart']});
+     google.charts.setOnLoadCallback(drawChart);*/
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-
+    google.load('visualization', '1', {packages:['corechart'], callback: drawChart});
 
 
 
