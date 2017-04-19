@@ -454,12 +454,24 @@ public class AttendanceRestService {
 			for(Object[] percentage : percentages){
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+
+
 				jo.accumulate("totalstu", percentage[0]);
 				jo.accumulate("mult", percentage[1]); //Putting all information from service object to JSON object.
 
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
 			}
+
+			if(percentages.isEmpty()){
+				JSONObject jo = new JSONObject();
+				jo.accumulate("totalstu", "0");
+				jo.accumulate("mult", "0"); //Putting all information from service object to JSON object.
+
+
+				main.put(jo);
+			}
+
 			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
 					.build();
 		} catch (JSONException ex) {
