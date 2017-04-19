@@ -44,7 +44,10 @@ function getAllSectionInfo() {
 
 
 function drawChart() {
-    var data = google.visualization.arrayToDataTable(graphList);
+    var data1 = new google.visualization.DataTable();
+    data1.addColumn('number', 'X');
+    data1.addColumn('number', 'Y 1');
+
 
     var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
     var colorsUsed=[];
@@ -53,21 +56,82 @@ function drawChart() {
         colorsUsed.push(colorlist[i]);
     }
 
+    data1.addRows([
+        [1, 3],
+        [2, 6],
+        [5, 5],
+        [6, 8],
+        [8, 2],
+        [9, 5],
+        [10, 5],
+        [12, 4],
+        [13, 8]
+    ]);
+
+    var data2 = new google.visualization.DataTable();
+    data2.addColumn('number', 'X');
+    data2.addColumn('number', 'Y 2');
+
+    data2.addRows([
+        [1, 5],
+        [3, 1],
+        [4, 3],
+        [5, 9],
+        [6, 4],
+        [8, 5],
+        [9, 7],
+        [11, 7],
+        [16, 3]
+    ]);
+
+
     var options = {
-        hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
-        vAxis: {title: 'Attendance Percentage', minValue: 0},
-        pointSize: 7,
+        interpolateNulls: true,
         explorer: {
             actions: ['dragToZoom', 'rightClickToReset'],
             axis: 'horizontal',
             keepInBounds: true,
             maxZoomIn: 32.0},
-        colors: colorsUsed,
+
     };
 
+
+    var joinedData = google.visualization.data.join(data1, data2, 'full', [[0, 0]], [1], [1]);
+
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
+
+    chart.draw(joinedData, options);
 }
+
+
+/*
+ function drawChart() {
+
+ var data = google.visualization.arrayToDataTable(graphList);
+ console.log(graphList);
+
+ var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+ var colorsUsed=[];
+ for(var i=0;i<graphList[0].length-1;i++)
+ {
+ colorsUsed.push(colorlist[i]);
+ }
+
+ var options = {
+ hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+ vAxis: {title: 'Attendance Percentage', minValue: 0},
+ pointSize: 7,
+ explorer: {
+ actions: ['dragToZoom', 'rightClickToReset'],
+ axis: 'horizontal',
+ keepInBounds: true,
+ maxZoomIn: 32.0},
+ colors: colorsUsed,
+ };
+
+ var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+ chart.draw(data, options);
+ }*/
 
 $(window).on('load', function() {
     // Animate loader off screen
@@ -463,9 +527,12 @@ $(document).ready(function() {
 
 
 
-    google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+    /*
 
+     google.charts.load('current', {'packages':['corechart']});
+     google.charts.setOnLoadCallback(drawChart);*/
+
+    google.load('visualization', '1', {packages:['corechart'], callback: drawChart});
 
 
 
