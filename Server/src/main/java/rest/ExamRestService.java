@@ -196,7 +196,6 @@ public class ExamRestService {
                 jo.accumulate("name", grade[1]);
                 jo.accumulate("surname", grade[2]);
                 jo.accumulate("grade", grade[3]);
-                jo.accumulate("percentage", grade[4]);
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }
