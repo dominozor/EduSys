@@ -32,12 +32,12 @@ function getAttendanceCountsOfSection(userid) {
     });
 }
 
+var graphList=[];
+
 
 $(document).ready(function() {
 
     var courseList, courseListObj;
-    var attList, attListObj;
-    var gradeList, gradeListObj;
     var user;
 
     //First attendance.js, eduUser.js, utility.js and exam.js areimported to student-home.js
@@ -100,6 +100,8 @@ $(document).ready(function() {
     var coursesObj = listCoursesOfStudent(user["id"]);
     var courses = JSON.parse(coursesObj.responseText);
 
+    graphList.push(courses);
+
     var attendanceCountsForStudentsObj = getAttendanceCountsOfStudents(user["id"]);
     var attendanceCountsForStudents = JSON.parse(attendanceCountsForStudentsObj.responseText);
 
@@ -125,6 +127,7 @@ $(document).ready(function() {
         htmlString += '</a></li>';
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
+
 
     $('.courseInfo').click(function () {
         var row=parseInt($(this)[0].id.substr(6)); //Row ids are course#(number) so first 6 characters("course") is not important.
@@ -154,7 +157,7 @@ $(document).ready(function() {
 
     //Pie Chart Of Ratio Of Interests
 
-    $('#pieChartInterestCaller').click(function () {
+    $('#pieChartInterestCaller').one("click", function () {
 
         var avgInterestInfoObj = listAverageInterestInfo(user["id"]);
         var avgInterestInfo = JSON.parse(avgInterestInfoObj.responseText);
@@ -284,8 +287,7 @@ $(document).ready(function() {
 
 
     //Line Chart Of The Ratio Of Interests
-    $('#lineChartInterestCaller').click(function () {
-
+    $('#lineChartInterestCaller').one("click", function () {
         $('#lineChartInterest').attr("style","height:505px");
 
         var graphInfo = [];
@@ -312,7 +314,7 @@ $(document).ready(function() {
             graphData.push(date);
 
             for(var j=0; j<courses.length; j++)
-                graphData.push(0);
+                graphData.push(null);
 
             graphInfo.push(graphData);
         }
@@ -322,7 +324,7 @@ $(document).ready(function() {
             var numberOfAttendanceOfStudent=0;
             for(var j=0; j<attendanceCountsForStudents.length; j++) {
                 if(attendanceCountsForStudents[j]["courseID"] == courseInterest[i]["courseId"])
-                numberOfAttendanceOfStudent = attendanceCountsForStudents[j]["attendanceCount"];
+                    numberOfAttendanceOfStudent = attendanceCountsForStudents[j]["attendanceCount"];
             }
 
             var numberOfAttendanceOfCourse=0;
@@ -367,8 +369,7 @@ $(document).ready(function() {
 
         }
 
-
-        google.charts.load('current', {'packages':['corechart']});
+         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
             var data = google.visualization.arrayToDataTable(
@@ -386,6 +387,7 @@ $(document).ready(function() {
                     maxZoomIn: 32.0
                 },
                 colors: ['#D44E41', '#000000'],
+                interpolateNulls : true,
             };
 
             var chart = new google.visualization.LineChart(document.getElementById('lineChartInterest'));
@@ -398,7 +400,7 @@ $(document).ready(function() {
 
     //Pie Chart Of Ratio Of Attendances
 
-    $('#pieChartAttendanceCaller').click(function () {
+    $('#pieChartAttendanceCaller').one("click", function () {
 
         var coursesObj = listCoursesOfStudent(user["id"]);
         var courses = JSON.parse(coursesObj.responseText);
@@ -484,14 +486,112 @@ $(document).ready(function() {
 
     //Heat Map!!
 
-    $('#heatMapCaller').click(function () {
+    $('#heatMapCaller').one("click", function () {
+
+        var courseInterestObj = getInterestsOfCourses(user["id"]);
+        var courseInterest = JSON.parse(courseInterestObj.responseText);
+
+        var numberOfRow = 0;
+        var numberOfSeat = 0;
+
+        for(var i=0; i<sectionInfo.length; i++) {
+            var class_size = sectionInfo[i]["class_size"];
+            var old_row_number = "";
+            var old_seat_number = "";
+            var flag = 0;
+
+            for(var i=0; i<class_size.length; i++) {
+                if(flag == 0) {
+                    if(class_size[i] != "x") {
+                        old_row_number += class_size[i];
+                    }
+                    else
+                        flag = 1;
+                }
+                else
+                    old_seat_number += class_size[i];
+            }
+
+            numberOfRow = Math.max(parseInt(old_row_number, 10), numberOfRow);
+            numberOfSeat = Math.max(parseInt(old_seat_number, 10), numberOfSeat);
+        }
+
+        //window.alert(numberOfRow + " " + numberOfSeat);
+
+
+        var zz=[];
+
+        for(var i=0; i<numberOfRow; i++) {
+            var zzRow = [];
+            for(var j=0; j<numberOfSeat; j++) {
+                zzRow.push(0);
+            }
+            zz.push(zzRow);
+        }
+
+
+        var seatCounter=0;
+
+        for(var i = 0; i<courseInterest.length;i++)
+        {
+
+            for(var j=0; j<zz.length; j++) {
+                if(courseInterest[i]["distance"]>=j*100 && courseInterest[i]["distance"]<(j+1)*100)
+                {
+                    var seat;
+                    seat=Math.floor(courseInterest[i]["leftcoor"]/20);
+                    zz[j][seat] += 1;
+                    seatCounter++;
+                }
+            }
+        }
+
+
+        for(var i=0;i<zz.length;i++)
+        {
+            for(var j=0 ; j<zz[i].length;j++)
+            {
+                zz[i][j]=(zz[i][j]/seatCounter)*100;
+            }
+        }
+
+
+        var xx=[];
+        var yy=[];
+
+        for(var i =0 ;i< 15; i++)
+        {
+            xx.push(i.toString());
+            yy.push(i.toString());
+        }
+
+        /*for(var i =0 ;i< 15; i++)
+         {
+         var tempz=[];
+         for(var j =0 ;j< 9; j++)
+         {
+         tempz.push(Math.floor(Math.random() * 101) -10 );
+
+         }
+         zz.push(tempz);
+         }*/
+
+        var xList = [];
+        var yList = [];
+
+        for(var i=0; i<numberOfSeat; i++) {
+            xList.push('x' + i.toString());
+        }
+
+        for(var i=0; i<numberOfRow; i++) {
+            yList.push('y' + i.toString());
+        }
 
         var data = [
             {
-                z: [[6,8,9,5,7,2,5,10,3,6], [6,7,6,7,6,7,6,7,6,7], [5,6,5,6,5,6,5,6,5,6], [5,6,5,6,5,6,5,6,5,6], [4,5,4,5,4,5,4,5,4,5],
-                    [4,5,4,5,4,5,4,5,4,5], [4,6,5,7,4,6,5,7,4,6], [3,6,4,7,3,6,4,7,3,6], [2,3,4,2,3,4,2,3,4,4], [2,3,4,2,3,4,2,3,4,5]],
-                x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                y: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                z : zz,
+                x: xList,
+                y: yList,
                 type: 'heatmap'
             }
         ];
@@ -499,5 +599,5 @@ $(document).ready(function() {
         Plotly.newPlot('heatmapContainer', data);
     });
 
-    
+
 });

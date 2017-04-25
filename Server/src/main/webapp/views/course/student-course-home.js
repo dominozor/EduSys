@@ -20,6 +20,15 @@ function getNumofExamsForSection(courseID,sectionID) {
     });
 }
 
+function getSection(courseID, sectionID) {
+
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/section/get/" + courseID + "/" + sectionID,
+        async: false
+    })
+}
+
 $(document).ready(function() {
 
 
@@ -98,7 +107,6 @@ $(document).ready(function() {
     var course = JSON.parse(readCookie('course'));
     document.getElementById("contentHeader").innerHTML = '<h1>' + course["id"] + " " + course["name"] + " / Section " + course["sectionId"] + '</h1>';
 
-
     var numOfStudents = getNumofStudentsForSection(course["id"], course["sectionId"]).responseText;
     document.getElementById("numOfStudents").innerHTML = "<h3>" + numOfStudents + "</h3>" + "<p>Students</p>";
 
@@ -112,6 +120,9 @@ $(document).ready(function() {
 
     var totalNumberOfAttendanceObj = getNumberOfAttendance(course["id"], course["sectionId"]);
     var totalNumberOfAttendance = JSON.parse(totalNumberOfAttendanceObj.responseText);
+
+    var sectionInfoObj = getSection(course["id"], course["sectionId"]);
+    var sectionInfo = JSON.parse(sectionInfoObj.responseText);
 
     document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + parseInt((courAttList.length/totalNumberOfAttendance[0]["attendanceNumber"])*100, 10) + "</h3>" + "<p>Attendance Rate</p>";
 
@@ -128,12 +139,109 @@ $(document).ready(function() {
         window.location.replace("http://localhost:8080/templates/exam/exam.html");
     });
 
+    var courseInterestObj = getInterestsOfCourses(user["id"]);
+    var courseInterest = JSON.parse(courseInterestObj.responseText);
+
+    var numberOfRow = 0;
+    var numberOfSeat = 0;
+
+    var class_size = sectionInfo["class_size"];
+    var old_row_number = "";
+    var old_seat_number = "";
+    var flag = 0;
+
+    for(var i=0; i<class_size.length; i++) {
+        if(flag == 0) {
+            if(class_size[i] != "x") {
+                old_row_number += class_size[i];
+            }
+            else
+                flag = 1;
+        }
+        else
+            old_seat_number += class_size[i];
+    }
+
+    numberOfRow = Math.max(parseInt(old_row_number, 10), numberOfRow);
+    numberOfSeat = Math.max(parseInt(old_seat_number, 10), numberOfSeat);
+
+
+    //window.alert(numberOfRow + " " + numberOfSeat);
+
+
+    var zz=[];
+
+    for(var i=0; i<numberOfRow; i++) {
+        var zzRow = [];
+        for(var j=0; j<numberOfSeat; j++) {
+            zzRow.push(0);
+        }
+        zz.push(zzRow);
+    }
+
+
+    var seatCounter=0;
+
+    for(var i = 0; i<courseInterest.length;i++)
+    {
+        if(courseInterest[i]["courseId"] == course["id"] && courseInterest[i]["sectionId"] == course["sectionId"]) {
+            for (var j = 0; j < zz.length; j++) {
+                if (courseInterest[i]["distance"] >= j * 100 && courseInterest[i]["distance"] < (j + 1) * 100) {
+                    var seat;
+                    seat = Math.floor(courseInterest[i]["leftcoor"] / 20);
+                    zz[j][seat] += 1;
+                    seatCounter++;
+                }
+            }
+        }
+    }
+
+
+    for(var i=0;i<zz.length;i++)
+    {
+        for(var j=0 ; j<zz[i].length;j++)
+        {
+            zz[i][j]=(zz[i][j]/seatCounter)*100;
+        }
+    }
+
+
+    var xx=[];
+    var yy=[];
+
+    for(var i =0 ;i< 15; i++)
+    {
+        xx.push(i.toString());
+        yy.push(i.toString());
+    }
+
+    /*for(var i =0 ;i< 15; i++)
+     {
+     var tempz=[];
+     for(var j =0 ;j< 9; j++)
+     {
+     tempz.push(Math.floor(Math.random() * 101) -10 );
+
+     }
+     zz.push(tempz);
+     }*/
+
+    var xList = [];
+    var yList = [];
+
+    for(var i=0; i<numberOfSeat; i++) {
+        xList.push('x' + i.toString());
+    }
+
+    for(var i=0; i<numberOfRow; i++) {
+        yList.push('y' + i.toString());
+    }
+
     var data = [
         {
-            z: [[6,8,9,5,7,2,5,10,3,6], [6,7,6,7,6,7,6,7,6,7], [5,6,5,6,5,6,5,6,5,6], [5,6,5,6,5,6,5,6,5,6], [4,5,4,5,4,5,4,5,4,5],
-                [4,5,4,5,4,5,4,5,4,5], [4,6,5,7,4,6,5,7,4,6], [3,6,4,7,3,6,4,7,3,6], [2,3,4,2,3,4,2,3,4,4], [2,3,4,2,3,4,2,3,4,5]],
-            x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            y: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            z : zz,
+            x: xList,
+            y: yList,
             type: 'heatmap'
         }
     ];
