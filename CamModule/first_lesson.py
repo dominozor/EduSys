@@ -18,7 +18,7 @@ projectFolderPath=sys.argv[1]
         self.Left = left'''
 
 (width, height) = (130, 100)  # defining the size of images
-webcam = cv2.VideoCapture(0) # opening webcam
+webcam = cv2.VideoCapture("rtsp://admin:12345@192.168.1.20?tcp") # opening webcam
 align = openface.AlignDlib(projectFolderPath+'models/dlib/shape_predictor_68_face_landmarks.dat')
 
 #create datasets directory if it doesn't exist

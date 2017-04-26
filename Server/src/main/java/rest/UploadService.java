@@ -44,6 +44,8 @@ public class UploadService  {
 
         try {
             cameraUtility.takeAttendanceWithPicture(courseID,sectionNo,fileLocation);
+            deleteTemporaryFile(fileLocation);
+
             return Response.status(200).build();
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,16 +92,19 @@ public class UploadService  {
 
         if(fileExtension.equals("xls")){
             if(excelUtility.enterGradesXLS(fileLocation,examID)){
+                deleteTemporaryFile(fileLocation);
                 return Response.status(200).build();
             }
         }
         else if(fileExtension.equals("xlsx")){
             if(excelUtility.enterGradesXLSX(fileLocation,examID)){
+                deleteTemporaryFile(fileLocation);
                 return Response.status(200).build();
             }
         }
         else if(fileExtension.equals("ods")){
             if(excelUtility.enterGradesODS(fileLocation,examID)){
+                deleteTemporaryFile(fileLocation);
                 return Response.status(200).build();
             }
         }
@@ -108,5 +113,24 @@ public class UploadService  {
 
 
     }
+
+
+    public void deleteTemporaryFile(String fileLocation){
+
+        try{
+            File file=new File(fileLocation);
+
+            if(file.delete()){
+                System.out.println(file.getName() + " is deleted!");
+            }else{
+                System.out.println("Delete operation is failed.");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
 }
 
