@@ -4,6 +4,7 @@ import javax.annotation.security.PermitAll;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
@@ -52,12 +53,12 @@ public class UploadService  {
 
     @PermitAll
     @POST
-    @Path("/excelGrades")
+    @Path("/excelGrades/{examID}")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadExcelFile (
             @FormDataParam("file") InputStream uploadedInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail,
-            @FormDataParam("examID") String examID ){
+            @PathParam("examID") String examID ){
 
         String tempFileName = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
         String fileExtension = FilenameUtils.getExtension(fileDetail.getFileName());

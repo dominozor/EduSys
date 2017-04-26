@@ -171,6 +171,15 @@ $(document).ready(function(){
             window.location.replace("http://localhost:8080/templates/exam/exam.html");
         });
 
+        $('.ExcelExam').click(function () {
+            var row=parseInt($(this)[0].id.substr(9)); //Row ids are courseGrade#(number) so first 12 characters("courseGrade") is not important.
+            var exam=sectExamList[row];// After parsing row, now we have row index for exam list
+            //createCookie('exam',JSON.stringify(exam),1); // A cookie is created for the exam page.Cookie has the information about course and keeps it as a JSON.
+
+            window.localStorage.setItem("examID", exam["examId"]); // Saving
+            window.location.replace("http://localhost:8080/templates/exam/add-excel.html");
+        });
+
 
         $("#add-exam").html('<input type="button" class="btn btn-default" id="addExam" value="Add Exam">');
 

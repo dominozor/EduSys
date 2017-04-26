@@ -211,6 +211,7 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
         }
         if(id==1) {
             htmlString += '<td><input class="getGradeList btn btn-default" id="getGradeList'+i+'" type="button" value="Get Grade List"/></td>';
+            htmlString += '<td><input class="ExcelExam btn btn-default" id="ExcelExam'+i+'" type="button" value="Upload Excel File"/></td>';
             htmlString += '<td><input class="deleteExam btn btn-default" id="deleteExam'+i+'" type="button" value="Delete Exam"/></td></tr>';
         }
     }

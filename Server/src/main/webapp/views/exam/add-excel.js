@@ -1,3 +1,11 @@
+function getExcelTemplate() { //This function gets all grades data of a student from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/exam/getExcel",
+        async: false  // This option prevents this function to execute asynchronized
+    });
+}
+
 $(document).ready(function(){
     var exam;
     var len;
@@ -13,7 +21,11 @@ $(document).ready(function(){
         dataType: 'script',
         async: false  // This option prevents this function to execute asynchronized
     });
-
+    $.ajax({
+        url: 'http://malsup.github.com/jquery.form.js',
+        dataType: 'script',
+        async: false  // This option prevents this function to execute asynchronized
+    });
     $.ajax({
         url: '/views/WS/websocket.js',
         dataType: 'script',
@@ -39,12 +51,35 @@ $(document).ready(function(){
     $('#userIdHeader').html(user["id"]);
 
 
-    $("#add-excForm").html('<form action="rest/file/upload" method="post" enctype="multipart/form-data"> <p> Select a file : <input type="file" name="file" size="45" /> </p> <p>Target Upload Path : <input type="text" name="examID" /></p> <input type="submit" value="Upload It" /> </form>');
+    jQuery("#upload-form").submit(function(e){
+        //The following stops the form from redirecting
+        e.preventDefault();
+        var exam=window.localStorage.getItem("examID");
+        document.getElementById('loading-gif').style.display = 'block';
+        jQuery("#upload-form").ajaxSubmit({
+            type: 'POST',
+            url: 'http://localhost:8080/rest/upload/excelGrades/'+exam,
+            data: jQuery('#upload-form').serialize(),
+            success: function (msg) {
+                //The data variable will contain the response data
+                //if it's successful, you can no redirect wherever you want
+                document.getElementById('loading-gif').style.display = 'none';
+                window.location.href = "http://localhost:8080/templates/exam/exam.html";
+            },
+            error: function(msg) {
 
-
+                $("#error_rgs_msg").html("<b style='color:red'>Fail...</b>");
+            }
+        });
+    });
+    $("#getExcelTemplate").click(function(){
+        getExcelTemplate();
+    });
 
     $("#backToExamListPage").click(function(){
-        window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
+        window.location.replace("http://localhost:8080/templates/exam/exam.html");
     });
 });
+
+
 
