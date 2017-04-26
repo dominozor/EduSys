@@ -7,12 +7,13 @@
 
 </head>
 
+<!--onat main include-->
+<script src="/lib/jquery.js" type="text/javascript"></script>
+<script src="/lib/jquery-cookie.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="../css/table.css">
 <link rel="stylesheet" href="../css/loader.css">
-<script src="http://malsup.github.com/jquery.form.js"></script>
-<!-- Tell the browser to be responsive to screen width -->
-<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
 <!-- Bootstrap 3.3.6 -->
 <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
@@ -24,8 +25,20 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
      folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="../../lib/dist/css/skins/_all-skins.min.css">
+<!-- iCheck -->
+<link rel="stylesheet" href="../../lib/plugins/iCheck/flat/blue.css">
+<!-- Morris chart -->
+<link rel="stylesheet" href="../../lib/plugins/morris/morris.css">
+<!-- jvectormap -->
+<link rel="stylesheet" href="../../lib/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+<!-- Date Picker -->
+<link rel="stylesheet" href="../../lib/plugins/datepicker/datepicker3.css">
+<!-- Daterange picker -->
+<link rel="stylesheet" href="../../lib/plugins/daterangepicker/daterangepicker.css">
 <!-- bootstrap wysihtml5 - text editor -->
 <link rel="stylesheet" href="../../lib/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,22 +46,11 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
-<!-- jQuery 2.2.3 -->
-<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-    $.widget.bridge('uibutton', $.ui.button);
-</script>
-
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 
-<!-- Bootstrap 3.3.6 -->
-<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+
+
+
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="../../lib/plugins/morris/morris.min.js"></script>
@@ -70,17 +72,29 @@
 <script src="../../lib/plugins/slimScroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="../../lib/plugins/fastclick/fastclick.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+<!-- onat main include-->
+
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- jQuery 2.2.3 -->
+<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="../../lib/plugins/jQueryUI/jquery-ui.js"></script>
+<!-- Bootstrap 3.3.6 -->
+<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!--link rel="import" href="../main/main.html"-->
 <!-- AdminLTE App -->
 <script src="../../lib/dist/js/app.min.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../../lib/plugins/jQueryUI/jquery-ui.js"></script>
-
-<script src="../../lib/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../lib/dist/js/demo.js"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
-
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div id="loading-gif" class="myModal"></div>
@@ -319,19 +333,6 @@
     </div>
 
 </div>
-
-<!-- jQuery 2.2.3 -->
-<script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
-<!-- Bootstrap 3.3.6 -->
-<script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
-<!-- ChartJS 1.0.1 -->
-<script src="../../lib/plugins/chartjs/Chart.min.js"></script>
-<!-- FastClick -->
-<script src="../../lib/plugins/fastclick/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../../lib/dist/js/app.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="../../lib/dist/js/demo.js"></script>
 
 <script src="/views/attendance/imgAttendance.js"></script>
 </body>

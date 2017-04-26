@@ -129,8 +129,6 @@ $(document).ready(function() {
                     url: "http://localhost:8080/rest/user/updatePassword?ID="+user["id"]+"&password="+sha256_digest(newPassword),
                     async: false,
                     success: function(response,status){
-                        eraseCookie("mainuser");
-                        createCookie("mainuser", JSON.stringify(mainUserObj), 1);
                         window.location.replace("http://localhost:8080/templates/profile/profile.html");
                     },
                     error: function(xhr) {
