@@ -821,7 +821,7 @@ public class HibernateUtility {
         return null;
     }
 
-    public List<Object[]> getAttendancePercentageForLecturer(String userID) {
+    public List<Object[]> getAttendancePercentageForLecturer() {
 
         Session session = null;
 
@@ -831,7 +831,7 @@ public class HibernateUtility {
             //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
             Query query = session.createNativeQuery("select attendance.courseid, attendance.sectionno, count(*) as totalstu, section.number_of_lectures*section.number_of_students as mult " +
                     "from section, attendance, attendancelist " +
-                    "where section.userid= '"+ userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id " +
+                    "where section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id " +
                     "group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
 
             //in query.list() function query is executed and result set is returned

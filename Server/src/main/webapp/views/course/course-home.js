@@ -219,9 +219,8 @@ $(document).ready(function() {
 
     var attendanceRateObj;
     attendanceRateObj = getTotalAttendanceRateForSection(course["id"],course["sectionId"]);
-    console.log(attendanceRateObj);
+
     var attendanceRateList=JSON.parse(attendanceRateObj.responseText);
-    console.log(attendanceRateList);
     var percentageRate = parseInt(attendanceRateList[0]["totalstu"]) / parseInt(attendanceRateList[0]["mult"]);
     percentageRate = percentageRate *100;
 
@@ -273,12 +272,6 @@ $(document).ready(function() {
 
 
 
-    //var seatPercentageListObj = getSeatingPercentageForCourse(course["id"],course["sectionId"]);
-    //var seatPercentageList = JSON.parse(seatPercentageListObj.responseText);
-    //var lenSeat = seatPercentageList.length;
-
-    //console.log(lenSeat);
-
 
     var newgraphlist=[];
 
@@ -298,7 +291,7 @@ $(document).ready(function() {
 
     for(var i=1;i<graphList.length;i++)
     {
-        if(graphList[i][index]!='0'){
+        if(graphList[i][index]!=null){
 
             var tempdate;
             tempdate=graphList[i][0];
@@ -309,9 +302,27 @@ $(document).ready(function() {
 
             var day = tempdate.substring(8,10);
 
+
+
             if(day<30)
             {
+
+                if(day==28 && month==2)
+                {
+                    day=1;
+                    month= parseInt(month)+1;
+                }
+                else
                 day = parseInt(day)+1;
+            }
+            if(day==30)
+            {
+                if(month==4 || month==6 || month==9 || month==11 )
+                {
+                    day=1;
+                    month = parseInt(month)+1;
+                }
+
             }
 
             if(day==31)
@@ -324,6 +335,9 @@ $(document).ready(function() {
                     year=parseInt(year)+1;
                 }
             }
+
+
+
             month= parseInt(month)-1;
 
             var element=[];
@@ -338,6 +352,8 @@ $(document).ready(function() {
 
 
     }
+
+
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
@@ -387,7 +403,7 @@ $(document).ready(function() {
 
     var lecturerSeatingObj=getAllSeatingsForLecturerCourse(user["id"],course["sectionId"], course["id"]);
     var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
-    console.log(lecturerSeatingList);
+    //console.log(lecturerSeatingList);
     var pieChartArray =[];
     var seatCounter=0;
 
@@ -407,6 +423,17 @@ $(document).ready(function() {
 
 
     }
+
+    for(var i=0;i<zz.length;i++)
+    {
+        for(var j=0 ; j<zz[i].length;j++)
+        {
+            zz[i][j]=(zz[i][j]/seatCounter)*100;
+        }
+    }
+
+
+
 
 
     var xx=[];
@@ -444,8 +471,8 @@ $(document).ready(function() {
     Plotly.newPlot('myDiv', data);
 
 
-    console.log(zz);
-    console.log(numberOfRow);
+    //console.log(zz);
+    //console.log(numberOfRow);
 
     var firstrows,secondrows,thirdrows;
     var fr=0;
@@ -473,8 +500,8 @@ $(document).ready(function() {
         secondrows=Math.ceil(numberOfRow/3);
         thirdrows=Math.ceil(numberOfRow/3);
     }
-    console.log(pieChartArray);
-    console.log( firstrows + " " + secondrows + " " + thirdrows);
+    //console.log(pieChartArray);
+    //console.log( firstrows + " " + secondrows + " " + thirdrows);
 
     for(var i=0;i<pieChartArray.length;i++)
     {
@@ -486,12 +513,12 @@ $(document).ready(function() {
         {
             sr++;
         }
-        else
+        else if((pieChartArray[i]>=(secondrows+firstrows)))
         {
             tr++;
         }
     }
-    console.log(fr + " " + sr + " " + tr);
+    //console.log(fr + " " + sr + " " + tr);
 
     //-------------
     //- PIE CHART -
@@ -502,20 +529,20 @@ $(document).ready(function() {
     var PieData = [
         {
             value: fr,
-            color: "#f56954",
-            highlight: "#f56954",
+            color: "#00a65a",
+            highlight: "#00a65a",
             label: "First Three Rows"
         },
         {
             value: sr,
-            color: "#00a65a",
-            highlight: "#00a65a",
+            color: "#f39c12",
+            highlight: "#f39c12",
             label: "Middle Three Rows"
         },
         {
             value: tr,
-            color: "#f39c12",
-            highlight: "#f39c12",
+            color: "#f56954",
+            highlight: "#f56954",
             label: "Back Three Rows"
         },
     ];

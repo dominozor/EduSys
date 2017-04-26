@@ -7,10 +7,10 @@ function getTotalNumOfStudent(userID) { //This function get all prev lectures of
     });
 }
 
-function getAttendancePercentageForLecturer(userID) { //This function get all prev lectures of a course from the Rest services of EduSys
+function getAttendancePercentageForLecturer() { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8080/rest/attendance/getAttendancePercentageForLecturer/" + userID,
+        url: "http://localhost:8080/rest/attendance/getAttendancePercentageForLecturer",
         async: false // This option prevents this function to execute asynchronized
     });
 }
@@ -43,7 +43,7 @@ function getAllSectionInfo() {
 
 
 
-function drawChart() {
+/*function drawChart() {
     var data1 = new google.visualization.DataTable();
     data1.addColumn('number', 'X');
     data1.addColumn('number', 'Y 1');
@@ -101,37 +101,39 @@ function drawChart() {
     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
     chart.draw(joinedData, options);
-}
+}*/
 
 
-/*
+
  function drawChart() {
 
  var data = google.visualization.arrayToDataTable(graphList);
- console.log(graphList);
+     console.log(graphList);
 
- var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
- var colorsUsed=[];
- for(var i=0;i<graphList[0].length-1;i++)
- {
- colorsUsed.push(colorlist[i]);
+     var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+     var colorsUsed=[];
+     for(var i=0;i<graphList[0].length-1;i++)
+     {
+     colorsUsed.push(colorlist[i]);
+     }
+
+     var options = {
+     hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+     vAxis: {title: 'Attendance Percentage', minValue: 0},
+     pointSize: 7,
+     explorer: {
+     actions: ['dragToZoom', 'rightClickToReset'],
+     axis: 'horizontal',
+     keepInBounds: true,
+     maxZoomIn: 32.0},
+     colors: colorsUsed,
+     interpolateNulls : true,
+
+     };
+
+     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+     chart.draw(data, options);
  }
-
- var options = {
- hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
- vAxis: {title: 'Attendance Percentage', minValue: 0},
- pointSize: 7,
- explorer: {
- actions: ['dragToZoom', 'rightClickToReset'],
- axis: 'horizontal',
- keepInBounds: true,
- maxZoomIn: 32.0},
- colors: colorsUsed,
- };
-
- var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
- chart.draw(data, options);
- }*/
 
 $(window).on('load', function() {
     // Animate loader off screen
@@ -209,7 +211,12 @@ $(document).ready(function() {
     var totalNumStu = getTotalNumOfStudent(user['id']).responseText;
     document.getElementById("stuNum").innerHTML = "<h3>" + totalNumStu + "</h3>";
 
-    var attendanceAverageListObj = getAttendancePercentageForLecturer(user["id"]);
+
+    document.getElementById("lectRate").innerHTML = "<h3>" + "3 out of 20" + "</h3>";
+
+
+
+    var attendanceAverageListObj = getAttendancePercentageForLecturer();
     var attendanceAverageList = JSON.parse(attendanceAverageListObj.responseText);
 
     var sectionInfoObj = getAllSectionInfo();
@@ -228,6 +235,12 @@ $(document).ready(function() {
     var coursesList = [];
     coursesList.push("Year");
 
+    console.log(attendanceAverageList);
+
+    console.log(courseList);
+
+    var thislecturerrate=0;
+    var otherlecturers=0;
 
     for(var i=0;i<courseList.length;i++){
         var courseId = courseList[i]["id"];
@@ -239,7 +252,8 @@ $(document).ready(function() {
             var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
 
             if(courseId === courseId2 && sectionId === sectionId2) {
-
+                console.log("val = " + val);
+                thislecturerrate+=val;
                 coursesList.push(courseId + "-" + sectionId);
 
                 var temp = {
@@ -255,6 +269,22 @@ $(document).ready(function() {
         }
     }
 
+    for(var i=0;i<attendanceAverageList.length;i++)
+    {
+        var k=0;
+        for(var j=0;j<courseList.length;j++)
+        {
+            if(courseList[j]["id"]==attendanceAverageList[i]["courseid"])
+            {
+                k++;
+            }
+        }
+        if(k==0)
+            console.log("ders"+ attendanceAverageList[i]["courseid"]);
+
+    }
+
+    //////////////////////////////
     var pieOptions = {
         //Boolean - Whether we should show a stroke on each segment
         segmentShowStroke: true,
@@ -306,7 +336,7 @@ $(document).ready(function() {
 
         for(var j=0;j<coursesList.length-1;j++)
         {
-            element.push(0);
+            element.push(null);
         }
 
         var searchIndexTemp = dailyAttendanceList[i]["courseid"] + "-" + dailyAttendanceList[i]["sectionno"];
@@ -386,85 +416,6 @@ $(document).ready(function() {
             }
         }
 
-        /*if(lecturerSeatingList[i]["distance"]>0 && lecturerSeatingList[i]["distance"]<100)
-         {
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[0][seat] += 1;
-         seatCounter++;
-         }
-
-         if(lecturerSeatingList[i]["distance"]>=100 && lecturerSeatingList[i]["distance"]<200)
-         {
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[1][seat] += 1;
-         seatCounter++;
-         }
-
-         if(lecturerSeatingList[i]["distance"]>=200 && lecturerSeatingList[i]["distance"]<300)
-         {
-
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[2][seat] += 1;
-         seatCounter++;
-         }
-
-         if(lecturerSeatingList[i]["distance"]>=300 && lecturerSeatingList[i]["distance"]<400)
-         {
-
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[3][seat] += 1;
-         seatCounter++;
-         }
-
-         if(lecturerSeatingList[i]["distance"]>=400 && lecturerSeatingList[i]["distance"]<500)
-         {
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[4][seat] += 1;
-         seatCounter++;
-         }
-
-
-         if(lecturerSeatingList[i]["distance"]>=500 && lecturerSeatingList[i]["distance"]<600)
-         {
-
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[5][seat] += 1;
-         seatCounter++;
-         }
-
-         if(lecturerSeatingList[i]["distance"]>=600 && lecturerSeatingList[i]["distance"]<700)
-         {
-
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[6][seat] += 1;
-         seatCounter++;
-         }
-
-
-         if(lecturerSeatingList[i]["distance"]>=700 && lecturerSeatingList[i]["distance"]<800)
-         {
-
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[7][seat] += 1;
-         seatCounter++;
-         }
-
-         if(lecturerSeatingList[i]["distance"]>=800 && lecturerSeatingList[i]["distance"]<900)
-         {
-         var seat;
-         seat=Math.floor(lecturerSeatingList[i]["leftcoor"]/20);
-         zz[8][seat]++;
-         seatCounter++;
-         }*/
-
 
     }
 
@@ -519,7 +470,6 @@ $(document).ready(function() {
         }
     ];
 
-    ///degisiklik
 
 
     Plotly.newPlot('myDiv', data);
@@ -527,12 +477,12 @@ $(document).ready(function() {
 
 
 
-    /*
+
 
      google.charts.load('current', {'packages':['corechart']});
-     google.charts.setOnLoadCallback(drawChart);*/
+     google.charts.setOnLoadCallback(drawChart);
 
-    google.load('visualization', '1', {packages:['corechart'], callback: drawChart});
+    /*google.load('visualization', '1', {packages:['corechart'], callback: drawChart});*/
 
 
 

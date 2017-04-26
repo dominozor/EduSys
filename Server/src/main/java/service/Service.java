@@ -176,7 +176,7 @@ public interface Service {
 
     public List<Object[]> getInterestInfoOfCourses(String userID);
 
-    public List<Object[]> getAttendancePercentageForLecturer(String userID);
+    public List<Object[]> getAttendancePercentageForLecturer();
 
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID);
 
