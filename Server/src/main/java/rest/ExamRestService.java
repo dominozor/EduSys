@@ -11,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
+import java.io.File;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.Response;
 import main.java.models.Exam;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
+import main.java.utility.PropertiesUtility;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -32,6 +34,7 @@ import org.codehaus.jettison.json.JSONObject;
 public class ExamRestService {
 
     Service service = new ServiceImpl().getInstance();
+    PropertiesUtility propertiesUtility=new PropertiesUtility();
 
     @GET
     @Path("/test")
@@ -67,6 +70,24 @@ public class ExamRestService {
         }
         return Response.serverError().build();
     }
+
+    @GET
+    @Path("/getExcel")
+    @Produces("application/vnd.ms-excel")
+    public Response getFile() {
+        String homePath= (propertiesUtility.getProperty("project.basedir")).substring(0,propertiesUtility.getProperty("project.basedir").lastIndexOf('/'));
+        String seperator= propertiesUtility.getProperty("project.fileSeperator");
+
+        String FILE_PATH = homePath+seperator+"Server"+seperator+".temp"+seperator+"excelTemplate.xls";
+        File file = new File(FILE_PATH);
+
+        Response.ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition",
+                "attachment; filename=new-excel-file.xls");
+        return response.build();
+
+    }
+
 
     @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET

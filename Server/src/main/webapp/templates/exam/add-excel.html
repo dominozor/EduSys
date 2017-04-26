@@ -24,7 +24,7 @@
 
 
 <body class="hold-transition skin-blue sidebar-mini">
-
+<div id="loading-gif" class="myModal"></div>
 <div class="wrapper">
 
     <header class="main-header">
@@ -198,21 +198,44 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
-        <div class="col-md-6">
+        <section class="content-header" id="contentHeader"></section>
 
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Add Grades With Excel File</h3>
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Upload Excel File</h3>
+                        </div>
+
+                        <form id="upload-form" class="upload-box" enctype="multipart/form-data">
+                            <div class="box-body">
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <label>Upload</label>
+                                        <input type="file" id="file" name="file">
+                                        <span id="upload-error" class="error"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-footer">
+                                <button type="submit" id="upload-button" class="btn btn-info"> Upload</button>
+
+                                <button type="button" class="btn btn-default pull-right" id="backToExamListPage">Back</button>
+                            </div>
+                        </form>
+                        <form action="http://localhost:8080/rest/exam/getExcel">
+                            <button type="submit" class="btn btn-default" >Download Excel Template</button>
+                        </form>
+
+                        <!--/div-->
+                    </div>
                 </div>
-
-                <div id="add-excForm" class="form-horizontal">
-
-                </div>
-
-                <div id="error_rgs_msg"></div>
-
             </div>
-        </div>
+
+        </section>
 
     </div>
 
