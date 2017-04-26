@@ -156,14 +156,32 @@ public class UserRestService {
         person.setActive(true);																										  //is this has the real link of the trained photo.
         try{
 			service.updatePerson(person);  //This updates the person's information.
-			return Response.status(200).entity("success").build();   
+			return Response.status(200).entity("success").build();
 		}
 		catch(Exception ex){
 			return Response.serverError().build();
 		}
-		
+
 	}
 
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
+	@PUT
+	@Path("/updatePassword")
+	@Produces(MediaType.TEXT_PLAIN)
+	public Response updatePassword(@QueryParam("ID") String id, @QueryParam("password") String password) {
+		//These parameters are the same as the addPerson.
+		EduUser user = service.getPerson(id); //This gets the person who has the id in the parameter.
+		EduUser person=new EduUser(id, user.getName(), user.getSurname(), user.getEmail(), password, user.getTrainLink(), user.getProfilePic(), user.getRole());  //This is the same arguments as the addPerson function. Only difference
+		person.setActive(true);																										  //is this has the real link of the trained photo.
+        try{
+			service.updatePerson(person);  //This updates the person's information.
+			return Response.status(200).entity("success").build();
+		}
+		catch(Exception ex){
+			return Response.serverError().build();
+		}
+
+	}
 
 
 	@PermitAll

@@ -101,6 +101,7 @@ $(document).ready(function() {
         }
     });
 
+
     $("#change-password-form").submit(function(event) {
         event.preventDefault();
         var currentPassword = $("#current-password").val();
@@ -108,18 +109,45 @@ $(document).ready(function() {
         var newPasswordRetype = $("#new-password-retype").val();
         var currentPassCheck = 0;
 
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/rest/user/login?ID="+user["id"]+"&password="+sha256_digest(currentPassword),
-            success: function(response,status){
-                console.log("current password true");
-            },
-            error: function(xhr) {
+        if(newPassword.length > 7 && newPassword.length < 21) {
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/rest/user/login?ID="+user["id"]+"&password="+sha256_digest(currentPassword),
+                async: false,
+                success: function(response,status){
+                    console.log("current password true");
+                    currentPassCheck = 1;
+                },
+                error: function(xhr) {
+                    console.log("current password wrong");
+                    currentPassCheck = 0;
+                }
+            });
+            if(currentPassCheck === 1) {
+                $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:8080/rest/user/updatePassword?ID="+user["id"]+"&password="+sha256_digest(newPassword),
+                    async: false,
+                    success: function(response,status){
+                        eraseCookie("mainuser");
+                        createCookie("mainuser", JSON.stringify(mainUserObj), 1);
+                        window.location.replace("http://localhost:8080/templates/profile/profile.html");
+                    },
+                    error: function(xhr) {
+                        $("#errorMsg").html("<br><b style='color:red'>Process Failed</b>");
+                    }
+                });
 
-                console.log("current password wrong");
             }
-        });
-        window.location.replace("http://localhost:8080/templates/profile/profile.html");
+            else {
+                console.log("current pass check fail");
+                $("#errorMsg").html("<br><b style='color:red'>Your current password is wrong</b>");
+                $("#confirmedPassMsg").html("");
+            }
+        }
+        else {
+            $("#confirmedPassMsg").html("<b style='color:red'>Password must be between 7 and 21 characters long</b>");
+        }
     });
 
     $("#backToProfilePage").click(function(){
