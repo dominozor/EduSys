@@ -9,24 +9,30 @@
     </style>
 </head>
 <script src="../../lib/heatmap.js"></script>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="../../lib/plotly-latest.min.js"></script>
+<link rel="stylesheet" href="../css/loader.css">
+<link type="text/css" href="../../lib/base.css" rel="stylesheet" />
+<link type="text/css" href="../../lib/ForceDirected.css" rel="stylesheet" />
+<script language="javascript" type="text/javascript" src="../../lib/jit.js"></script>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+<script type="text/javascript" src="../../lib/loader.js"></script>
 <!--script type="text/javascript" src="http://static.fusioncharts.com/code/latest/fusioncharts.js"></script>
 <script type="text/javascript" src="http://static.fusioncharts.com/code/latest/themes/fusioncharts.theme.fint.js?cacheBust=56"></script-->
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/d3/4.7.2/d3.min.js"></script>
+<script src="../../lib/d3.min.js"></script>
 <script type="text/javascript" src="../../lib/d3pie.min.js"></script>
 
-<script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
+<script type="text/javascript" src="../../lib/bootstrap/js/bootstrap-filestyle.min.js"> </script>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="import" href="/templates/main/main.html" >
 <script src="/views/home/student-home.js"></script>
 <link rel="stylesheet" href="../../lib/bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../lib/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+<link rel="stylesheet" href="../../lib/ionicons.min.css">
 <!-- Theme style -->
 <link rel="stylesheet" href="../../lib/dist/css/AdminLTE.min.css">
 <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -48,7 +54,7 @@
 <!-- jQuery 2.2.3 -->
 <script src="../../lib/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<script src="../../lib/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button);
@@ -56,7 +62,7 @@
 <!-- Bootstrap 3.3.6 -->
 <script src="../../lib/bootstrap/js/bootstrap.min.js"></script>
 <!-- Morris.js charts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="../../lib/raphael-min.js"></script>
 <script src="../../lib/plugins/morris/morris.min.js"></script>
 <!-- Sparkline -->
 <script src="../../lib/plugins/sparkline/jquery.sparkline.min.js"></script>
@@ -66,7 +72,7 @@
 <!-- jQuery Knob Chart -->
 <script src="../../lib/plugins/knob/jquery.knob.js"></script>
 <!-- daterangepicker -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script src="../../lib/moment.min.js"></script>
 <script src="../../lib/plugins/daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
 <script src="../../lib/plugins/datepicker/bootstrap-datepicker.js"></script>
@@ -85,8 +91,9 @@
 <link rel="stylesheet" href="../../templates/css/notification.css">
 
 <body class="hold-transition skin-blue sidebar-mini">
+<div class="myModal2"></div>
 
-    <div class="wrapper">
+<div class="wrapper">
 
         <header class="main-header">
         <!-- Logo -->
@@ -299,7 +306,7 @@
                     <div class="col-md-6">
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                                <a href="javascript:void(0)" class="box-title" id="pieChartInterestCaller">Ratio of the interest information of the courses of the student</a>
+                                <div class="box-title" id="pieChartInterestCaller">Ratio of the interest information of the courses of the student</div>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -323,7 +330,7 @@
                     <div class="col-md-6">
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                                <a href="javascript:void(0)" class="box-title" id="lineChartInterestCaller">Ratio of the interest information of the courses of the student daily, monthly</a>
+                                <div class="box-title" id="lineChartInterestCaller">Ratio of the interest information of the courses of the student daily, monthly</div>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -347,7 +354,7 @@
                     <div class="col-md-6">
                         <div class="box box-danger">
                             <div class="box-header with-border">
-                                <a href="javascript:void(0)" class="box-title" id="pieChartAttendanceCaller">Ratio of the attendance information of the courses of the student</a>
+                                <div class="box-title" id="pieChartAttendanceCaller">Ratio of the attendance information of the courses of the student</div>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -371,7 +378,7 @@
                     <div class="col-md-6">
                         <div class="box box-danger" id="heatmapContainerWrapper">
                             <div class="box-header with-border">
-                                <a href="javascript:void(0)" class="box-title" id="heatMapCaller">Heatmeap</a>
+                                <div class="box-title" id="heatMapCaller">Heatmeap</div>
 
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -380,12 +387,38 @@
                             </div>
                             <div class="box-body">
                                 <div id="heatmapContainer" ></div>
-                                <!--div id="heatmapLegend">
-                                        <h2>Descriptive Legend Title</h2>
-                                        <span id="min"></span>
-                                        <span id="max"></span>
-                                        <img id="gradient" src="" style="width:50%" />
-                                    </div-->
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.Attendance Info Chart-->
+
+                </div>
+
+                <div class="row">
+
+                    <!-- Attendance Info Chart -->
+                    <div class="col-md-6">
+                        <div class="box box-danger" id="CareerPathContainerWrapper">
+                            <div class="box-header with-border">
+                                <div class="box-title" id="CareerPathCaller">Career Graph</div>
+
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div id="container">
+
+                                    <div id="left-container">
+                                        <div id="infovis"></div>
+                                    </div>
+
+                                    <div id="log"></div>
+                                </div>
                             </div>
                             <!-- /.box-body -->
                         </div>
