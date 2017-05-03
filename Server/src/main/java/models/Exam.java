@@ -20,14 +20,14 @@ public class Exam {
     @Id //This shows that, the first element that comes after this annotiation becomes primary key.
     private String exam_id;
     private String courseID;
-    private String sectionNo;
+    private int sectionNo;
     private String type;
     private double average;
     private int examPercentage;
 
     public Exam(){}
 
-    public Exam(String exam_id,String courseID,String sectionNo,String type,double average, int examPercentage){
+    public Exam(String exam_id,String courseID,int sectionNo,String type,double average, int examPercentage){
 
         this.exam_id=exam_id;
         this.courseID=courseID;
@@ -54,11 +54,11 @@ public class Exam {
         this.courseID = courseID;
     }
 
-    public String getSectionNo() {
+    public int getSectionNo() {
         return sectionNo;
     }
 
-    public void setSectionNo(String sectionNo) {
+    public void setSectionNo(int sectionNo) {
         this.sectionNo = sectionNo;
     }
 
@@ -80,5 +80,5 @@ public class Exam {
 
     public int getExamPercentage() { return examPercentage; }
 
-    public void setExamPercentage(int examPercentage) { this.examPercentage=examPercentage; }
+    public void setExamPercentage() { this.examPercentage=examPercentage; }
 }

@@ -22,9 +22,9 @@ public class ServiceImpl implements Service{
 	HibernateUtility hibernateUtility= new HibernateUtility();
 	PropertiesUtility propertiesUtility= new PropertiesUtility().getInstance();
 	private static Service instance = null;
-	
-	
-	public static Service getInstance() {	
+
+
+	public static Service getInstance() {
 		if (instance == null) {
 			return new ServiceImpl();
 		} else {
@@ -37,25 +37,25 @@ public class ServiceImpl implements Service{
 	}
 
 	public EduUser getPerson(String id){	//The function is explained in the Service.java
-        List columnNameList=new ArrayList<String>(); 
+		List columnNameList=new ArrayList<String>();
 		List valueList=new ArrayList<String>();
 		columnNameList.add("id");			//This is the array that will be used in hibernateUtility to get the id column.
-        valueList.add(id);					//This is the array that will be used in hibernateUtility to get value of the ids.
+		valueList.add(id);					//This is the array that will be used in hibernateUtility to get value of the ids.
 		return (EduUser) hibernateUtility.get(EduUser.class, valueList,columnNameList).get(0); //This returns the id of the person.
 	}
 
 
-	public List<EduUser> getAllPeople(){	
+	public List<EduUser> getAllPeople(){
 		return hibernateUtility.get(EduUser.class);  //This calles the get function in hibernateUtility end return the values.
 	}
 	public void deletePerson(String id){	//This function is the same as the getPerson.
-        List columnNameList=new ArrayList<String>();
-        List valueList=new ArrayList<String>();
-        columnNameList.add("id");
-        valueList.add(id);
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("id");
+		valueList.add(id);
 		hibernateUtility.delete(EduUser.class, valueList,columnNameList);
 	}
-	
+
 	public void updatePerson(EduUser person){ //This is explained in the Service.java.
 		hibernateUtility.update(person);	  //This calls the function from hibernate updates the database.
 	}
@@ -146,42 +146,42 @@ public class ServiceImpl implements Service{
 	}
 
 	public Course getCourse(String id){	//The function is explained in the Service.java
-        List columnNameList=new ArrayList<String>(); 
+		List columnNameList=new ArrayList<String>();
 		List valueList=new ArrayList<String>();
 		columnNameList.add("id");			//This is the array that will be used in hibernateUtility to get the id column.
-        valueList.add(id);					//This is the array that will be used in hibernateUtility to get value of the ids.
+		valueList.add(id);					//This is the array that will be used in hibernateUtility to get value of the ids.
 		return (Course) hibernateUtility.get(Course.class, valueList,columnNameList).get(0); //This returns the id of the course.
 	}
 
 
-	public List<Course> getAllCourses(){	
+	public List<Course> getAllCourses(){
 		return hibernateUtility.get(Course.class);  //This calles the get function in hibernateUtility end return the values.
 	}
 
 	public void deleteCourse(String id){	//This function is the same as the getCourse.
-        List columnNameList=new ArrayList<String>();
-        List valueList=new ArrayList<String>();
-        columnNameList.add("id");
-        valueList.add(id);
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("id");
+		valueList.add(id);
 		hibernateUtility.delete(Course.class, valueList,columnNameList);
 	}
-	
+
 	public void updateCourse(Course course){ //This is explained in the Service.java.
 		hibernateUtility.update(course);	  //This calls the function from hibernate updates a course in the database.
 	}
-	
+
 
 	//Attendance Functions
-	
+
 	public void addAttendance(Attendance attendance){  //This function is explained in Service.java
 		hibernateUtility.save(attendance);      //This calls the hibernateUtility function that saves the attendance to the database.
 	}
 
 	public Attendance getAttendance(String id){	//The function is explained in the Service.java
-        List columnNameList=new ArrayList<String>(); 
+		List columnNameList=new ArrayList<String>();
 		List valueList=new ArrayList<String>();
 		columnNameList.add("id");			//This is the array that will be used in hibernateUtility to get the id column.
-        valueList.add(id);					//This is the array that will be used in hibernateUtility to get value of the ids.
+		valueList.add(id);					//This is the array that will be used in hibernateUtility to get value of the ids.
 		return (Attendance) hibernateUtility.get(Attendance.class, valueList,columnNameList).get(0); //This returns the id of the attendance.
 	}
 
@@ -191,10 +191,10 @@ public class ServiceImpl implements Service{
 	}
 
 	public void deleteAttendance(String id){	//This function is the same as the getAttendance.
-        List columnNameList=new ArrayList<String>();
-        List valueList=new ArrayList<String>();
-        columnNameList.add("id");
-        valueList.add(id);
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("id");
+		valueList.add(id);
 		hibernateUtility.delete(Attendance.class, valueList,columnNameList);
 	}
 
@@ -212,45 +212,45 @@ public class ServiceImpl implements Service{
 
 		hibernateUtility.delete(Attendance.class, valueList,columnNameList);
 	}
-	
+
 	public void updateAttendance(Attendance attendance){ //This is explained in the Service.java.
 		hibernateUtility.update(attendance);	  //This calls the function from hibernate updates an attendace in the database.
 	}
-	
+
 
 
 
 	//StudentGrades Functions
-	
+
 	public void addStudentGrade(StudentGrade studentGrade){  //This function is explained in Service.java
 		hibernateUtility.save(studentGrade);      //This calls the hibernateUtility function that saves the student grade to the database.
 	}
 
 	public StudentGrade getStudentGrade(String userId, String examId){	//The function is explained in the Service.java
-        List columnNameList=new ArrayList<String>(); 
+		List columnNameList=new ArrayList<String>();
 		List valueList=new ArrayList<String>();
 		columnNameList.add("userId");			//This is the array that will be used in hibernateUtility to get the id column.
 		columnNameList.add("examId");
-        valueList.add(userId);					//This is the array that will be used in hibernateUtility to get value of the ids.
-        valueList.add(examId);
+		valueList.add(userId);					//This is the array that will be used in hibernateUtility to get value of the ids.
+		valueList.add(examId);
 		return (StudentGrade) hibernateUtility.get(StudentGrade.class, valueList,columnNameList).get(0); //This returns the id of the student grade.
 	}
 
 
-	public List<StudentGrade> getAllStudentGrades(){	
+	public List<StudentGrade> getAllStudentGrades(){
 		return hibernateUtility.get(StudentGrade.class);  //This calles the get function in hibernateUtility end return the values.
 	}
 
 	public void deleteStudentGrade(String userId, String examId){	//This function is the same as the getStudentGrade.
-        List columnNameList=new ArrayList<String>();
-        List valueList=new ArrayList<String>();
-        columnNameList.add("userId");
-        columnNameList.add("examId");
-        valueList.add(userId);
-        valueList.add(examId);
+		List columnNameList=new ArrayList<String>();
+		List valueList=new ArrayList<String>();
+		columnNameList.add("userId");
+		columnNameList.add("examId");
+		valueList.add(userId);
+		valueList.add(examId);
 		hibernateUtility.delete(StudentGrade.class, valueList,columnNameList);
 	}
-	
+
 	public void updateStudentGrade(StudentGrade studentGrade){ //This is explained in the Service.java.
 		hibernateUtility.update(studentGrade);	  //This calls the function from hibernate updates a student grade the database.
 	}
@@ -438,8 +438,8 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listCourseAttendanceForAStudent(userID, course);
 	}
 
-    //Service function to get all registered courses of a student
-    //Parameter is the student's ID
+	//Service function to get all registered courses of a student
+	//Parameter is the student's ID
 	public List<Object[]> getAllCoursesOfAStudent(String userID) {
 		return hibernateUtility.listAllCoursesOfAStudent(userID);
 	}
@@ -450,13 +450,13 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listAllCoursesOfALecturer(userID);
 	}
 
-    //Service function to get all exam grades, types of a student
-    //Parameter is the student's ID
-    public List<Object[]> getExamGradesOfAStudent(String userID) {
-	    return hibernateUtility.listAllExamGradesOfAStudent(userID);
-    }
+	//Service function to get all exam grades, types of a student
+	//Parameter is the student's ID
+	public List<Object[]> getExamGradesOfAStudent(String userID) {
+		return hibernateUtility.listAllExamGradesOfAStudent(userID);
+	}
 
-    public List<String>  getDatesOfASection(String courseID, String sectionID){ // service function to get all previous dates of a course
+	public List<String>  getDatesOfASection(String courseID, String sectionID){ // service function to get all previous dates of a course
 		return hibernateUtility.listDatesOfASection(courseID,sectionID);
 	}
 
@@ -466,33 +466,33 @@ public class ServiceImpl implements Service{
 	}
 
 	public List<Object[]> getStudentCourseAttendanceDate(String courseid,String sectionid,String date){ //service function to get students who attend a lecture.
-    	return hibernateUtility.listStudentCourseAttendanceDate(courseid,sectionid,date);
+		return hibernateUtility.listStudentCourseAttendanceDate(courseid,sectionid,date);
 
 	}
 
 	//Service function to get exam grade, types of a student for a specific course
-    //Parameter is the student's ID and course's ID
+	//Parameter is the student's ID and course's ID
 	public List<Object[]> getCourseExamGradeOfAStudent(String userID, String courseID) {
 		return hibernateUtility.getExamGradeOfAStudent(userID,courseID);
 	}
 	public List<Object[]> getCourseSectionExams(String courseID, String sectionID){ //Function to get all exams types of a specific course and section
 		return hibernateUtility.getExamsOfASection(courseID, sectionID);
 	}
-    public List<Object[]> getAllGradesOfACourse(String examID) { //Function to get all grades of an exam
-        return hibernateUtility.getGradesOfAnExam(examID);
-    }
+	public List<Object[]> getAllGradesOfACourse(String examID) { //Function to get all grades of an exam
+		return hibernateUtility.getGradesOfAnExam(examID);
+	}
 
-    public List<Object[]> getInterestForAttendance(String userID, String attendanceID){
+	public List<Object[]> getInterestForAttendance(String userID, String attendanceID){
 
 		return hibernateUtility.getInterestForAttendanceHib(userID,attendanceID);
 	}
 
 	public int getNumberOfAttendance(String courseID, String sectionID) {
-    	return hibernateUtility.getAttendanceNumber(courseID, sectionID);
+		return hibernateUtility.getAttendanceNumber(courseID, sectionID);
 	}
 
 	public List<Object[]> getAverageInterestInfo(String courseID, String sectionNo, String userID) {
-    	return hibernateUtility.getAverageInterest(courseID, sectionNo, userID);
+		return hibernateUtility.getAverageInterest(courseID, sectionNo, userID);
 	}
 
 	public List<Object[]> listAverageInterestInfo(String userID) {
@@ -500,8 +500,8 @@ public class ServiceImpl implements Service{
 	}
 
 	public BigInteger getTotalNumOfStudents(String userID) {
-        return hibernateUtility.getTotalNumOfStudents(userID);
-    }
+		return hibernateUtility.getTotalNumOfStudents(userID);
+	}
 
 
 	public BigInteger getNumOfStudentsForSection(String courseID,String sectionID) {
@@ -513,12 +513,12 @@ public class ServiceImpl implements Service{
 
 
 	public List<Object[]> getInterestInfoOfCourses(String userID) {
-        return hibernateUtility.getInterestsOfCourses(userID);
-    }
+		return hibernateUtility.getInterestsOfCourses(userID);
+	}
 
-    public List<Object[]> getAttendancePercentageForLecturer() {
-        return hibernateUtility.getAttendancePercentageForLecturer();
-    }
+	public List<Object[]> getAttendancePercentageForLecturer() {
+		return hibernateUtility.getAttendancePercentageForLecturer();
+	}
 
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID) {
 		return hibernateUtility.getAttendancePercentageForLecturerPerDay(userID);
@@ -529,14 +529,14 @@ public class ServiceImpl implements Service{
 	}
 
 	public String addAttendanceListArr(ArrayList<AttendanceList> arr){
-    	return hibernateUtility.saveArr(arr);
+		return hibernateUtility.saveArr(arr);
 	}
 
-    public List<Object[]> getSeatingPercentageForCourse(String courseID, String sectionID) {
-	    return hibernateUtility.getSeatingPercentageForCourse(courseID, sectionID);
-    }
+	public List<Object[]> getSeatingPercentageForCourse(String courseID, String sectionID) {
+		return hibernateUtility.getSeatingPercentageForCourse(courseID, sectionID);
+	}
 
-    public List<Object[]> getAllAttendanceCountsOfStudents(String userID) {
+	public List<Object[]> getAllAttendanceCountsOfStudents(String userID) {
 		return hibernateUtility.getAllAttendanceCountsOfStudent(userID);
 	}
 
@@ -552,9 +552,11 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.getAllSeatingsForLecturerCourse(userID, sectionID, courseID);
 	}
 
-	public List<Object[]> getSectionStudentList(String courseID, String sectionID, String date) {
-		return hibernateUtility.getSectionStudentList(courseID, sectionID, date);
+
+	public List<Object[]> getAllExamAveragesForLecturer(String userID) {
+		return hibernateUtility.getAllExamAveragesForLecturer(userID);
 	}
+
 
 
 }

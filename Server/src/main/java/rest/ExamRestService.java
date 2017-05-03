@@ -127,7 +127,7 @@ public class ExamRestService {
     //id: section number of the exam which is going to be added.
     //id: type of the exam which is going to be added.
     @Produces(MediaType.TEXT_PLAIN)
-    public Response addExam(@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type, @QueryParam("examPercentage") int examPercentage) {
+    public Response addExam(@QueryParam("course")String course_id, @QueryParam("section") int section_no,@QueryParam("type") String type, @QueryParam("examPercentage") int examPercentage) {
         String id = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
         try{
 
@@ -183,7 +183,7 @@ public class ExamRestService {
     //id: course id of the exam which is going to be updated.
     //id: section number of the exam which is going to be updated.
     //id: type of the exam which is going to be updated.
-    public Response updateExam(@QueryParam("ID") String id,@QueryParam("course")String course_id, @QueryParam("section") String section_no,@QueryParam("type") String type,@QueryParam("average") double average, @QueryParam("percentage") int percentage) {
+    public Response updateExam(@QueryParam("ID") String id,@QueryParam("course")String course_id, @QueryParam("section") int section_no,@QueryParam("type") String type,@QueryParam("average") double average, @QueryParam("percentage") int percentage) {
 
         try{
             Exam exam = service.getExam(id);
@@ -217,6 +217,34 @@ public class ExamRestService {
                 jo.accumulate("name", grade[1]);
                 jo.accumulate("surname", grade[2]);
                 jo.accumulate("grade", grade[3]);
+
+                main.put(jo);   //Put each JSON object to the JSON array object.
+            }
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return Response.serverError().build();
+    }
+
+    @RolesAllowed({"ADMIN","LECTURER"})
+
+    @GET
+    @Path("/getAllExamAveragesForLecturer/{ID}")
+    @Produces(MediaType.APPLICATION_JSON)
+    //The parameters of the getAllGrades are;
+    //id: id of the exam which is going to be got.
+    public Response getAllExamAveragesForLecturer(@PathParam("ID") String userID){
+        try {
+            JSONArray main = new JSONArray();       //A new JSON array object is created.
+            List <Object[]> grades = service.getAllExamAveragesForLecturer(userID); //Getting all exam grades
+            for(Object[] grade : grades){
+
+                JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+                jo.accumulate("courseid", grade[0]);
+                jo.accumulate("col", grade[1]);
+
 
                 main.put(jo);   //Put each JSON object to the JSON array object.
             }

@@ -340,12 +340,21 @@
                 <div class="col-md-6">
                     <div class="box box-danger">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Overall Attendance Chart</h3>
+                            <h3 class="box-title">Pie Charts</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
+
+                            <div class="nav-tabs-custom">
+                                <!-- Tabs within a box -->
+                                <ul class="nav nav-tabs pull-right">
+                                    <li class="active"><a href="#revenue-chart" data-toggle="tab" id="attab">Attendance</a></li>
+                                    <li><a href="#sales-chart" data-toggle="tab" id="intab">Interest</a></li>
+                                </ul>
+                            </div>
+
                         </div>
                         <div class="box-body">
                             <canvas id="pieChart" style="height:250px"></canvas>
@@ -358,11 +367,19 @@
                 <div class="col-md-12">
                     <div class="box box-info">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Attendance Line Graph For All Courses</h3>
+                            <h3 class="box-title">Line Graph For All Courses</h3>
 
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
+                            </div>
+
+                            <div class="nav-tabs-custom">
+                                <!-- Tabs within a box -->
+                                <ul class="nav nav-tabs pull-right">
+                                    <li class="active"><a href="#revenue-chart" data-toggle="tab" id="attabline">Attendance</a></li>
+                                    <li><a href="#sales-chart" data-toggle="tab" id="intabline">Interest</a></li>
+                                </ul>
                             </div>
                         </div>
                         <div class="box-body">

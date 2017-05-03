@@ -15,9 +15,9 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 /**
-*
-* @author enver
-*/
+ *
+ * @author enver
+ */
 
 /*
 This is a utility class for Hibernate. Basicly, after getting inputs for database usage, HibernateUtility sends,gets,updates or deletes entities from the right tables. 
@@ -45,13 +45,13 @@ public class HibernateUtility {
 			session.save(obj); // Saves the object for transaction
 			session.getTransaction().commit(); //Commits and create entity for the table of that specific class
 			return "success...";
-			}
+		}
 		catch(Exception e){
 			return e.getMessage();
 		}
 		finally {
 			if (session!=null && session.isOpen()) {
-			    session.close();
+				session.close();
 
 			}
 		}
@@ -114,10 +114,10 @@ public class HibernateUtility {
 			System.err.print(e);
 		}
 		finally {
-	        if (session!=null && session.isOpen()) {
+			if (session!=null && session.isOpen()) {
 
-	            session.close();
-	        }
+				session.close();
+			}
 		}
 		return null;
 
@@ -144,10 +144,10 @@ public class HibernateUtility {
 			System.err.print(e);
 		}
 		finally {
-	        if (session!=null && session.isOpen()) {
+			if (session!=null && session.isOpen()) {
 
-	            session.close();
-	        }
+				session.close();
+			}
 		}
 		return null;
 
@@ -183,7 +183,7 @@ public class HibernateUtility {
 				transaction.rollback();
 				throw t;
 			}
-				session.close();
+			session.close();
 
 
 		}
@@ -191,11 +191,11 @@ public class HibernateUtility {
 			System.err.print(e);
 		}
 		finally {
-	        if (session!=null && session.isOpen()) {
+			if (session!=null && session.isOpen()) {
 
-	            session.close();
+				session.close();
 
-	        }
+			}
 		}
 
 	}
@@ -210,14 +210,14 @@ public class HibernateUtility {
 			session.update(obj);// Saves the object for transaction
 			session.getTransaction().commit();//Commits and update entity for the table of that specific class
 
-			}
+		}
 		catch(Exception e){
 			System.err.print(e);
 		}
 		finally {
-	        if (session!=null && session.isOpen()) {
-	            session.close();
-	        }
+			if (session!=null && session.isOpen()) {
+				session.close();
+			}
 		}
 	}
 
@@ -341,7 +341,7 @@ public class HibernateUtility {
 		return null;
 	}
 
-    //Function to get all registered courses of a student
+	//Function to get all registered courses of a student
 	public List<Object[]> listAllCoursesOfAStudent(String userID) {
 
 		Session session=null;
@@ -350,7 +350,7 @@ public class HibernateUtility {
 			session=createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select cour.id, cour.name as coursename, us.name as username, us.surname, s.sectionno" +
+			Query query = session.createNativeQuery("select cour.id, cour.name as coursename, us.name as username, us.surname, s.sectionno" +
 					" from sectionstudentlist as sect, course as cour, section as s, eduuser as us " +
 					" where sect.userid = '"+userID+"' and cour.id = sect.courseid " +
 					" and s.courseid = cour.id and s.sectionno = sect.sectionno and us.id = s.userid" );
@@ -401,34 +401,34 @@ public class HibernateUtility {
 		return null;
 	}
 
-    //Function to get all exam grades and types a student
-    public List<Object[]> listAllExamGradesOfAStudent(String userID) {
+	//Function to get all exam grades and types a student
+	public List<Object[]> listAllExamGradesOfAStudent(String userID) {
 
-        Session session = null;
+		Session session = null;
 
-        try {
-            session = createSession(); //Create session
+		try {
+			session = createSession(); //Create session
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select cr.id, cr.name, stugra.grade, ex.type, ex.exampercentage\n" +
-                    "from studentgrade as stugra, exam as ex, course as cr\n" +
-                    "where stugra.userid = '" + userID + "' and stugra.examid = ex.exam_id and ex.courseid = cr.id " +
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select cr.id, cr.name, stugra.grade, ex.type, ex.exampercentage\n" +
+					"from studentgrade as stugra, exam as ex, course as cr\n" +
+					"where stugra.userid = '" + userID + "' and stugra.examid = ex.exam_id and ex.courseid = cr.id " +
 					"order by cr.id");
 
-            //in query.list() function query is executed and result set is returned
-            List<Object[]> row = query.list();
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
 
-                session.close();
-            }
-        }
-        return null;
-    }
+				session.close();
+			}
+		}
+		return null;
+	}
 
 	//Function to get all previous lectures of a course
 	public List<String> listDatesOfASection(String courseID, String sectionID) {
@@ -541,60 +541,60 @@ public class HibernateUtility {
 		return null;
 	}
 
-    //Gets all exams for a section
-    public List<Object[]> getExamsOfASection(String courseID, String sectionID) {
+	//Gets all exams for a section
+	public List<Object[]> getExamsOfASection(String courseID, String sectionID) {
 
-        Session session = null;
+		Session session = null;
 
-        try {
-            session = createSession(); //Create session
+		try {
+			session = createSession(); //Create session
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select ex.exam_id, ex.courseid, ex.sectionno, ex.average, ex.type from exam ex\n" +
-                    "where ex.courseid = '" + courseID + "' and ex.sectionno = '" + sectionID + "';");
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select ex.exam_id, ex.courseid, ex.sectionno, ex.average, ex.type from exam ex\n" +
+					"where ex.courseid = '" + courseID + "' and ex.sectionno = '" + sectionID + "';");
 
-            //in query.list() function query is executed and result set is returned
-            List<Object[]> row = query.list();
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
 
-                session.close();
-            }
-        }
-        return null;
-    }
+				session.close();
+			}
+		}
+		return null;
+	}
 
-    //Gets all grades of an exam
-    public List<Object[]> getGradesOfAnExam(String examID) {
+	//Gets all grades of an exam
+	public List<Object[]> getGradesOfAnExam(String examID) {
 
-        Session session = null;
+		Session session = null;
 
-        try {
-            session = createSession(); //Create session
+		try {
+			session = createSession(); //Create session
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select us.id, us.name, us.surname, grad.grade\n" +
-                    "from eduuser us, studentgrade grad\n" +
-                    "where grad.examid='" + examID + "' and us.id=grad.userid;");
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select us.id, us.name, us.surname, grad.grade\n" +
+					"from eduuser us, studentgrade grad\n" +
+					"where grad.examid='" + examID + "' and us.id=grad.userid;");
 
-            //in query.list() function query is executed and result set is returned
-            List<Object[]> row = query.list();
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
 
-                session.close();
-            }
-        }
-        return null;
-    }
+				session.close();
+			}
+		}
+		return null;
+	}
 
 
 	//Gets all grades of an exam
@@ -792,62 +792,62 @@ public class HibernateUtility {
 	}
 
 
-    public List<Object[]> getInterestsOfCourses(String userID) {
+	public List<Object[]> getInterestsOfCourses(String userID) {
 
-        Session session = null;
+		Session session = null;
 
-        try {
-            session = createSession(); //Create session
+		try {
+			session = createSession(); //Create session
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select att.courseid, att.sectionno, att.date, attList.distance, " +
-                    "attList.bottomcoor, attList.topcoor, attList.leftcoor, attList.rightcoor " +
-                    "from attendancelist as attList, attendance as att\n" +
-                    "where attList.userid = '"+userID+"' and att.id = attList.att_id\n" +
-                    "order by att.date");
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select att.courseid, att.sectionno, att.date, attList.distance, " +
+					"attList.bottomcoor, attList.topcoor, attList.leftcoor, attList.rightcoor " +
+					"from attendancelist as attList, attendance as att\n" +
+					"where attList.userid = '"+userID+"' and att.id = attList.att_id\n" +
+					"order by att.date");
 
-            //in query.list() function query is executed and result set is returned
-            List<Object[]> row = query.list();
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
 
-                session.close();
-            }
-        }
-        return null;
-    }
+				session.close();
+			}
+		}
+		return null;
+	}
 
-    public List<Object[]> getAttendancePercentageForLecturer() {
+	public List<Object[]> getAttendancePercentageForLecturer() {
 
-        Session session = null;
+		Session session = null;
 
-        try {
-            session = createSession(); //Create session
+		try {
+			session = createSession(); //Create session
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select attendance.courseid, attendance.sectionno, count(*) as totalstu, section.number_of_lectures*section.number_of_students as mult " +
-                    "from section, attendance, attendancelist " +
-                    "where section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id " +
-                    "group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select attendance.courseid, attendance.sectionno, count(*) as totalstu, section.number_of_lectures*section.number_of_students as mult " +
+					"from section, attendance, attendancelist " +
+					"where section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id " +
+					"group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
 
-            //in query.list() function query is executed and result set is returned
-            List<Object[]> row = query.list();
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
 
-                session.close();
-            }
-        }
-        return null;
-    }
+				session.close();
+			}
+		}
+		return null;
+	}
 
 
 	public List<Object[]> getAttendancePercentageForLecturerPerDay(String userID) {
@@ -859,9 +859,9 @@ public class HibernateUtility {
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
 			Query query = session.createNativeQuery( "select attendance.courseid, attendance.sectionno, attendance.date, count(*) as totalAtt, section.number_of_students as totalCapacity " +
-			"from section, attendance, attendancelist "+
-			"where section.userid= '" + userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id "+
-			"group by attendance.courseid, attendance.sectionno, attendance.date, section.number_of_students order by attendance.date;");
+					"from section, attendance, attendancelist "+
+					"where section.userid= '" + userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id "+
+					"group by attendance.courseid, attendance.sectionno, attendance.date, section.number_of_students order by attendance.date;");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();
@@ -889,9 +889,9 @@ public class HibernateUtility {
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
 			Query query = session.createNativeQuery("select count(*) as totalstu, section.number_of_lectures*section.number_of_students as mult from section, attendance, attendancelist\n"+
-			"where section.courseid = '" + courseID + "' and section.sectionno='" +sectionID+ "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno\n"+
-							"and attendance.id=attendancelist.att_id \n"+
-			"group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
+					"where section.courseid = '" + courseID + "' and section.sectionno='" +sectionID+ "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno\n"+
+					"and attendance.id=attendancelist.att_id \n"+
+					"group by attendance.courseid, attendance.sectionno, section.number_of_lectures*section.number_of_students;");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();
@@ -918,8 +918,8 @@ public class HibernateUtility {
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
 			Query query = session.createNativeQuery("select AL.distance \n" +
-                    "from attendancelist as AL, attendance as A\n" +
-                    "where A.id = AL.att_id and A.courseid='" + courseID + "' and A.sectionno='" + sectionID + "';");
+					"from attendancelist as AL, attendance as A\n" +
+					"where A.id = AL.att_id and A.courseid='" + courseID + "' and A.sectionno='" + sectionID + "';");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]> row = query.list();
@@ -1052,35 +1052,32 @@ public class HibernateUtility {
 		return null;
 	}
 
-    public List<Object[]> getSectionStudentList(String courseID, String sectionID, String date) {
 
-        Session session = null;
+	public List<Object[]> getAllExamAveragesForLecturer(String userID) {
 
-        try {
-            session = createSession(); //Create session
+		Session session = null;
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select stu.id, stu.name, stu.surname\n" +
-                    "from eduuser stu, sectionstudentlist seclist\n" +
-                    "where seclist.courseid='" + courseID +"' and seclist.sectionno='" + sectionID + "' and seclist.userid=stu.id\nexcept\n" +
-                    "select attlist.userid, us.name, us.surname\n" +
-                    "from attendance att, attendancelist attlist, eduuser us\n" +
-                    "where attlist.att_id=att.id and att.courseid='" + courseID + "' and att.sectionno='" + sectionID + "' and att.date='" + date + "' and attlist.userid=us.id\n");
+		try {
+			session = createSession(); //Create session
 
-            //in query.list() function query is executed and result set is returned
-            List<Object[]> row = query.list();
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select exam.courseid, exam.average*exam.exampercentage/100 as col from exam,section where section.userid='" +userID + "' " +
+					"and section.courseid=exam.courseid and section.sectionno=exam.sectionno");
 
-                session.close();
-            }
-        }
-        return null;
-    }
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
 
 }
 

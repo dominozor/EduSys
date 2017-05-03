@@ -42,66 +42,14 @@ function getAllSectionInfo() {
 }
 
 
+function getAllExamAveragesForLecturer(userID) {
 
-/*function drawChart() {
-    var data1 = new google.visualization.DataTable();
-    data1.addColumn('number', 'X');
-    data1.addColumn('number', 'Y 1');
-
-
-    var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
-    var colorsUsed=[];
-    for(var i=0;i<graphList[0].length-1;i++)
-    {
-        colorsUsed.push(colorlist[i]);
-    }
-
-    data1.addRows([
-        [1, 3],
-        [2, 6],
-        [5, 5],
-        [6, 8],
-        [8, 2],
-        [9, 5],
-        [10, 5],
-        [12, 4],
-        [13, 8]
-    ]);
-
-    var data2 = new google.visualization.DataTable();
-    data2.addColumn('number', 'X');
-    data2.addColumn('number', 'Y 2');
-
-    data2.addRows([
-        [1, 5],
-        [3, 1],
-        [4, 3],
-        [5, 9],
-        [6, 4],
-        [8, 5],
-        [9, 7],
-        [11, 7],
-        [16, 3]
-    ]);
-
-
-    var options = {
-        interpolateNulls: true,
-        explorer: {
-            actions: ['dragToZoom', 'rightClickToReset'],
-            axis: 'horizontal',
-            keepInBounds: true,
-            maxZoomIn: 32.0},
-
-    };
-
-
-    var joinedData = google.visualization.data.join(data1, data2, 'full', [[0, 0]], [1], [1]);
-
-    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-
-    chart.draw(joinedData, options);
-}*/
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/exam/getAllExamAveragesForLecturer/" + userID,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
 
 
 
@@ -171,6 +119,7 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
+
     user = JSON.parse(readCookie('mainuser'));
     console.log(user);
     wsSendMessage(user["id"]);
@@ -208,6 +157,7 @@ $(document).ready(function() {
     }
     document.getElementById("coursesTreeView").innerHTML = htmlString;
 
+
     var totalNumStu = getTotalNumOfStudent(user['id']).responseText;
     document.getElementById("stuNum").innerHTML = "<h3>" + totalNumStu + "</h3>";
 
@@ -221,6 +171,35 @@ $(document).ready(function() {
 
     var sectionInfoObj = getAllSectionInfo();
     var sectionInfo = JSON.parse(sectionInfoObj.responseText);
+    console.log(sectionInfo);
+
+    var examAverageListObj = getAllExamAveragesForLecturer(user["id"]);
+    var examAverageList = JSON.parse(examAverageListObj.responseText);
+
+    console.log(examAverageList);
+
+    var examPerc=[];
+
+    for(var i=0;i<courseList.length;i++)
+    {
+        var id =courseList[i]["id"];
+        for(var j=0;j<sectionInfo.length;j++)
+        {
+            if(sectionInfo[j]["course_id"]==id){
+                var temp=[];
+                temp.push(id);
+                temp.push(sectionInfo[j]["exam_percentage"]);
+                examPerc.push(temp);
+            }
+
+        }
+    }
+
+
+
+    console.log("eper");
+    console.log(examPerc);
+
 
     //-------------
     //- PIE CHART -
@@ -354,6 +333,151 @@ $(document).ready(function() {
 
     }
 
+    ///////////////////////////////////////////////////// tabs  of pie chart /////////////////////////////////////////////////////////
+
+    $("#attab").click(function(){
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var colorList = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+        var counter = 0;
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas);
+        var PieData = [];
+
+        var coursesList = [];
+        coursesList.push("Year");
+
+        console.log(attendanceAverageList);
+
+        console.log(courseList);
+
+        var thislecturerrate=0;
+        var otherlecturers=0;
+
+        for(var i=0;i<courseList.length;i++){
+            var courseId = courseList[i]["id"];
+            var sectionId = courseList[i]["sectionId"];
+
+            for(var j=0;j<attendanceAverageList.length;j++) {
+                var courseId2 = attendanceAverageList[j]["courseid"];
+                var sectionId2 = attendanceAverageList[j]["sectionno"];
+                var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
+
+                if(courseId === courseId2 && sectionId === sectionId2) {
+                    console.log("val = " + val);
+                    thislecturerrate+=val;
+                    coursesList.push(courseId + "-" + sectionId);
+
+                    var temp = {
+                        value: val,
+                        color: colorList[counter],
+                        highlight: colorList[counter],
+                        label: courseId + "-" + sectionId
+                    };
+                    counter++;
+                    if(counter == 4) counter = 0;
+                    PieData.push(temp);
+                }
+            }
+        }
+
+        for(var i=0;i<attendanceAverageList.length;i++)
+        {
+            var k=0;
+            for(var j=0;j<courseList.length;j++)
+            {
+                if(courseList[j]["id"]==attendanceAverageList[i]["courseid"])
+                {
+                    k++;
+                }
+            }
+            if(k==0)
+                console.log("ders"+ attendanceAverageList[i]["courseid"]);
+
+        }
+
+
+        window.localStorage.setItem("PieData", JSON.stringify(PieData)); // Saving
+
+        pieChart.Doughnut(PieData, pieOptions);
+
+
+    });
+
+    $("#intab").click(function(){
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+
+
+        var colorList = ["#95d5f5","#333c4f","000000","#DBDC01"];
+        var counter = 0;
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas);
+        var PieData = [];
+
+        var coursesList = [];
+        coursesList.push("Year");
+
+        console.log(attendanceAverageList);
+
+        console.log(courseList);
+
+        var thislecturerrate=0;
+        var otherlecturers=0;
+
+        for(var i=0;i<courseList.length;i++){
+            var courseId = courseList[i]["id"];
+            var sectionId = courseList[i]["sectionId"];
+
+            for(var j=0;j<attendanceAverageList.length;j++) {
+                var courseId2 = attendanceAverageList[j]["courseid"];
+                var sectionId2 = attendanceAverageList[j]["sectionno"];
+                var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
+
+                if(courseId === courseId2 && sectionId === sectionId2) {
+                    console.log("val = " + val);
+                    thislecturerrate+=val;
+                    coursesList.push(courseId + "-" + sectionId);
+
+                    var temp = {
+                        value: val,
+                        color: colorList[counter],
+                        highlight: colorList[counter],
+                        label: courseId + "-" + sectionId
+                    };
+                    counter++;
+                    if(counter == 4) counter = 0;
+                    PieData.push(temp);
+                }
+            }
+        }
+
+        for(var i=0;i<attendanceAverageList.length;i++)
+        {
+            var k=0;
+            for(var j=0;j<courseList.length;j++)
+            {
+                if(courseList[j]["id"]==attendanceAverageList[i]["courseid"])
+                {
+                    k++;
+                }
+            }
+            if(k==0)
+                console.log("ders"+ attendanceAverageList[i]["courseid"]);
+
+        }
+
+        window.localStorage.setItem("PieData2", JSON.stringify(PieData)); // Saving
+
+        pieChart.Doughnut(PieData, pieOptions);
+
+
+    });
+
 ////degisiklik
 
 
@@ -439,16 +563,7 @@ $(document).ready(function() {
         yy.push(i.toString());
     }
 
-    /*for(var i =0 ;i< 15; i++)
-     {
-     var tempz=[];
-     for(var j =0 ;j< 9; j++)
-     {
-     tempz.push(Math.floor(Math.random() * 101) -10 );
 
-     }
-     zz.push(tempz);
-     }*/
 
     var xList = [];
     var yList = [];
