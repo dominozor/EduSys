@@ -142,4 +142,32 @@ public class SectionStudentListRest {
         }
         
     }
+
+    @RolesAllowed({"ADMIN","LECTURER","STUDENT"})
+
+    @GET
+    @Path("/getSectionStudentList/{courseID}/{sectionID}/{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    //The parameters of the getAllGrades are;
+    //id: id of the exam which is going to be got.
+    public Response getSectionStudentList(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID, @PathParam("date") String date){
+        try {
+            JSONArray main = new JSONArray();       //A new JSON array object is created.
+            List <Object[]> students = service.getSectionStudentList(courseID, sectionID, date); //Getting all exam grades
+            for(Object[] student : students){
+
+                JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+                jo.accumulate("id", student[0]);
+                jo.accumulate("name", student[1]);
+                jo.accumulate("surname", student[2]);
+
+                main.put(jo);   //Put each JSON object to the JSON array object.
+            }
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return Response.serverError().build();
+    }
 }

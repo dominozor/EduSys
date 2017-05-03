@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>EduSys</title>
+    <style>
+        .table-striped tbody tr.selected td {
+            background-color: rgba(0, 166, 90, 0.51);
+            color: rgb(0, 41, 34);
+        }
+
+        td {border: 1px #DDD solid; padding: 5px; cursor: pointer;}
+    </style>
 </head>
 
 <!-- Tell the browser to be responsive to screen width -->
@@ -228,27 +236,18 @@
         <section class="content">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="btn-group">
-                        <input type="button" class="btn btn-info" id="course-home-btn" value="Home">
-                        <input type="button" class="btn btn-info" id="course-dates-btn" value="Date">
-                        <input type="button" class="btn btn-info" id="course-exams-btn" value="Exams">
-                    </div>
-                </div>
-            </div>
-            <br></br>
-            <div class="row">
-                <div class="col-md-12">
                     <div class="box box-success">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Students</h3>
+                            <h3 class="box-title">Add New Student</h3>
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
-                        <div id="student-list" class="box-body"></div>
-                        <input type="button" class="btn btn-default" id="addNewStudent" value="Add New Student">
-                        <input type="button" class="btn btn-default" id="backDatePage" value="Back">
+                        <div id="add-new-student-list" class="box-body"></div>
+                        <input type="button" class="btn btn-default" id="addSelectedStudents" value="Add Selected Students">
+                        <input type="button" class="btn btn-default" id="backToAttendancePage" value="Back">
+
                     </div>
 
 
@@ -257,6 +256,6 @@
         </section>
     </div>
 </div>
-<script src="/views/date/student-list.js"></script>
+<script src="/views/date/add-student.js"></script>
 </body>
 </html>

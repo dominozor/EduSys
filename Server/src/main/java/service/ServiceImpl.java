@@ -552,5 +552,9 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.getAllSeatingsForLecturerCourse(userID, sectionID, courseID);
 	}
 
+	public List<Object[]> getSectionStudentList(String courseID, String sectionID, String date) {
+		return hibernateUtility.getSectionStudentList(courseID, sectionID, date);
+	}
+
 
 }

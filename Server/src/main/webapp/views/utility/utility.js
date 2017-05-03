@@ -253,8 +253,8 @@ function createExamTable(data,captionArr){  //This is a table creator function w
     return htmlString += "</table>"; // HTML table string is returned
 }
 
-function createStudentTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
-    var htmlString = '<table class="table table-bordered table-striped"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+function createStudentTable(data,captionArr,flag){  //This is a table creator function which is created for tables that have updatable rows.
+    var htmlString = '<table id="studentTable" class="table table-bordered table-striped"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
     }
@@ -271,7 +271,16 @@ function createStudentTable(data,captionArr){  //This is a table creator functio
                 htmlString += "</td>"
 
         }
-
+        if(flag === 0) {
+            htmlString += '<td><select class="form-group" id="rowSelect'+i+'">';
+            htmlString += '<option value="1">Front Rows</option>';
+            htmlString += '<option value="2">Middle Rows</option>';
+            htmlString += '<option value="3">Back Rows</option>';
+            htmlString += '</select></td>';
+        }
+        if(flag === 1) {
+            htmlString += '<td><input class="deleteAttendance btn btn-default" id="deleteAttendance'+i+'" type="button" value="Delete"/></td>';
+        }
     }
     htmlString +="</tbody>";
 
