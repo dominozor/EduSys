@@ -194,6 +194,8 @@ public interface Service {
 
     public List<Object[]> getAllSeatingsForLecturerCourse(String userID, String sectionID, String courseID);
 
+    public List<Object[]> getSectionStudentList(String courseID, String sectionID, String date);
+
     public List<Object[]> getAllExamAveragesForLecturer(String userID);
 
 
