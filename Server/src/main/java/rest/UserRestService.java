@@ -195,7 +195,7 @@ public class UserRestService {
 
 			if(pass.equals(user.getPassword())){
 				//JavaScript part of the project will take that and redirect it to either Admin page or User page.
-				if(!user.isActive()) cameraUtility.activateUser(user.getID());
+				if(!user.isActive()) cameraUtility.activateUser(user.getUsername());
 				JSONArray main = new JSONArray();
 				JSONObject jo = new JSONObject();   //A new JSON object for each person is created.
 				jo.accumulate("id", user.getUsername());  //Putting all information from service object to JSON object.

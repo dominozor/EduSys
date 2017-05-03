@@ -80,5 +80,5 @@ public class Exam {
 
     public int getExamPercentage() { return examPercentage; }
 
-    public void setExamPercentage() { this.examPercentage=examPercentage; }
+    public void setExamPercentage(int examPercentage) { this.examPercentage=examPercentage; }
 }

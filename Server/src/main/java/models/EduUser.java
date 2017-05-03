@@ -52,8 +52,7 @@ public class EduUser {
 		this.role=role;
 		this.isActive=false;
 	}
-	
-	public String getID() { return this.ID;}
+
 	public String getName(){
 		return this.name;
 	}
