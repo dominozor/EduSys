@@ -265,11 +265,16 @@ function createStudentTable(data,captionArr,flag){  //This is a table creator fu
     for(var i=0;i<data.length;i++){// Rows are added to the table
         htmlString += "<tr>";
         for(var val in data[i]) {
-
+            if(flag === 0 && val === "id") {
+                htmlString += "<td><div id='cursorOnId' onmouseleave='profilePictureLeave()' onmouseover='profilePicturePopUp()'>";
+                htmlString += data[i][val]; // Columns are added to the table
+                htmlString += "</div></td>"
+            }
+            else {
                 htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
                 htmlString += "</td>"
-
+            }
         }
         if(flag === 0) {
             htmlString += '<td><select class="form-group" id="rowSelect'+i+'">';
@@ -323,4 +328,14 @@ function goToStudentCourseHome(courseId, courseName, sectionId) {
     var course = {id:courseId, name:courseName, sectionId:sectionId};
     createCookie('course',JSON.stringify(course),1);
     window.location.replace("http://localhost:8080/templates/course/student-course-home.html"); //That redirects to course page
+}
+
+function profilePicturePopUp() {
+    //todo: make profile picture pop up
+    console.log("mouse over");
+}
+
+function profilePictureLeave() {
+    //todo: redo popup
+    console.log("mouse leave");
 }

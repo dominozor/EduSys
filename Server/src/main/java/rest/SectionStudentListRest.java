@@ -152,6 +152,9 @@ public class SectionStudentListRest {
     //id: id of the exam which is going to be got.
     public Response getSectionStudentList(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID, @PathParam("date") String date){
         try {
+            System.out.println(courseID);
+            System.out.println(sectionID);
+            System.out.println(date);
             JSONArray main = new JSONArray();       //A new JSON array object is created.
             List <Object[]> students = service.getSectionStudentList(courseID, sectionID, date); //Getting all exam grades
             for(Object[] student : students){
