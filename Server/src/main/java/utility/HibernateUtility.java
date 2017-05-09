@@ -440,7 +440,8 @@ public class HibernateUtility {
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
 			Query query = session.createNativeQuery("select at.date from attendance as at\n" +
-					"where at.courseid = '" + courseID + "' and at.sectionno = '" + sectionID  + "'");
+					"where at.courseid = '" + courseID + "' and at.sectionno = '" + sectionID  + "' " +
+					"order by at.date");
 
 			//in query.list() function query is executed and result set is returned
 			List<String> row = query.list();

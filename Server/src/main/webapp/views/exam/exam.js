@@ -159,6 +159,7 @@ $(document).ready(function(){
             var row=parseInt($(this)[0].id.substr(12)); //Row ids are courseGrade#(number) so first 12 characters("courseGrade") is not important.
             var exam=sectExamList[row];// After parsing row, now we have row index for exam list
             createCookie('exam',JSON.stringify(exam),1); // A cookie is created for the exam page.Cookie has the information about course and keeps it as a JSON.
+            window.localStorage.setItem("examIndex", row);
             window.location.replace("http://localhost:8080/templates/exam/exam-list.html");
         });
 

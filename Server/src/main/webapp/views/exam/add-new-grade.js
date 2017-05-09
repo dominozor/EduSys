@@ -1,7 +1,16 @@
+function getAllExamsOfASection(courseid, sectionid) { //This function gets all exams of a section from the Rest services of EduSys
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/course/getCourseSectionExams/"+courseid+"/"+sectionid,
+        async: false  // This option prevents this function to execute asynchronized
+    });
+}
+
 $(document).ready(function(){
     var exam;
     var len;
     var user;
+    var course;
 
     $.ajax({
         url: '/views/main/main.js',
@@ -28,6 +37,8 @@ $(document).ready(function(){
 
     exam = JSON.parse(readCookie('exam'));
     user = JSON.parse(readCookie('mainuser'));
+    course = JSON.parse(readCookie('course'));
+
     len = readCookie(('length'));
     wsSendMessage(user["id"]);
 
@@ -44,6 +55,9 @@ $(document).ready(function(){
     $('#studentButtonName').html(user["name"] + " " + user["surname"])
     $('#stuName').html(user["name"] + " " + user["surname"])
     $('#userIdHeader').html(user["id"]);
+
+    var sectExamListObj=getAllExamsOfASection(course["id"], course["sectionId"]);
+    var sectExamList=JSON.parse(sectExamListObj.responseText);
 
     var courseListObj=getAllCourses(user["id"],user["role"]);
     var courseList=JSON.parse(courseListObj.responseText);
@@ -68,7 +82,8 @@ $(document).ready(function(){
         event.preventDefault();
         var userid = $("#user-id").val(); //Name of the user
         var grade = $("#grade").val(); //Surname of the user
-        var average=Number(exam["average"]);
+        var index = window.localStorage.getItem("examIndex");
+        var average=Number(sectExamList[index]["average"]);
         average = average*Number(len) + Number(grade);
         average = average / (Number(len)+1);
         average = average.toString();
