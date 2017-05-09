@@ -11,6 +11,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -104,7 +105,7 @@ public class AttendanceListRest {
     //The parameters of the deleteAttendanceList are;
     //id: id of the attendance list which is going to be deleted.
     //userID: User id of the lecturer.
-    public Response deleteAttendanceList(@PathParam("id") String id, @PathParam("id") String userID ) {
+    public Response deleteAttendanceList(@PathParam("id") String id, @PathParam("userID") String userID ) {
         try{
             service.deleteAttendanceList(id, userID);
             return Response.status(200).entity("success").build();
@@ -128,6 +129,42 @@ public class AttendanceListRest {
             alist=new AttendanceList(alist.getAtt_id(), alist.getUserID(), alist.getDistance(), alist.getTop(),alist.getBottom(),alist.getRight(),alist.getLeft());
             service.updateAttendanceList(alist);
 
+            return Response.status(200).entity("success").build();
+        }
+        catch(Exception ex){
+            return Response.serverError().build();
+        }
+
+    }
+
+    @RolesAllowed({"ADMIN","LECTURER"})
+    @POST
+    @Path("/addStudent")
+    @Produces(MediaType.TEXT_PLAIN)
+    //The parameters of the addAttendanceList are;
+    //id: id of the attendance list which is going to be added.
+    //userID: User id of the lecturer.
+    public Response addStudent(@QueryParam("ID")String id, @QueryParam("students") String students) {
+
+        try{
+            String[] splitStudents = students.split(",");
+            ArrayList<AttendanceList> attArr= new ArrayList<>();
+            for(String student : splitStudents) {
+                String[] studentAttributes = student.split("-");
+                if(studentAttributes[1].equals("1")) {
+                    AttendanceList attList = new AttendanceList(id, studentAttributes[0], 100, 400, 500, 150, 160);
+                    attArr.add(attList);
+                }
+                else if(studentAttributes[1].equals("1")) {
+                    AttendanceList attList = new AttendanceList(id, studentAttributes[0], 400, 400, 500, 150, 160);
+                    attArr.add(attList);
+                }
+                else {
+                    AttendanceList attList = new AttendanceList(id, studentAttributes[0], 800, 400, 500, 150, 160);
+                    attArr.add(attList);
+                }
+            }
+            service.addAttendanceListArr(attArr);
             return Response.status(200).entity("success").build();
         }
         catch(Exception ex){

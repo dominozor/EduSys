@@ -9,6 +9,22 @@ function getUserFromDate(sectionId, course, date) { //This function get all stud
     });
 }
 
+function getAttendanceId(course, sectionId, date) {
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendanceId/" + course + "/" + sectionId + "/" + date,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
+function deleteStudentFromAttendance(attendanceId, userId) { //This function deletes a student from the database.
+    return $.ajax({
+        type: "DELETE",
+        url: "http://localhost:8080/rest/attendanceList/delete/" + attendanceId + "/" + userId ,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 $(window).on('load', function() {
     // Animate loader off screen
     $(".myModal2").fadeOut("slow");
@@ -78,7 +94,12 @@ $(document).ready(function(){
     $('#student-list').html(createStudentTable(StudentAttList,captions,1));
 
     $(".deleteAttendance").click(function(){
-        window.location.replace("http://www.google.com"); //TODO delete
+        var row = ($(this)[0].id.substr(16));
+        var attendance = StudentAttList[row];
+        var attendanceIdObj=getAttendanceId(course["id"], course["sectionId"], date["date"]);
+        var attendanceId=JSON.parse(attendanceIdObj.responseText)[0]["id"];
+        deleteStudentFromAttendance(attendanceId, attendance["id"]);
+        window.location.replace("http://localhost:8080/templates/date/student-list.html");
     });
 
     $("#addNewStudent").click(function(){

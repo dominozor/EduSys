@@ -9,6 +9,14 @@ function getClassList(course, sectionId, date) { //This function get all student
     });
 }
 
+function getAttendanceId(course, sectionId, date) {
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendanceId/" + course + "/" + sectionId + "/" + date,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 $(window).on('load', function() {
     // Animate loader off screen
     $(".myModal2").fadeOut("slow");
@@ -91,10 +99,20 @@ $(document).ready(function(){
         var selected = [];
         $("#studentTable tr.selected").each(function(){
             var index = $('tr').index(this) - 1;
-            selected.push($('td:first', this).html() + " " + $("#rowSelect" + index).val());
+            selected.push($('td:first', this).html() + "-" + $("#rowSelect" + index).val());
         });
-        alert(selected);
-        //TODO rest function to add students to attendance database
+        var attendanceIdObj=getAttendanceId(course["id"], course["sectionId"], date["date"]);
+        var attendanceId=JSON.parse(attendanceIdObj.responseText)[0]["id"];
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/rest/attendanceList/addStudent?ID="+attendanceId+"&students="+selected.toString(),
+            success: function(response){
+
+            },
+            error: function(xhr) {
+            }
+        });
+        window.location.replace("http://localhost:8080/templates/date/student-list.html");
     });
 
     $('#backToAttendancePage').click(function(){

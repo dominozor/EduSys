@@ -1111,5 +1111,30 @@ public class HibernateUtility {
 		return null;
 	}
 
+    public String getAttendanceId(String courseId, String sectionId, String date) {
+        Session session = null;
+
+        try {
+            session = createSession(); //Create session
+
+            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+            Query query = session.createNativeQuery("select a.id\n" +
+                    "from attendance a\n" +
+                    "where a.courseid = '" + courseId + "' and a.sectionno = '" + sectionId +"' and a.date = '" + date + "'");
+
+            //in query.list() function query is executed and result set is returned
+            String row = (String) query.list().get(0);
+            session.close();
+            return row;
+        } catch (Exception e) {
+            System.err.print(e);
+        } finally {
+            if (session != null && session.isOpen()) {
+
+                session.close();
+            }
+        }
+        return null;
+    }
 }
 

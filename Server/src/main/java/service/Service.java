@@ -198,7 +198,6 @@ public interface Service {
 
     public List<Object[]> getAllExamAveragesForLecturer(String userID);
 
-
-
+    public String getAttendanceId(String courseId, String sectionId, String date);
 
 }

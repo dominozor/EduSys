@@ -701,4 +701,26 @@ public class AttendanceRestService {
 
 	///degisiklik
 
+    @RolesAllowed({"ADMIN","LECTURER"})
+    @GET
+    @Path("/getAttendanceId/{courseId}/{sectionId}/{date}")		/*This is the url of getting an exam grade and type of a student for a specific course.
+									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed
+									for the courses of the student with given id. Then the object is returned.*/
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAttendanceId( @PathParam("courseId") String courseId, @PathParam("sectionId") String sectionId, @PathParam("date") String date){
+        try {
+            String attendanceId = service.getAttendanceId(courseId,sectionId,date); //Getting an exam grade and type of student with given id.
+
+            JSONArray main = new JSONArray();
+            JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+            jo.accumulate("id", attendanceId);
+            main.put(jo);
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return Response.serverError().build();
+    }
+
 }

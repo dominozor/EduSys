@@ -363,15 +363,15 @@ public class ServiceImpl implements Service{
 		hibernateUtility.save(alist);
 	}
 
-	public void deleteAttendanceList(String id, String userID) {
-		List columnNameList=new ArrayList<String>();
-		List valueList=new ArrayList<String>();
-		columnNameList.add("id");
-		columnNameList.add("userid");
-		valueList.add(id);
-		valueList.add(userID);
-		hibernateUtility.delete(AttendanceList.class, valueList,columnNameList);
-	}
+    public void deleteAttendanceList(String id, String userID) {
+        List columnNameList=new ArrayList<String>();
+        List valueList=new ArrayList<String>();
+        columnNameList.add("att_id");
+        columnNameList.add("userid");
+        valueList.add(id);
+        valueList.add(userID);
+        hibernateUtility.delete(AttendanceList.class, valueList,columnNameList);
+    }
 
 	public void updateAttendanceList(AttendanceList alist) {
 		hibernateUtility.update(alist);
@@ -560,6 +560,8 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.getAllExamAveragesForLecturer(userID);
 	}
 
-
+    public String getAttendanceId(String courseId, String sectionId, String date) {
+        return hibernateUtility.getAttendanceId(courseId, sectionId, date);
+    }
 
 }
