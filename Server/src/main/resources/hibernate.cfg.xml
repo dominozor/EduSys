@@ -20,7 +20,9 @@
    <mapping class="main.java.models.Section"></mapping>
    <mapping class="main.java.models.SectionStudentList"></mapping>
    <mapping class="main.java.models.StudentGrade"></mapping>
-      <mapping class="main.java.models.Notification"></mapping>
+   <mapping class="main.java.models.Notification"></mapping>
+      <mapping class="main.java.models.ClassCourseRelationship"></mapping>
+      <mapping class="main.java.models.Classroom"></mapping>
 
    
 </session-factory>

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.models.*;
-import main.java.service.Service;
 import main.java.utility.HibernateUtility;
 import main.java.utility.PropertiesUtility;
 import org.apache.commons.io.FilenameUtils;
@@ -564,4 +563,7 @@ public class ServiceImpl implements Service{
         return hibernateUtility.getAttendanceId(courseId, sectionId, date);
     }
 
+	public List<Object[]>  getClassroomsOfSection(String course_id){
+		return hibernateUtility.getClassroomsOfSection(course_id);
+	}
 }

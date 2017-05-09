@@ -67,13 +67,6 @@
 		</dependency>
 
 
-		<!-- https://mvnrepository.com/artifact/com.sun.jersey.jersey-test-framework/jersey-test-framework-core -->
-		<dependency>
-			<groupId>com.sun.jersey.jersey-test-framework</groupId>
-			<artifactId>jersey-test-framework-core</artifactId>
-			<version>1.19.3</version>
-		</dependency>
-
 		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 			<groupId>junit</groupId>

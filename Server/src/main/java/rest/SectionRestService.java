@@ -1,5 +1,6 @@
 package main.java.rest;
 
+import main.java.models.Classroom;
 import main.java.models.Exam;
 import main.java.models.Section;
 import main.java.service.Service;
@@ -9,6 +10,7 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -176,13 +178,36 @@ public class SectionRestService {
     @Produces(MediaType.TEXT_PLAIN)
     public Response takeAttendance(@PathParam("course") String course_id, @PathParam("section") int section_id ) {
         try{
-            cameraUtility.takeAttendance(course_id, section_id);
+            cameraUtility.takeAttendance(course_id, section_id,"0");
             return Response.status(200).entity("Attendance has been taken successfully!").build();
         }
         catch(Exception ex){
             return Response.serverError().build();
         }
     }
+
+    @RolesAllowed("LECTURER")
+    @GET
+    @Path("/getClassroomsOfSection/{course}")
+    public Response getClassroomsOfSection(@PathParam("course") String course_id ){
+        try{
+            List<Object[]>  classes=service.getClassroomsOfSection(course_id);
+            JSONArray main = new JSONArray();
+            for(Object[] c: classes){
+                JSONObject jo = new JSONObject();
+                jo.accumulate("name",c[2]);
+                jo.accumulate("camIP",c[1]);
+
+                main.put(jo);
+            }
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        }
+        catch(Exception ex){
+            return Response.serverError().build();
+        }
+    }
+
 
     @RolesAllowed("LECTURER")
     @POST

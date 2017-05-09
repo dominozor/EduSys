@@ -3,13 +3,14 @@ package main.java.service;
 
 
 import java.io.InputStream;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.java.models.*;
+import main.java.models.Classroom;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-import sun.plugin.dom.core.CoreConstants;
 
 
 public interface Service {
@@ -200,4 +201,5 @@ public interface Service {
 
     public String getAttendanceId(String courseId, String sectionId, String date);
 
+    public List<Object[]>  getClassroomsOfSection(String course_id);
 }

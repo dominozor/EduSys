@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 import main.java.models.Attendance;
+import main.java.models.Classroom;
+import main.java.models.Classroom;
 import main.java.models.Notification;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -1136,6 +1138,32 @@ public class HibernateUtility {
             }
         }
         return null;
+    }
+
+    public List<Object[]>  getClassroomsOfSection(String courseId) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select * from classroom as a where " +
+					"exists( select * from classcourserelationship as b where b.class_id=a.id and b.course_id='"+courseId+"')");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]>  row = (List<Object[]> ) query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
     }
 }
 

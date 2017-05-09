@@ -74,7 +74,7 @@ public class CameraUtility {
     }
 
 
-    public Attendance takeAttendance(String courseID, int sectionNo) throws IOException {
+    public Attendance takeAttendance(String courseID, int sectionNo, String cameraIP) throws IOException {
 
         String path;
         String line;
@@ -88,7 +88,7 @@ public class CameraUtility {
         path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
         fileSeperator=propertiesUtility.getProperty("project.fileSeperator"); //From properties file project file seperator has been fetched
 
-        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"classifier_webcam.py", path+fileSeperator+"feature"+fileSeperator+"classifier.pkl", "--captureDevice", "rtsp://admin:12345@192.168.1.20?tcp");
+        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"classifier_webcam.py", path+fileSeperator+"feature"+fileSeperator+"classifier.pkl", "--captureDevice", cameraIP);
         builder.redirectErrorStream(true);
         Process process2 = builder.start(); //Python attendance process has been started
 
