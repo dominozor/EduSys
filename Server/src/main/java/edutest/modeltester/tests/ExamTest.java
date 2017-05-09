@@ -20,7 +20,7 @@ public class ExamTest {
 
     @Before
     public void setUp() throws Exception {
-        exam = new Exam("ADSDFE","490","2","Midterm",67.44515,35);
+        exam = new Exam("ADSDFE","490",2,"Midterm",67.44515,35);
         logger = Logger.getLogger("examLogger");
     }
 
@@ -65,7 +65,7 @@ public class ExamTest {
     public void setSectionNo() throws Exception {
         currentTestName=Thread.currentThread().getStackTrace()[1].getMethodName();
         logger.info(exam.getClass().getSimpleName()+" Test: "+currentTestName);
-        exam.setSectionNo("3");
+        exam.setSectionNo(3);
         assertEquals(exam.getSectionNo(),"3");
     }
 

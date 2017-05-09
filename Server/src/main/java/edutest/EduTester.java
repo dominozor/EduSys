@@ -1,6 +1,5 @@
 package main.java.edutest;
 
-import com.sun.jersey.test.framework.JerseyTest;
 import main.java.edutest.eduresttester.RestTester;
 import main.java.edutest.modeltester.ModelTester;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         ModelTester.class
 })
-public class EduTester extends JerseyTest {
+public class EduTester  {
 
     private RestTester restTester;
     private ModelTester modelTester;
