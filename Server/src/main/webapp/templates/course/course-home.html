@@ -311,7 +311,22 @@
                     </div>
                     <div class="btn-group">
                         <input type="button" class="btn btn-warning firstLesson" value="First Lesson Training">
-                        <input type="button" class="btn btn-success takeAttendance" value="Online Attendance">
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-success dropdown-toggle " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" value="Offline Attendance">
+                                Online Attendance
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                                <ul class="dropdown-menu takeAttendance">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#">Webcam</a></li>
+                                </ul>
+
+                        </div>
                         <input type="button" class="btn btn-danger takeAttImg" value="Offline Attendance">
                     </div>
                 </div>
