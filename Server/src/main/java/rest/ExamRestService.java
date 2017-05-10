@@ -243,7 +243,8 @@ public class ExamRestService {
 
                 JSONObject jo = new JSONObject();   //A new JSON object for each course is create
                 jo.accumulate("courseid", grade[0]);
-                jo.accumulate("col", grade[1]);
+                jo.accumulate("sectionid", grade[1]);
+                jo.accumulate("col", grade[2]);
 
 
                 main.put(jo);   //Put each JSON object to the JSON array object.

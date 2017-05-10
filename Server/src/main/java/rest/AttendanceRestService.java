@@ -493,7 +493,7 @@ public class AttendanceRestService {
 		try {
 			JSONArray main = new JSONArray();		//A new JSON array object is created.
 			List <Object[]> percentages = service.getAttendancePercentageForLecturerPerDay(userID); //Getting an exam grade and type of student with given id.
-            System.out.println("ui =" + userID);
+			System.out.println("ui =" + userID);
 			for(Object[] percentage : percentages){
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
@@ -650,11 +650,13 @@ public class AttendanceRestService {
 			for(Object[] seat : seatingPlaces){
 
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-				jo.accumulate("distance", seat[0]);
-				jo.accumulate("topcoor", seat[1]);
-				jo.accumulate("bottomcoor", seat[2]);
-				jo.accumulate("leftcoor", seat[3]);
-				jo.accumulate("rightcoor", seat[4]);
+				jo.accumulate("courseid", seat[0]);
+				jo.accumulate("sectionid", seat[1]);
+				jo.accumulate("distance", seat[2]);
+				jo.accumulate("topcoor", seat[3]);
+				jo.accumulate("bottomcoor", seat[4]);
+				jo.accumulate("leftcoor", seat[5]);
+				jo.accumulate("rightcoor", seat[6]);
 
 
 				main.put(jo);
@@ -701,26 +703,26 @@ public class AttendanceRestService {
 
 	///degisiklik
 
-    @RolesAllowed({"ADMIN","LECTURER"})
-    @GET
-    @Path("/getAttendanceId/{courseId}/{sectionId}/{date}")		/*This is the url of getting an exam grade and type of a student for a specific course.
+	@RolesAllowed({"ADMIN","LECTURER"})
+	@GET
+	@Path("/getAttendanceId/{courseId}/{sectionId}/{date}")		/*This is the url of getting an exam grade and type of a student for a specific course.
 									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed
 									for the courses of the student with given id. Then the object is returned.*/
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAttendanceId( @PathParam("courseId") String courseId, @PathParam("sectionId") String sectionId, @PathParam("date") String date){
-        try {
-            String attendanceId = service.getAttendanceId(courseId,sectionId,date); //Getting an exam grade and type of student with given id.
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAttendanceId( @PathParam("courseId") String courseId, @PathParam("sectionId") String sectionId, @PathParam("date") String date){
+		try {
+			String attendanceId = service.getAttendanceId(courseId,sectionId,date); //Getting an exam grade and type of student with given id.
 
-            JSONArray main = new JSONArray();
-            JSONObject jo = new JSONObject();   //A new JSON object for each course is create
-            jo.accumulate("id", attendanceId);
-            main.put(jo);
-            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
-                    .build();
-        } catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        return Response.serverError().build();
-    }
+			JSONArray main = new JSONArray();
+			JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+			jo.accumulate("id", attendanceId);
+			main.put(jo);
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
 
 }

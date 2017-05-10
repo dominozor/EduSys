@@ -51,37 +51,75 @@ function getAllExamAveragesForLecturer(userID) {
     });
 }
 
+function findElement(arr, propName, propValue,propName2,propValue2) {
+    for (var i=0; i < arr.length; i++)
+        if (arr[i][propName] == propValue && arr[i][propName2] == propValue2)
+            return arr[i];
+
+    // will return undefined if not found; you could return a default instead
+}
 
 
- function drawChart() {
 
- var data = google.visualization.arrayToDataTable(graphList);
-     console.log(graphList);
+function drawChart() {
 
-     var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
-     var colorsUsed=[];
-     for(var i=0;i<graphList[0].length-1;i++)
-     {
-     colorsUsed.push(colorlist[i]);
-     }
+    var data = google.visualization.arrayToDataTable(graphList);
+    console.log(graphList);
 
-     var options = {
-     hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
-     vAxis: {title: 'Attendance Percentage', minValue: 0},
-     pointSize: 7,
-     explorer: {
-     actions: ['dragToZoom', 'rightClickToReset'],
-     axis: 'horizontal',
-     keepInBounds: true,
-     maxZoomIn: 32.0},
-     colors: colorsUsed,
-     interpolateNulls : true,
+    var colorlist = ["#f56954", "#00a65a", "#f39c12", "0066ff"];
+    var colorsUsed=[];
+    for(var i=0;i<graphList[0].length-1;i++)
+    {
+        colorsUsed.push(colorlist[i]);
+    }
 
-     };
+    var options = {
+        hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+        vAxis: {title: 'Attendance Percentage', minValue: 0},
+        pointSize: 7,
+        explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomIn: 32.0},
+        colors: colorsUsed,
+        interpolateNulls : true,
 
-     var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-     chart.draw(data, options);
- }
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
+
+function drawChart2() {
+
+    var data = google.visualization.arrayToDataTable(graphList);
+    console.log(graphList);
+
+    var colorlist = ["#f39c12", "0066ff","#f56954", "#00a65a"];
+    var colorsUsed=[];
+    for(var i=0;i<graphList[0].length-1;i++)
+    {
+        colorsUsed.push(colorlist[i]);
+    }
+
+    var options = {
+        hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+        vAxis: {title: 'Attendance Percentage', minValue: 0},
+        pointSize: 7,
+        explorer: {
+            actions: ['dragToZoom', 'rightClickToReset'],
+            axis: 'horizontal',
+            keepInBounds: true,
+            maxZoomIn: 32.0},
+        colors: colorsUsed,
+        interpolateNulls : true,
+
+    };
+
+    var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+}
 
 $(window).on('load', function() {
     // Animate loader off screen
@@ -176,20 +214,48 @@ $(document).ready(function() {
     var examAverageListObj = getAllExamAveragesForLecturer(user["id"]);
     var examAverageList = JSON.parse(examAverageListObj.responseText);
 
+    var lecturerSeatingObj=getAllSeatingsForLecturer(user["id"]);
+    var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
+
     console.log(examAverageList);
 
-    var examPerc=[];
+    var examPercArr = [];
+    var seatingPercArr = [];
+    var seatingPercApperances=[];
+    var max_dist=900;
+    var min_dist=100;
 
-    for(var i=0;i<courseList.length;i++)
+    var length = courseList.length; // user defined length
+
+    for(var i = 0; i < length; i++) {
+        var item = {};
+        item["courseid"]=courseList[i]["id"];
+        item["sectionid"]=courseList[i]["sectionId"];
+        item["examweightedaverage"]=0;
+
+
+        examPercArr.push(item);
+    }
+
+    for(var i = 0; i < length; i++) {
+        var item = {};
+        item["courseid"]=courseList[i]["id"];
+        item["sectionid"]=courseList[i]["sectionId"];
+        item["seatingweightedaverage"]=0;
+
+        seatingPercApperances.push(0);
+        seatingPercArr.push(item);
+    }
+
+
+
+    for(var i=0;i<examPercArr.length;i++)
     {
-        var id =courseList[i]["id"];
-        for(var j=0;j<sectionInfo.length;j++)
+        for(var j=0;j<examAverageList.length;j++)
         {
-            if(sectionInfo[j]["course_id"]==id){
-                var temp=[];
-                temp.push(id);
-                temp.push(sectionInfo[j]["exam_percentage"]);
-                examPerc.push(temp);
+            if(examAverageList[j]["courseid"]==examPercArr[i]["courseid"] && examAverageList[j]["sectionid"]==examPercArr[i]["sectionid"] )
+            {
+                examPercArr[i]["examweightedaverage"] += examAverageList[j]["col"];
             }
 
         }
@@ -197,8 +263,39 @@ $(document).ready(function() {
 
 
 
-    console.log("eper");
-    console.log(examPerc);
+    for(var i=0;i<seatingPercArr.length;i++)
+    {
+        for(var j=0;j<lecturerSeatingList.length;j++)
+        {
+            if(lecturerSeatingList[j]["courseid"]==seatingPercArr[i]["courseid"] && lecturerSeatingList[j]["sectionid"]==seatingPercArr[i]["sectionid"] )
+            {
+                seatingPercArr[i]["seatingweightedaverage"] += lecturerSeatingList[j]["distance"];
+                seatingPercApperances[i]+=1;
+            }
+
+        }
+    }
+
+    for( var i=0;i<seatingPercArr.length;i++)
+    {
+        seatingPercArr[i]["seatingweightedaverage"]/=seatingPercApperances[i];
+        seatingPercArr[i]["seatingweightedaverage"]-=min_dist;
+        seatingPercArr[i]["seatingweightedaverage"] = max_dist - min_dist - seatingPercArr[i]["seatingweightedaverage"];
+        seatingPercArr[i]["seatingweightedaverage"] /= (max_dist-min_dist);
+        seatingPercArr[i]["seatingweightedaverage"] *=100;
+
+
+    }
+
+    console.log("yeniarr");
+    console.log(examPercArr);
+
+
+    console.log("seatingpercarr");
+    console.log(seatingPercArr);
+
+
+
 
 
     //-------------
@@ -328,10 +425,29 @@ $(document).ready(function() {
 
         graphList.push(element);
 
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
         window.localStorage.setItem("graphList", JSON.stringify(graphList)); // Saving
 
 
     }
+
+
+    /////////////////////////////////////////////////////tabs of line chart ////////////////////////////////////////////////////////
+
+    $("#intabline").click(function() {
+        google.charts.setOnLoadCallback(drawChart2);
+
+    });
+
+    $("#attabline").click(function() {
+        google.charts.setOnLoadCallback(drawChart);
+
+    });
+
+
+
 
     ///////////////////////////////////////////////////// tabs  of pie chart /////////////////////////////////////////////////////////
 
@@ -354,18 +470,20 @@ $(document).ready(function() {
         console.log(courseList);
 
         var thislecturerrate=0;
-        var otherlecturers=0;
 
-        for(var i=0;i<courseList.length;i++){
+        for(var i=0;i<courseList.length;i++)
+        {
             var courseId = courseList[i]["id"];
             var sectionId = courseList[i]["sectionId"];
 
-            for(var j=0;j<attendanceAverageList.length;j++) {
+            for(var j=0;j<attendanceAverageList.length;j++)
+            {
                 var courseId2 = attendanceAverageList[j]["courseid"];
                 var sectionId2 = attendanceAverageList[j]["sectionno"];
                 var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
 
-                if(courseId === courseId2 && sectionId === sectionId2) {
+                if(courseId === courseId2 && sectionId === sectionId2)
+                {
                     console.log("val = " + val);
                     thislecturerrate+=val;
                     coursesList.push(courseId + "-" + sectionId);
@@ -382,22 +500,6 @@ $(document).ready(function() {
                 }
             }
         }
-
-        for(var i=0;i<attendanceAverageList.length;i++)
-        {
-            var k=0;
-            for(var j=0;j<courseList.length;j++)
-            {
-                if(courseList[j]["id"]==attendanceAverageList[i]["courseid"])
-                {
-                    k++;
-                }
-            }
-            if(k==0)
-                console.log("ders"+ attendanceAverageList[i]["courseid"]);
-
-        }
-
 
         window.localStorage.setItem("PieData", JSON.stringify(PieData)); // Saving
 
@@ -427,19 +529,37 @@ $(document).ready(function() {
         console.log(courseList);
 
         var thislecturerrate=0;
-        var otherlecturers=0;
 
-        for(var i=0;i<courseList.length;i++){
+        for(var i=0;i<courseList.length;i++)
+        {
             var courseId = courseList[i]["id"];
             var sectionId = courseList[i]["sectionId"];
 
-            for(var j=0;j<attendanceAverageList.length;j++) {
+            for(var j=0;j<attendanceAverageList.length;j++)
+            {
+
                 var courseId2 = attendanceAverageList[j]["courseid"];
                 var sectionId2 = attendanceAverageList[j]["sectionno"];
                 var val = attendanceAverageList[j]["totalstu"]/attendanceAverageList[j]["mult"]*100;
 
-                if(courseId === courseId2 && sectionId === sectionId2) {
-                    console.log("val = " + val);
+                if(courseId === courseId2 && sectionId === sectionId2)
+                {
+
+                    //console.log("val = " + val);
+                    for(var k=0;k<sectionInfo.length;k++)
+                    {
+                        if(sectionInfo[k]["course_id"] == courseId && sectionInfo[k]["section_no"] == sectionId)
+                        {
+                            val=val*sectionInfo[k]["attendance_percentage"]/100;
+
+                            val+= findElement(examPercArr,"courseid",courseId,"sectionid",sectionId)["examweightedaverage"]*sectionInfo[k]["exam_percentage"]/100;
+
+                            val+= findElement(seatingPercArr,"courseid",courseId,"sectionid",sectionId)["seatingweightedaverage"]*sectionInfo[k]["seating_place_percentage"]/100;
+
+                            console.log(courseId + " " + sectionId + " " +sectionInfo[k]["attendance_percentage"] + " = " + val);
+
+                        }
+                    }
                     thislecturerrate+=val;
                     coursesList.push(courseId + "-" + sectionId);
 
@@ -456,20 +576,6 @@ $(document).ready(function() {
             }
         }
 
-        for(var i=0;i<attendanceAverageList.length;i++)
-        {
-            var k=0;
-            for(var j=0;j<courseList.length;j++)
-            {
-                if(courseList[j]["id"]==attendanceAverageList[i]["courseid"])
-                {
-                    k++;
-                }
-            }
-            if(k==0)
-                console.log("ders"+ attendanceAverageList[i]["courseid"]);
-
-        }
 
         window.localStorage.setItem("PieData2", JSON.stringify(PieData)); // Saving
 
@@ -481,8 +587,7 @@ $(document).ready(function() {
 ////degisiklik
 
 
-    var lecturerSeatingObj=getAllSeatingsForLecturer(user["id"]);
-    var lecturerSeatingList=JSON.parse(lecturerSeatingObj.responseText);
+
 
 
     var numberOfRow = 0;
@@ -523,7 +628,7 @@ $(document).ready(function() {
         zz.push(zzRow);
     }
 
-
+    console.log("lcl");
     console.log(lecturerSeatingList);
     var seatCounter=0;
 
@@ -594,8 +699,6 @@ $(document).ready(function() {
 
 
 
-     google.charts.load('current', {'packages':['corechart']});
-     google.charts.setOnLoadCallback(drawChart);
 
     /*google.load('visualization', '1', {packages:['corechart'], callback: drawChart});*/
 

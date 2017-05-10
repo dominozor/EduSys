@@ -22,7 +22,7 @@ import org.hibernate.cfg.Configuration;
  */
 
 /*
-This is a utility class for Hibernate. Basicly, after getting inputs for database usage, HibernateUtility sends,gets,updates or deletes entities from the right tables. 
+This is a utility class for Hibernate. Basicly, after getting inputs for database usage, HibernateUtility sends,gets,updates or deletes entities from the right tables.
 */
 
 public class HibernateUtility {
@@ -107,7 +107,7 @@ public class HibernateUtility {
 			for(int i=0;i<columnNameList.size();i++) {
 				query.setParameter(columnNameList.get(i),valueList.get(i));
 			}
-			//in query.list() function query is executed and result set is returned 
+			//in query.list() function query is executed and result set is returned
 			List resultSet=query.list();
 			session.close();
 			return resultSet; //finally user fetches data
@@ -1008,7 +1008,7 @@ public class HibernateUtility {
 			session = createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-			Query query = session.createNativeQuery("select attendancelist.distance, attendancelist.topcoor, attendancelist.bottomcoor, attendancelist.leftcoor, attendancelist.rightcoor\n" +
+			Query query = session.createNativeQuery("select section.courseid, section.sectionno, attendancelist.distance, attendancelist.topcoor, attendancelist.bottomcoor, attendancelist.leftcoor, attendancelist.rightcoor\n" +
 					"from attendancelist, section, attendance\n" +
 					"where section.userid='" + userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id = attendancelist.att_id");
 
@@ -1096,7 +1096,7 @@ public class HibernateUtility {
 			session = createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-			Query query = session.createNativeQuery("select exam.courseid, exam.average*exam.exampercentage/100 as col from exam,section where section.userid='" +userID + "' " +
+			Query query = session.createNativeQuery("select exam.courseid, exam.sectionno, exam.average*exam.exampercentage/100 as col from exam,section where section.userid='" +userID + "' " +
 					"and section.courseid=exam.courseid and section.sectionno=exam.sectionno");
 
 			//in query.list() function query is executed and result set is returned
@@ -1114,33 +1114,33 @@ public class HibernateUtility {
 		return null;
 	}
 
-    public String getAttendanceId(String courseId, String sectionId, String date) {
-        Session session = null;
+	public String getAttendanceId(String courseId, String sectionId, String date) {
+		Session session = null;
 
-        try {
-            session = createSession(); //Create session
+		try {
+			session = createSession(); //Create session
 
-            //By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-            Query query = session.createNativeQuery("select a.id\n" +
-                    "from attendance a\n" +
-                    "where a.courseid = '" + courseId + "' and a.sectionno = '" + sectionId +"' and a.date = '" + date + "'");
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select a.id\n" +
+					"from attendance a\n" +
+					"where a.courseid = '" + courseId + "' and a.sectionno = '" + sectionId +"' and a.date = '" + date + "'");
 
-            //in query.list() function query is executed and result set is returned
-            String row = (String) query.list().get(0);
-            session.close();
-            return row;
-        } catch (Exception e) {
-            System.err.print(e);
-        } finally {
-            if (session != null && session.isOpen()) {
+			//in query.list() function query is executed and result set is returned
+			String row = (String) query.list().get(0);
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
 
-                session.close();
-            }
-        }
-        return null;
-    }
+				session.close();
+			}
+		}
+		return null;
+	}
 
-    public List<Object[]>  getClassroomsOfSection(String courseId) {
+	public List<Object[]>  getClassroomsOfSection(String courseId) {
 
 		Session session = null;
 
@@ -1164,6 +1164,6 @@ public class HibernateUtility {
 			}
 		}
 		return null;
-    }
-}
+	}
 
+}
