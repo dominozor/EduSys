@@ -174,11 +174,11 @@ public class SectionRestService {
 
     @RolesAllowed("LECTURER")
     @POST
-    @Path("/takeAttendance/{course}/{section}")
+    @Path("/takeAttendance/{course}/{section}/{cameraIP}")
     @Produces(MediaType.TEXT_PLAIN)
-    public Response takeAttendance(@PathParam("course") String course_id, @PathParam("section") int section_id ) {
+    public Response takeAttendance(@PathParam("course") String course_id, @PathParam("section") int section_id, @PathParam("cameraIP") String cameraIP ) {
         try{
-            cameraUtility.takeAttendance(course_id, section_id,"0");
+            cameraUtility.takeAttendance(course_id, section_id,cameraIP);
             return Response.status(200).entity("Attendance has been taken successfully!").build();
         }
         catch(Exception ex){

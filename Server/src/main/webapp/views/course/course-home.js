@@ -1,9 +1,9 @@
-function getSeatingPercentageForCourse(courseID, sectionID) { //This function get all prev lectures of a course from the Rest services of EduSys
+function getClassesOfCourse(courseID) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
-        url: "http://localhost:8080/rest/attendance/getSeatingPercentageForCourse/" + courseID + "/" + sectionID,
+        url: "http://localhost:8080/rest/section/getClassroomsOfSection/" + courseID,
         async: false // This option prevents this function to execute asynchronized
-    });
+    }).responseText;
 }
 
 function getAllSeatingsForLecturerCourse(userID, sectionID, courseID) { //This function get all prev lectures of a course from the Rest services of EduSys
@@ -91,6 +91,35 @@ $(document).ready(function() {
 
     var graphList=[];
 
+    function onlineAttendanceButton(classrooms) {
+        var ul = document.getElementById("classesForAtt");
+        var camera=null;
+        for(var i in classrooms)
+        {
+            if(classrooms[i].name==="WebCam") camera=classrooms[i];
+            else{
+                var li = document.createElement("li");
+                var a = document.createElement("a");
+                a.appendChild(document.createTextNode(classrooms[i].name));
+                a.setAttribute('href', "#");
+                li.appendChild(a);
+                ul.appendChild(li);
+            }
+
+        }
+        var li=document.createElement("li");
+        li.setAttribute("role","seperator");
+        li.setAttribute("class","divider");
+        ul.appendChild(li);
+        li=document.createElement("li");
+        var a=document.createElement("a");
+        a.appendChild(document.createTextNode(camera.name));
+        a.setAttribute('href', "#");
+        li.appendChild(a);
+        ul.appendChild(li);
+
+    }
+
     function drawChart() {
         var data = google.visualization.arrayToDataTable(newgraphlist);
 
@@ -119,6 +148,15 @@ $(document).ready(function() {
     }
 
     var course = JSON.parse(readCookie('course'));
+    if(localStorage.getItem(course["id"]+"classes")==null){
+        var classrooms = JSON.parse(getClassesOfCourse(course['id']));
+        localStorage.setItem(course["id"]+"classes",JSON.stringify(classrooms));
+    }
+    else{
+        var classrooms = JSON.parse(localStorage.getItem(course["id"]+"classes"));
+    }
+
+    onlineAttendanceButton(classrooms);
     var user = JSON.parse(readCookie('mainuser'));
     wsSendMessage(user["id"]);
     var sectionInfoObj = getAllSectionInfo();
@@ -159,19 +197,33 @@ $(document).ready(function() {
 
     });
 
-    $('.takeAttendance').click(function(){
+    $('.takeAttendance').click(function(event){
         // SHOW overlay
+        var className = $(event.target).text();
+        var cameraIP = null;
+        for(var i in classrooms){
+            if(classrooms[i].name===className){
+                cameraIP=classrooms[i]["camIP"];
+            }
+        }
         document.getElementById('loading-gif').style.display = 'block';
         // Retrieve data:
         $.ajax({
-            url: "http://localhost:8080/rest/section/takeAttendance/" + course["id"] + "/"  + course["sectionId"],
+            url: "http://localhost:8080/rest/section/takeAttendance/" + course["id"] + "/"  + course["sectionId"] + "/" + cameraIP,
             type: 'POST',
             success: function(data){
                 // onSuccess fill #ajax-box with response data:
                 $('#ajax-box').html(data);
                 // HIDE the overlay:
                 document.getElementById('loading-gif').style.display = 'none';
+            },
+            error: function(data) {
+                document.getElementById('loading-gif').style.display = 'none';
+
+                alert("Cannot Connect to the Camera!");
+
             }
+
         });
         // Prevent default action of link:
         return false;
