@@ -142,14 +142,111 @@ $(document).ready(function(){
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
 
+    var courseInterestObj = getInterestsOfCourses(user["id"]);
+    var courseInterest = JSON.parse(courseInterestObj.responseText);
+
+    var sectionInfoObj = getSection(course["id"], course["sectionId"]);
+    var sectionInfo = JSON.parse(sectionInfoObj.responseText);
+
+    var class_size = sectionInfo["class_size"];
+    var numberOfRowStr = "";
+    var numberOfSeatStr = "";
+    var flag = 0;
+
+    for(var i=0; i<class_size.length; i++) {
+        if(flag == 0) {
+            if(class_size[i] != "x") {
+                numberOfRowStr += class_size[i];
+            }
+            else
+                flag = 1;
+        }
+        else
+            numberOfSeatStr += class_size[i];
+    }
+
+    var numberOfRow = Number(numberOfRowStr);
+    var numberOfSeat = Number(numberOfSeatStr);
+
+    var zz=[];
+
+    for(var i=0; i<numberOfRow; i++) {
+        var zzRow = [];
+        for(var j=0; j<numberOfSeat; j++) {
+            zzRow.push(0);
+        }
+        zz.push(zzRow);
+    }
+
     // When the user clicks the button, open the modal
     $('.getAttendanceInfo').click(function() {
+        var row = parseInt($(this)[0].id.substr(17));
+
+        var zzTemp=[];
+
+        for(var i=0; i<numberOfRow; i++) {
+            var zzRow = [];
+            for(var j=0; j<numberOfSeat; j++) {
+                zzRow.push(0);
+            }
+            zzTemp.push(zzRow);
+        }
+
+
+        var seatCounter=0;
+
+        for(var i = 0; i<courseInterest.length;i++)
+        {
+            if(courseInterest[i]["courseId"] == course["id"] && courseInterest[i]["sectionId"] == course["sectionId"] && courseInterest[i]["date"] == courAttList[row]["date"]) {
+                console.log("girdi");
+                for (var j = 0; j < zz.length; j++) {
+                    if (courseInterest[i]["distance"] >= j * 100 && courseInterest[i]["distance"] < (j + 1) * 100) {
+                        var seat;
+                        seat = Math.floor(courseInterest[i]["leftcoor"] / 20);
+                        zzTemp[j][seat] += 1;
+                        seatCounter++;
+                    }
+                }
+            }
+        }
+
+
+        for(var i=0;i<zzTemp.length;i++)
+        {
+            for(var j=0 ; j<zzTemp[i].length;j++)
+            {
+                zzTemp[i][j]=(zzTemp[i][j]/seatCounter)*100;
+            }
+        }
+
+
+        var xx=[];
+        var yy=[];
+
+        var maxNum = Math.max(numberOfSeat, numberOfRow);
+
+        for(var i =0 ;i< maxNum; i++)
+        {
+            xx.push(i.toString());
+            yy.push(i.toString());
+        }
+
+        var xList = [];
+        var yList = [];
+
+        for(var i=0; i<numberOfSeat; i++) {
+            xList.push('x' + i.toString());
+        }
+
+        for(var i=0; i<numberOfRow; i++) {
+            yList.push('y' + i.toString());
+        }
+
         var data = [
             {
-                z: [[6,8,9,5,7,2,5,10,3,6], [6,7,6,7,6,7,6,7,6,7], [5,6,5,6,5,6,5,6,5,6], [5,6,5,6,5,6,5,6,5,6], [4,5,4,5,4,5,4,5,4,5],
-                    [4,5,4,5,4,5,4,5,4,5], [4,6,5,7,4,6,5,7,4,6], [3,6,4,7,3,6,4,7,3,6], [2,3,4,2,3,4,2,3,4,4], [2,3,4,2,3,4,2,3,4,5]],
-                x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-                y: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                z : zzTemp,
+                x: xList,
+                y: yList,
                 type: 'heatmap'
             }
         ];
@@ -190,12 +287,59 @@ $(document).ready(function(){
 
 
     //Overall Heat Map
+    var seatCounter=0;
+
+    for(var i = 0; i<courseInterest.length;i++)
+    {
+        if(courseInterest[i]["courseId"] == course["id"] && courseInterest[i]["sectionId"] == course["sectionId"]) {
+            for (var j = 0; j < zz.length; j++) {
+                if (courseInterest[i]["distance"] >= j * 100 && courseInterest[i]["distance"] < (j + 1) * 100) {
+                    var seat;
+                    seat = Math.floor(courseInterest[i]["leftcoor"] / 20);
+                    zz[j][seat] += 1;
+                    seatCounter++;
+                }
+            }
+        }
+    }
+
+
+    for(var i=0;i<zz.length;i++)
+    {
+        for(var j=0 ; j<zz[i].length;j++)
+        {
+            zz[i][j]=(zz[i][j]/seatCounter)*100;
+        }
+    }
+
+
+    var xx=[];
+    var yy=[];
+
+    var maxNum = Math.max(numberOfSeat, numberOfRow);
+
+    for(var i =0 ;i< maxNum; i++)
+    {
+        xx.push(i.toString());
+        yy.push(i.toString());
+    }
+
+    var xList = [];
+    var yList = [];
+
+    for(var i=0; i<numberOfSeat; i++) {
+        xList.push('x' + i.toString());
+    }
+
+    for(var i=0; i<numberOfRow; i++) {
+        yList.push('y' + i.toString());
+    }
+
     var data = [
         {
-            z: [[6,8,9,5,7,2,5,10,3,6], [6,7,6,7,6,7,6,7,6,7], [5,6,5,6,5,6,5,6,5,6], [5,6,5,6,5,6,5,6,5,6], [4,5,4,5,4,5,4,5,4,5],
-                [4,5,4,5,4,5,4,5,4,5], [4,6,5,7,4,6,5,7,4,6], [3,6,4,7,3,6,4,7,3,6], [2,3,4,2,3,4,2,3,4,4], [2,3,4,2,3,4,2,3,4,5]],
-            x: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            y: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+            z : zz,
+            x: xList,
+            y: yList,
             type: 'heatmap'
         }
     ];

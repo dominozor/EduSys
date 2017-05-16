@@ -144,7 +144,7 @@ $(document).ready(function() {
 
 
     $('#goToHome').click(function () {
-        window.location.replace("http://localhost:8080/templates/home/student-home.html");
+        window.location.reload();
     });
 
     $('#goToDates').click(function () {

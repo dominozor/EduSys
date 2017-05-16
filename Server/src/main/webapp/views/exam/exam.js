@@ -65,7 +65,10 @@ $(document).ready(function(){
     });
 
     $("#course-home-btn").click(function(){
-        window.location.replace("http://localhost:8080/templates/course/course-home.html");
+        if(user["role"] == 1)
+            window.location.replace("http://localhost:8080/templates/course/course-home.html");
+        else if (user["role"] == 2)
+            window.location.replace("http://localhost:8080/templates/course/student-course-home.html");
     });
 
     $("#course-dates-btn").click(function(){

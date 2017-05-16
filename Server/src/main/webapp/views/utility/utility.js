@@ -93,9 +93,17 @@ function createAttendanceTable(data,captionArr,secondTableData, secondTableCapti
     for(var i=0;i<data.length;i++){// Rows are added to the table
         htmlString += "<tr>";
         for(var val in data[i]) {
-            if (val === "courseId" || val === "date") {
+            if (val === "courseId") {
                 htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
+                htmlString += "</td>"
+            }
+            else if (val === "date") {
+                var newDate = {year : 0, month : 0, day : 0};
+                splitDate(data[i][val], newDate);
+                var date = newDate.day + "/" + newDate.month + "/" + newDate.year;
+                htmlString += "<td>";
+                htmlString += date; // Columns are added to the table
                 htmlString += "</td>"
             }
         }
@@ -338,4 +346,50 @@ function profilePicturePopUp() {
 function profilePictureLeave() {
     //todo: redo popup
     console.log("mouse leave");
+}
+
+function splitDate(tempdate, newDate) {
+
+    var year = Number(tempdate.substring(0, 4));
+
+    var month = Number(tempdate.substring(4,6));
+
+    var day = Number(tempdate.substring(6,8));
+
+    if(day<30)
+    {
+
+        if(day==28 && month==2)
+        {
+            day=1;
+            month= parseInt(month)+1;
+        }
+        else
+            day = parseInt(day)+1;
+    }
+    if(day==30)
+    {
+        if(month==4 || month==6 || month==9 || month==11 )
+        {
+            day=1;
+            month = parseInt(month)+1;
+        }
+
+    }
+
+    if(day==31)
+    {
+        day = 1;
+        month = parseInt(month)+1;
+        if(month==13)
+        {
+            month=1;
+            year=parseInt(year)+1;
+        }
+    }
+    month= parseInt(month)-1;
+
+    newDate.year = year;
+    newDate.month = month;
+    newDate.day = day;
 }

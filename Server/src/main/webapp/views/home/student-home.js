@@ -64,8 +64,6 @@ $(document).ready(function() {
         async: false  // This option prevents this function to execute asynchronized
     });
 
-
-
     $.ajax({
         url: '/views/WS/websocket.js',
         dataType: 'script',
@@ -370,7 +368,7 @@ $(document).ready(function() {
 
             var interestPoint = seatingInfo * seating_place_percentage + averageGrade * exam_percentage + attendancePerc * attendance_percentage;
 
-            graphInfo[i+1][courseIndices[courseInterest[i]["courseId"]]] = interestPoint;
+            graphInfo[i+1][courseIndices[courseInterest[i]["courseId"]]] = interestPoint/100000;
 
         }
 
@@ -564,7 +562,9 @@ $(document).ready(function() {
         var xx=[];
         var yy=[];
 
-        for(var i =0 ;i< 15; i++)
+        var maxNum = Math.max(numberOfSeat, numberOfRow);
+
+        for(var i =0 ;i< maxNum; i++)
         {
             xx.push(i.toString());
             yy.push(i.toString());
