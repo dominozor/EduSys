@@ -404,6 +404,34 @@ public class HibernateUtility {
 		return null;
 	}
 
+	public List<Object[]> listAllCoursesOfAnAdmin() {
+
+		Session session=null;
+
+		try{
+			session=createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select cour.*, sect.sectionno from section as sect, course as cour\n" +
+					"where cour.id = sect.courseid " );
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]> row = query.list();
+			session.close();
+			return row;
+		}
+		catch(Exception e){
+			System.err.print(e);
+		}
+		finally {
+			if (session!=null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
 	//Function to get all exam grades and types a student
 	public List<Object[]> listAllExamGradesOfAStudent(String userID) {
 
@@ -862,8 +890,7 @@ public class HibernateUtility {
 			session = createSession(); //Create session
 
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
-			Query query = session.createNativeQuery( "select attendance.courseid, attendance.sectionno, attendance.date, count(*) as totalAtt, section.number_of_students as totalCapacity, sum(distance) as totalDist " +
-					"from section, attendance, attendancelist "+
+			Query query = session.createNativeQuery( "select attendance.courseid, attendance.sectionno, attendance.date, count(*) as totalAtt, section.number_of_students as totalCapacity, sum(distance) as totalDist " +					"from section, attendance, attendancelist "+
 					"where section.userid= '" + userID + "' and section.courseid=attendance.courseid and section.sectionno=attendance.sectionno and attendance.id=attendancelist.att_id "+
 					"group by attendance.courseid, attendance.sectionno, attendance.date, section.number_of_students order by attendance.date;");
 
@@ -1151,6 +1178,60 @@ public class HibernateUtility {
 			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
 			Query query = session.createNativeQuery("select * from classroom as a where " +
 					"exists( select * from classcourserelationship as b where b.class_id=a.id and b.course_id='"+courseId+"')");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]>  row = (List<Object[]> ) query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+	public List<Object[]>  getSectionLecturer(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select section.userid, eduuser.name, eduuser.surname\n" +
+					"from section, eduuser\n" +
+					"where section.courseid = '" + courseID + "' and section.sectionno = '" + sectionID + "' and section.userid = eduuser.id");
+
+			//in query.list() function query is executed and result set is returned
+			List<Object[]>  row = (List<Object[]> ) query.list();
+			session.close();
+			return row;
+		} catch (Exception e) {
+			System.err.print(e);
+		} finally {
+			if (session != null && session.isOpen()) {
+
+				session.close();
+			}
+		}
+		return null;
+	}
+
+	public List<Object[]>  getAttendanceDateRatio(String courseID, String sectionID) {
+
+		Session session = null;
+
+		try {
+			session = createSession(); //Create session
+
+			//By using createNativeQuery, the query is formed and data is retrieved from database. It can be used as a SQL query.
+			Query query = session.createNativeQuery("select att.date, att.numberofstudents, sec.number_of_students, cast((cast(att.numberofstudents as float)/cast(sec.number_of_students as float)*100) as integer) as rate \n" +
+					"from attendance att, section sec\n" +
+					"where sec.courseid = '" + courseID +"' and sec.sectionno = '" + sectionID + "' and att.courseid = '" + courseID + "' and att.sectionno = '" + sectionID + "'");
 
 			//in query.list() function query is executed and result set is returned
 			List<Object[]>  row = (List<Object[]> ) query.list();

@@ -5,7 +5,7 @@
     <title>EduSys</title>
 </head>
 <link rel="import" href="/templates/main/main.html" >
-<script src="/views/home/admin-home.js"></script>
+<script src="/views/course/course-report.js"></script>
 <script type="text/javascript" src="js/bootstrap-filestyle.min.js"> </script>
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -73,10 +73,10 @@
 <script src="../../lib/dist/js/demo.js"></script>
 
 <body class="hold-transition skin-blue sidebar-mini">
+<div class="myModal2"></div>
+<div class="wrapper">
 
-    <div class="wrapper">
-
-        <header class="main-header">
+    <header class="main-header">
         <!-- Logo -->
         <a href="../home/admin-home.html" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -391,19 +391,24 @@
 
     <div class="content-wrapper">
 
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">ADMIN PAGE</h3>
+        <section class="content-header" id="contentHeader"></section>
+
+        <section class="content">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-success">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Course Report</h3>
+                        </div>
+                        <div id="lecturerInfo" class="box-body"></div>
+                        <div id="attendanceGeneralInfo" class="box-body"></div>
+                        <div id="attendanceDateInfo" class="box-body"></div>
+                    </div>
+                </div>
             </div>
-            <div id="userlist" class="box-body"></div>
-        </div>
 
-        <p>
-            <tr id="button_block">
-                <input class="btn btn-primary btn-lg" id="adm-register" type="button" value="Register"/>
-            </tr>
-        </p>
-
+        </section>
     </div>
 </div>
 

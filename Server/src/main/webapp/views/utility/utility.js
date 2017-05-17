@@ -74,6 +74,9 @@ function createCourseTable(data,captionArr,id){  //This is a table creator funct
             /*htmlString += '<td><input class="firstLesson" id="firstLesson'+i+'" type="button" value="First Lesson Training"/></td>';
             htmlString += '<td><input class="takeAttendance" id="takeAttendance'+i+'" type="button" value="Take Attendance"/></td>';*/
         }
+        else {
+            htmlString += '<td><input class="courseReport" id="courseReport'+i+'" type="button" value="Get Report"/></td>';
+        }
     }
     htmlString +="</tbody>";
 
@@ -392,4 +395,29 @@ function splitDate(tempdate, newDate) {
     newDate.year = year;
     newDate.month = month;
     newDate.day = day;
+}
+
+function createDateReportTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
+    var htmlString = '<table class="table table-bordered table-striped"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
+    for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
+        htmlString += "<th>"+captionArr[i]+"</th>";
+    }
+
+    htmlString += "<tfoot></tfoot>";
+
+    htmlString += "<tbody>";
+
+    for(var i=0;i<data.length;i++){// Rows are added to the table
+        htmlString += "<tr>";
+        for(var val in data[i]) {
+            htmlString += "<td>";
+            htmlString += data[i][val]; // Columns are added to the table
+            htmlString += "</td>";
+        }
+    }
+    htmlString +="</tbody>";
+
+    htmlString += "</tr></thead>";
+    htmlString += "</table>";
+    return htmlString // HTML table string is returned
 }

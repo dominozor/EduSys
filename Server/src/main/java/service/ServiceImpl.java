@@ -449,6 +449,10 @@ public class ServiceImpl implements Service{
 		return hibernateUtility.listAllCoursesOfALecturer(userID);
 	}
 
+    public List<Object[]> getAllCoursesOfAnAdmin() {
+        return hibernateUtility.listAllCoursesOfAnAdmin();
+    }
+
 	//Service function to get all exam grades, types of a student
 	//Parameter is the student's ID
 	public List<Object[]> getExamGradesOfAStudent(String userID) {
@@ -566,4 +570,13 @@ public class ServiceImpl implements Service{
 	public List<Object[]>  getClassroomsOfSection(String course_id){
 		return hibernateUtility.getClassroomsOfSection(course_id);
 	}
+
+    public List<Object[]> getSectionLecturer(String courseID, String sectionID) {
+        return hibernateUtility.getSectionLecturer(courseID, sectionID);
+    }
+
+    public List<Object[]> getAttendanceDateRatio(String courseID, String sectionID) {
+        return hibernateUtility.getAttendanceDateRatio(courseID, sectionID);
+    }
+
 }

@@ -33,7 +33,11 @@ function getAllCourses(id, type) { //This function gets all the courses that a s
             async: false  // This option prevents this function to execute asynchronized
         });
     }
-
-
-
+    else {
+        return $.ajax({
+            type: "GET",
+            url: " http://localhost:8080/rest/user/getAdminCourses/",
+            async: false  // This option prevents this function to execute asynchronized
+        });
+    }
 }

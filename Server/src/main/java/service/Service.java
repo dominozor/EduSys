@@ -147,6 +147,8 @@ public interface Service {
 
     public List<Object[]> getAllCoursesOfALecturer(String userID); //Function to get all registered courses of a student
 
+    public List<Object[]> getAllCoursesOfAnAdmin(); //Function to get all registered courses of a student
+
     public List<Object[]> getExamGradesOfAStudent(String userID); //Function to get all exam grades and types of a student
 
     public List<String> getDatesOfASection(String courseID, String sectionID); // Function to get all previous dates of a course
@@ -202,4 +204,8 @@ public interface Service {
     public String getAttendanceId(String courseId, String sectionId, String date);
 
     public List<Object[]>  getClassroomsOfSection(String course_id);
+
+    public List<Object[]> getSectionLecturer(String courseID, String sectionID);
+
+    public List<Object[]> getAttendanceDateRatio(String courseID, String sectionID);
 }

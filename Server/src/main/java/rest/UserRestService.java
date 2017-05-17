@@ -311,6 +311,32 @@ public class UserRestService {
 	}
 
 	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
+	@GET
+	@Path("/getAdminCourses")		/*This is the url of getting all courses of a lecturer. This url is called like http://localhost:8080/webapi/user/getLecturerCourses/, the JSON object will be formed
+						for the courses of the lecturer with given id. Then the object is returned.*/
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response listAllCourses(){
+		try {
+			JSONArray main = new JSONArray();		//A new JSON array object is created.
+			List <Object[]> courses = service.getAllCoursesOfAnAdmin(); //Getting all courses of lecturer with given id.
+            for(Object[] course : courses){
+
+                JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+                jo.accumulate("id", course[0]); // Putting id of courses
+                jo.accumulate("name", course[1]); // Putting name of courses
+                jo.accumulate("sectionId", course[2]);
+
+                main.put(jo);   //Put each JSON object to the JSON array object.
+            }
+			return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+					.build();
+		} catch (JSONException ex) {
+			ex.printStackTrace();
+		}
+		return Response.serverError().build();
+	}
+
+	@RolesAllowed({"ADMIN","LECTURER","STUDENT"})
     @GET
 	@Path("/getExamGrades/{ID}")		/*This is the url of getting all exam grades and types of a student. This url is called like http://localhost:8080/webapi/user/getExamGrades/{ID}, the JSON object will be formed
 						for the courses of the lecturer with given id. Then the object is returned.*/
