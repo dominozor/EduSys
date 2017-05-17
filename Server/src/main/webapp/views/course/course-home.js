@@ -90,6 +90,7 @@ $(document).ready(function() {
 
 
     var graphList=[];
+    var interestgraphList=[];
 
     function onlineAttendanceButton(classrooms) {
         var ul = document.getElementById("classesForAtt");
@@ -142,6 +143,36 @@ $(document).ready(function() {
             colors: colorsUsed,
         };
 
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+
+    function drawChart2() {
+
+        var data = google.visualization.arrayToDataTable(newgraphlist);
+        console.log(graphList);
+
+        var colorlist = ["#f39c12", "0066ff","#f56954", "#00a65a"];
+        var colorsUsed=[];
+        for(var i=0;i<newgraphlist[0].length-1;i++)
+        {
+            colorsUsed.push(colorlist[i]);
+        }
+
+        var options = {
+            hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
+            vAxis: {title: 'Interest Percentage', minValue: 0},
+            pointSize: 7,
+            explorer: {
+                actions: ['dragToZoom', 'rightClickToReset'],
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomIn: 32.0},
+            colors: colorsUsed,
+            interpolateNulls : true,
+
+        };
 
         var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
         chart.draw(data, options);
@@ -278,9 +309,13 @@ $(document).ready(function() {
 
 
 
-    var  rankList = JSON.parse(localStorage.getItem('PieData'));
+    var  rankList = JSON.parse(localStorage.getItem('PieData2'));
+
+    console.log("rl");
+    console.log(rankList);
 
     var ranks=[];
+
     for(var i =0;i<rankList.length;i++)
     {
         var templist=[];
@@ -324,10 +359,14 @@ $(document).ready(function() {
 
 
 
+/////////////////////////////////// TODO interest graphlist
 
     var newgraphlist=[];
 
     graphList = JSON.parse(localStorage.getItem('graphList'));
+
+    interestgraphList =  JSON.parse(localStorage.getItem('interestgraphList'));
+
 
 
     var coursesectionid = course["id"] + "-" + course["sectionId"];
@@ -409,6 +448,28 @@ $(document).ready(function() {
 
     google.charts.load('current', {'packages':['corechart']});
     google.charts.setOnLoadCallback(drawChart);
+
+
+
+
+    /////////////////////////////////////////////////////tabs of line chart ////////////////////////////////////////////////////////
+
+
+    $("#intabline").click(function()
+    {
+        google.charts.setOnLoadCallback(drawChart2);
+
+    });
+
+    $("#attabline").click(function()
+    {
+        google.charts.setOnLoadCallback(drawChart);
+
+    });
+
+
+
+
 
 
 

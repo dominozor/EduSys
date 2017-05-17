@@ -1,4 +1,6 @@
 var graphList=[];
+var interestgraphList=[];
+
 function getTotalNumOfStudent(userID) { //This function get all prev lectures of a course from the Rest services of EduSys
     return $.ajax({
         type: "GET",
@@ -93,7 +95,7 @@ function drawChart() {
 
 function drawChart2() {
 
-    var data = google.visualization.arrayToDataTable(graphList);
+    var data = google.visualization.arrayToDataTable(interestgraphList);
     console.log(graphList);
 
     var colorlist = ["#f39c12", "0066ff","#f56954", "#00a65a"];
@@ -105,7 +107,7 @@ function drawChart2() {
 
     var options = {
         hAxis: {title: 'Date',  titleTextStyle: {color: '#333'}},
-        vAxis: {title: 'Attendance Percentage', minValue: 0},
+        vAxis: {title: 'Interest Percentage', minValue: 0},
         pointSize: 7,
         explorer: {
             actions: ['dragToZoom', 'rightClickToReset'],
@@ -399,6 +401,11 @@ $(document).ready(function() {
 
 
     graphList.push(coursesList);
+    interestgraphList.push(coursesList);
+
+    console.log("dat");
+    console.log(dailyAttendanceList);
+    console.log(findElement(sectionInfo,"course_id","490","section_no",1)["attendance_percentage"]);
 
     for(var i=0;i<dailyAttendanceList.length;i++)
     {
@@ -407,12 +414,19 @@ $(document).ready(function() {
         var day = dailyAttendanceList[i]["date"].substring(6, 8);
 
         var element=[];
+        var interestElement = [];
 
         element.push(new Date(year,month,day));
+        interestElement.push(new Date(year,month,day));
 
         for(var j=0;j<coursesList.length-1;j++)
         {
             element.push(null);
+        }
+
+        for(var j=0;j<coursesList.length-1;j++)
+        {
+            interestElement.push(null);
         }
 
         var searchIndexTemp = dailyAttendanceList[i]["courseid"] + "-" + dailyAttendanceList[i]["sectionno"];
@@ -421,14 +435,47 @@ $(document).ready(function() {
 
         var percentageValue = (dailyAttendanceList[i]["totalAtt"] / dailyAttendanceList[i]["totalCapacity"])*100;
 
+
+        var interestPercentageValue=percentageValue*findElement(sectionInfo,"course_id",dailyAttendanceList[i]["courseid"],"section_no",dailyAttendanceList[i]["sectionno"])["attendance_percentage"]/100;
+
+        var averageDist = dailyAttendanceList[i]["totalDist"]/dailyAttendanceList[i]["totalAtt"];
+        console.log("adasdasdasdasdsad");
+
+        console.log(averageDist + " " + findElement(sectionInfo,"course_id",dailyAttendanceList[i]["courseid"],"section_no",dailyAttendanceList[i]["sectionno"])["seating_place_percentage"]);
+
+        averageDist-=min_dist;
+
+        averageDist = max_dist - min_dist - averageDist;
+
+        averageDist /= (max_dist-min_dist);
+
+        averageDist *=100;
+
+
+        console.log(averageDist + " " + findElement(sectionInfo,"course_id",dailyAttendanceList[i]["courseid"],"section_no",dailyAttendanceList[i]["sectionno"])["seating_place_percentage"]);
+
+        interestPercentageValue += averageDist*findElement(sectionInfo,"course_id",dailyAttendanceList[i]["courseid"],"section_no",dailyAttendanceList[i]["sectionno"])["seating_place_percentage"]/100;
+
+        interestPercentageValue += 100*findElement(sectionInfo,"course_id",dailyAttendanceList[i]["courseid"],"section_no",dailyAttendanceList[i]["sectionno"])["exam_percentage"]/100;
+
         element[index]=percentageValue;
 
+        interestElement[index]=interestPercentageValue;
+
         graphList.push(element);
+
+        interestgraphList.push(interestElement);
+
+
+
 
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
         window.localStorage.setItem("graphList", JSON.stringify(graphList)); // Saving
+
+        window.localStorage.setItem("interestgraphList", JSON.stringify(interestgraphList)); // Saving
+
 
 
     }
@@ -694,13 +741,6 @@ $(document).ready(function() {
 
     Plotly.newPlot('myDiv', data);
 
-
-
-
-
-
-
-    /*google.load('visualization', '1', {packages:['corechart'], callback: drawChart});*/
 
 
 

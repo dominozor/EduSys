@@ -496,12 +496,17 @@ public class AttendanceRestService {
 			System.out.println("ui =" + userID);
 			for(Object[] percentage : percentages){
 
+
 				JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+
 				jo.accumulate("courseid", percentage[0]);
 				jo.accumulate("sectionno", percentage[1]); //Putting all information from service object to JSON object.
 				jo.accumulate("date", percentage[2]);
 				jo.accumulate("totalAtt", percentage[3]);
 				jo.accumulate("totalCapacity", percentage[4]);
+
+				jo.accumulate("totalDist", percentage[5]);
+
 
 
 				main.put(jo);   //Put each JSON object to the JSON array object.
