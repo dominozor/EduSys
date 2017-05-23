@@ -198,7 +198,7 @@ $(document).ready(function(){
         for(var i = 0; i<courseInterest.length;i++)
         {
             if(courseInterest[i]["courseId"] == course["id"] && courseInterest[i]["sectionId"] == course["sectionId"] && courseInterest[i]["date"] == courAttList[row]["date"]) {
-                console.log("girdi");
+                //console.log("girdi");
                 for (var j = 0; j < zz.length; j++) {
                     if (courseInterest[i]["distance"] >= j * 100 && courseInterest[i]["distance"] < (j + 1) * 100) {
                         var seat;

@@ -102,12 +102,12 @@ function createAttendanceTable(data,captionArr,secondTableData, secondTableCapti
                 htmlString += "</td>"
             }
             else if (val === "date") {
-                var newDate = {year : 0, month : 0, day : 0};
-                splitDate(data[i][val], newDate);
-                var date = newDate.day + "/" + newDate.month + "/" + newDate.year;
-                htmlString += "<td>";
-                htmlString += date; // Columns are added to the table
-                htmlString += "</td>"
+                    var newDate = {year : 0, month : 0, day : 0, hour : 0, min : 0};
+                    splitDate(data[i][val], newDate);
+                    var date = newDate.day + "/" + newDate.month + "/" + newDate.year + " " + newDate.hour + ":" + newDate.min;
+                    htmlString += "<td>";
+                    htmlString += date; // Columns are added to the table
+                    htmlString += "</td>"
             }
         }
 
@@ -167,10 +167,15 @@ function createDateTable(data,captionArr){  //This is a table creator function w
         htmlString += "<tr>";
         for(var val in data[i]) {
             if(val === "date") {
+
+                var newDate = {year : 0, month : 0, day : 0, hour : 0, min : 0};
+                splitDate(data[i][val], newDate);
+                var date = newDate.day + "/" + newDate.month + "/" + newDate.year + " " + newDate.hour + ":" + newDate.min;
                 htmlString += "<td>";
-                htmlString += data[i][val]; // Columns are added to the table
-                htmlString += "</td>";
+                htmlString += date; // Columns are added to the table
+                htmlString += "</td>"
                 htmlString += "<td>";
+
 
                 var x = getUserFromDate(courseCookie["sectionId"], courseCookie["id"], data[i][val]);
                 var StudentAttList=JSON.parse(x.responseText);
@@ -359,6 +364,18 @@ function splitDate(tempdate, newDate) {
 
     var day = Number(tempdate.substring(6,8));
 
+    var hour = Number(tempdate.substring(10,12));
+    var min = Number(tempdate.substring(13,15));
+
+    if(0<= hour && hour <= 9) {
+        hour = "0" + hour;
+    }
+
+    if(0<= min && min <= 9) {
+        min = "0" + min;
+    }
+
+
     if(day<30)
     {
 
@@ -395,6 +412,8 @@ function splitDate(tempdate, newDate) {
     newDate.year = year;
     newDate.month = month;
     newDate.day = day;
+    newDate.hour = hour;
+    newDate.min = min;
 }
 
 function createDateReportTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.

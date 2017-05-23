@@ -72,7 +72,10 @@ $(document).ready(function(){
     });
 
     $("#course-dates-btn").click(function(){
-        window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
+        if(user["role"] == 1)
+            window.location.replace("http://localhost:8080/templates/date/date.html"); //redirects back to lecturer page
+        else if(user["role"] == 2)
+            window.location.replace("http://localhost:8080/templates/attendance/attendance.html"); //redirects back to lecturer page
     });
 
     $("#course-exams-btn").click(function(){

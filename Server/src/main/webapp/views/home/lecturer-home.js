@@ -403,9 +403,9 @@ $(document).ready(function() {
     graphList.push(coursesList);
     interestgraphList.push(coursesList);
 
-    console.log("dat");
+    /*console.log("dat");
     console.log(dailyAttendanceList);
-    console.log(findElement(sectionInfo,"course_id","490","section_no",1)["attendance_percentage"]);
+    console.log(findElement(sectionInfo,"course_id","490","section_no",1)["attendance_percentage"]);*/
 
     for(var i=0;i<dailyAttendanceList.length;i++)
     {
@@ -555,7 +555,7 @@ $(document).ready(function() {
 
     });
 
-    $("#intab").click(function(){
+
         //-------------
         //- PIE CHART -
         //-------------
@@ -626,8 +626,8 @@ $(document).ready(function() {
 
         window.localStorage.setItem("PieData2", JSON.stringify(PieData)); // Saving
 
+    $("#intab").click(function(){
         pieChart.Doughnut(PieData, pieOptions);
-
 
     });
 

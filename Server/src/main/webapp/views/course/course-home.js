@@ -23,6 +23,22 @@ function getAllSectionInfo() {
     });
 }
 
+function getDatesOfCourse(sectionId, course) {
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/course/getSectionDates/" + course + "/" + sectionId,
+        async: false
+    });
+}
+
+function getUserFromDate(sectionId, course, date) { //This function get all students' names that attend a lecture.
+    return $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/rest/attendance/getAttendanceFromDate/" + course + "/" + sectionId + "/" + date,
+        async: false // This option prevents this function to execute asynchronized
+    });
+}
+
 $(window).on('load', function() {
     // Animate loader off screen
     $(".myModal2").fadeOut("slow");
@@ -228,6 +244,17 @@ $(document).ready(function() {
 
     });
 
+    var modal = document.getElementById('modal');
+
+    var span = document.getElementsByClassName("close")[0];
+
+    var courseDateListObj=getDatesOfCourse(course["sectionId"], course["id"]);
+    var courseDateList=JSON.parse(courseDateListObj.responseText);
+    var date = courseDateList[courseDateList.length-1]["date"];
+
+    var studentAttListObj=getUserFromDate(course["sectionId"], course["id"], date);
+    var studentAttList=JSON.parse(studentAttListObj.responseText);
+
     $('.takeAttendance').click(function(event){
         // SHOW overlay
         var className = $(event.target).text();
@@ -247,6 +274,25 @@ $(document).ready(function() {
                 $('#ajax-box').html(data);
                 // HIDE the overlay:
                 document.getElementById('loading-gif').style.display = 'none';
+
+                var studentList="";
+                var txt;
+                studentList += "Students" + "<br>";
+                for(var i=0; i<studentAttList.length; i++) {
+                    studentList += "- " + studentAttList[i]["name"] + " " + studentAttList[i]["surname"] + "<br>";
+                }
+                /*var r = confirm(studentList);
+                 if (r == true) {
+                 txt = "You pressed OK!";
+                 } else {
+                 txt = "You pressed Cancel!";
+                 }
+                 window.alert(txt);*/
+                studentList += " Total Number Of Students = " + studentAttList.length;
+                document.getElementById("studentListPopUp").innerHTML = studentList;
+
+                modal.style.display = "block";
+
             },
             error: function(data) {
                 document.getElementById('loading-gif').style.display = 'none';
@@ -259,6 +305,78 @@ $(document).ready(function() {
         // Prevent default action of link:
         return false;
     });
+
+    $("document").on("popupafterclose", '#loading-gif', function () {
+        //any action you want like opening another popup
+        var seatCounter=0;
+
+        for(var i = 0; i<courseInterest.length;i++)
+        {
+            if(courseInterest[i]["courseId"] == course["id"] && courseInterest[i]["sectionId"] == course["sectionId"]) {
+                for (var j = 0; j < zz.length; j++) {
+                    if (courseInterest[i]["distance"] >= j * 100 && courseInterest[i]["distance"] < (j + 1) * 100) {
+                        var seat;
+                        seat = Math.floor(courseInterest[i]["leftcoor"] / 20);
+                        zz[j][seat] += 1;
+                        seatCounter++;
+                    }
+                }
+            }
+        }
+
+
+        for(var i=0;i<zz.length;i++)
+        {
+            for(var j=0 ; j<zz[i].length;j++)
+            {
+                zz[i][j]=(zz[i][j]/seatCounter)*100;
+            }
+        }
+
+
+        var xx=[];
+        var yy=[];
+
+        var maxNum = Math.max(numberOfSeat, numberOfRow);
+
+        for(var i =0 ;i< maxNum; i++)
+        {
+            xx.push(i.toString());
+            yy.push(i.toString());
+        }
+
+        var xList = [];
+        var yList = [];
+
+        for(var i=0; i<numberOfSeat; i++) {
+            xList.push('x' + i.toString());
+        }
+
+        for(var i=0; i<numberOfRow; i++) {
+            yList.push('y' + i.toString());
+        }
+
+        var data = [
+            {
+                z : zz,
+                x: xList,
+                y: yList,
+                type: 'heatmap'
+            }
+        ];
+
+    })
+
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
 
     $('.firstLesson').click(function(){
         // SHOW overlay
@@ -353,7 +471,7 @@ $(document).ready(function() {
 
     document.getElementById("numOfExamsGraded").innerHTML = "<h3>" + numOfExams + "</h3>" + "<p>Exams and Assignments Graded</p>";
 
-    document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + percentageRate + "</h3>" + "<p>Attendance Rate</p>";
+    document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + percentageRate.toFixed(2) + "</h3>" + "<p>Attendance Rate</p>";
 
     document.getElementById("rankOfCourse").innerHTML = "<h3>" + courseRank + "</h3>" + "<p>Rank Among Your Courses</p>";
 
