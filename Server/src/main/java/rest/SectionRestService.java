@@ -245,4 +245,26 @@ public class SectionRestService {
         }
     }
 
+    @RolesAllowed("ADMIN")
+    @GET
+    @Path("/getSectionInfo/{courseID}/{sectionID}")
+    public Response getSectionInfo(@PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID) {
+        try{
+            List<Object[]> sections = service.getSectionInfo(courseID, sectionID);
+            JSONArray main = new JSONArray();
+            for(Object[] section: sections){
+                JSONObject jo = new JSONObject();
+                jo.accumulate("attendance_percentage",section[0]);
+                jo.accumulate("exam_percentage",section[1]);
+                jo.accumulate("seating_place_percentage",section[2]);
+                main.put(jo);
+            }
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        }
+        catch(Exception ex){
+            return Response.serverError().build();
+        }
+    }
+
 }

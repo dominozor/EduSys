@@ -71,6 +71,7 @@
 <script src="../../lib/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../lib/dist/js/demo.js"></script>
+<script src="../../lib/jspdf.debug.js"></script>
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="myModal2"></div>
@@ -397,13 +398,19 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="box box-success">
+                    <div class="box box-success" id="content">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Course Report</h3>
+                            <h3 class="box-title" id="report-title"></h3>
                         </div>
                         <div id="lecturerInfo" class="box-body"></div>
                         <div id="attendanceGeneralInfo" class="box-body"></div>
                         <div id="attendanceDateInfo" class="box-body"></div>
+                        <div id="examGeneralInfo" class="box-body"></div>
+                        <div id="examInfo" class="box-body"></div>
+                        <div class="box-footer">
+                            <button type="button" id="button" class="btn btn-info pull-right">Generate PDF</button>
+                        </div>
+                        <div id="editor"></div>
                     </div>
                 </div>
             </div>

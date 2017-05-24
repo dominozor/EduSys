@@ -257,4 +257,31 @@ public class ExamRestService {
         return Response.serverError().build();
     }
 
+    @RolesAllowed({"ADMIN","LECTURER"})
+    @GET
+    @Path("/getExamReport/{courseID}/{sectionID}")		/*This is the url of getting an exam grade and type of a student for a specific course.
+									This url is called like http://localhost:8080/rest/user/getExamGrade/{ID}/{CourseID}, the JSON object will be formed
+									for the courses of the student with given id. Then the object is returned.*/
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getExamReport( @PathParam("courseID") String courseID, @PathParam("sectionID") String sectionID){
+        try {
+            List <Object[]> exams = service.getExamReport(courseID,sectionID); //Getting an exam grade and type of student with given id.
+
+            JSONArray main = new JSONArray();
+            for(Object[] exam : exams){
+
+                JSONObject jo = new JSONObject();   //A new JSON object for each course is create
+                jo.accumulate("type", exam[0]);
+                jo.accumulate("percentage", exam[1]);
+                jo.accumulate("average", exam[2]);
+
+                main.put(jo);
+            }
+            return Response.ok(main.toString()).header("Access-Control-Allow-Origin", "*")
+                    .build();
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return Response.serverError().build();
+    }
 }

@@ -748,6 +748,7 @@ public class AttendanceRestService {
 				jo.accumulate("numberOfStudentAttended", date[1]);
 				jo.accumulate("numberOfTotalStudents", date[2]);
 				jo.accumulate("percentage", date[3]);
+				jo.accumulate("average_distance", date[4]);
 
 				main.put(jo);
 			}

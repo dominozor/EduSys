@@ -424,7 +424,7 @@ function splitDate(tempdate, newDate) {
     newDate.min = min;
 }
 
-function createDateReportTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
+function createReportTable(data,captionArr){  //This is a table creator function which is created for tables that have updatable rows.
     var htmlString = '<table class="table table-bordered table-striped"><thead><tr>'; //if you want to change the style of table, you can do this from here. See "border="1"
     for(var i=0;i<captionArr.length;i++){ //All the captions of columns are added to the table from the captionArr
         htmlString += "<th>"+captionArr[i]+"</th>";
@@ -437,9 +437,18 @@ function createDateReportTable(data,captionArr){  //This is a table creator func
     for(var i=0;i<data.length;i++){// Rows are added to the table
         htmlString += "<tr>";
         for(var val in data[i]) {
-            htmlString += "<td>";
-            htmlString += data[i][val]; // Columns are added to the table
-            htmlString += "</td>";
+            if(val!="average_distance") {
+                if(val=="average") {
+                    htmlString += "<td>";
+                    htmlString += Math.round(data[i][val]); // Columns are added to the table
+                    htmlString += "</td>";
+                }
+                else {
+                    htmlString += "<td>";
+                    htmlString += data[i][val]; // Columns are added to the table
+                    htmlString += "</td>";
+                }
+            }
         }
     }
     htmlString +="</tbody>";

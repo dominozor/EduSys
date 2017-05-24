@@ -579,4 +579,11 @@ public class ServiceImpl implements Service{
         return hibernateUtility.getAttendanceDateRatio(courseID, sectionID);
     }
 
+	public List<Object[]> getExamReport(String courseID, String sectionID) {
+	    return hibernateUtility.getExamReport(courseID, sectionID);
+    }
+
+    public List<Object[]> getSectionInfo(String courseID, String sectionID) {
+        return hibernateUtility.getSectionInfo(courseID, sectionID);
+    }
 }

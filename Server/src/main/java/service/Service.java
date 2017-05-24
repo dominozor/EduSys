@@ -208,4 +208,8 @@ public interface Service {
     public List<Object[]> getSectionLecturer(String courseID, String sectionID);
 
     public List<Object[]> getAttendanceDateRatio(String courseID, String sectionID);
+
+    public List<Object[]> getExamReport(String courseID, String sectionID);
+
+    public List<Object[]> getSectionInfo(String courseID, String sectionID);
 }
