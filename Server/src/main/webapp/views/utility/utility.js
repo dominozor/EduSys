@@ -186,7 +186,7 @@ function createDateTable(data,captionArr){  //This is a table creator function w
                 htmlString += 'aria-valuemin="0" aria-valuemax="100" style="width:';
                 htmlString += percentage;
                 htmlString += '%">';
-                htmlString += percentage;
+                htmlString += Math.round(percentage);
                 htmlString += '%';
                 htmlString += "</div> </div>";
                 htmlString += "</td>"
@@ -217,13 +217,21 @@ function createGradeTable(data,captionArr, id){  //This is a table creator funct
 
     htmlString += "<tbody>";
     for(var i=0;i<data.length;i++){// Rows are added to the table
+        console.log(data[i]);
         htmlString += "<tr>";
         for(var val in data[i]) {
             if(val != "examId") {
                 htmlString += "<td>";
-                htmlString += data[i][val]; // Columns are added to the table
+                if(val=="average")
+                {
+                    htmlString += Math.round(data[i][val]);// Columns are added to the table
+                }
+                else{
+                    htmlString += data[i][val]; // Columns are added to the table
+                }
                 htmlString += "</td>"
             }
+
         }
         if(id==1) {
             htmlString += '<td><input class="getGradeList btn btn-default" id="getGradeList'+i+'" type="button" value="Get Grade List"/></td>';
@@ -376,7 +384,7 @@ function splitDate(tempdate, newDate) {
     }
 
 
-    if(day<30)
+    /*if(day<30)
     {
 
         if(day==28 && month==2)
@@ -407,7 +415,7 @@ function splitDate(tempdate, newDate) {
             year=parseInt(year)+1;
         }
     }
-    month= parseInt(month)-1;
+    month= parseInt(month)-1;*/
 
     newDate.year = year;
     newDate.month = month;

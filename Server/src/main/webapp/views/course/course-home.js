@@ -166,7 +166,7 @@ $(document).ready(function() {
 
     function drawChart2() {
 
-        var data = google.visualization.arrayToDataTable(newgraphlist);
+        var data = google.visualization.arrayToDataTable(newinterestgraphlist);
         console.log(graphList);
 
         var colorlist = ["#f39c12", "0066ff","#f56954", "#00a65a"];
@@ -471,7 +471,7 @@ $(document).ready(function() {
 
     document.getElementById("numOfExamsGraded").innerHTML = "<h3>" + numOfExams + "</h3>" + "<p>Exams and Assignments Graded</p>";
 
-    document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + percentageRate.toFixed(2) + "</h3>" + "<p>Attendance Rate</p>";
+    document.getElementById("attendanceRate").innerHTML = "<h3>" + "%" + Math.round(percentageRate) + "</h3>" + "<p>Attendance Rate</p>";
 
     document.getElementById("rankOfCourse").innerHTML = "<h3>" + courseRank + "</h3>" + "<p>Rank Among Your Courses</p>";
 
@@ -480,6 +480,7 @@ $(document).ready(function() {
 /////////////////////////////////// TODO interest graphlist
 
     var newgraphlist=[];
+    var newinterestgraphlist=[];
 
     graphList = JSON.parse(localStorage.getItem('graphList'));
 
@@ -490,6 +491,8 @@ $(document).ready(function() {
     var coursesectionid = course["id"] + "-" + course["sectionId"];
 
     var index = graphList[0].indexOf(coursesectionid);
+    var indexinterest = interestgraphList[0].indexOf(coursesectionid);
+
 
     var templist=[];
 
@@ -510,8 +513,6 @@ $(document).ready(function() {
             var month = tempdate.substring(5,7);
 
             var day = tempdate.substring(8,10);
-
-
 
             if(day<30)
             {
@@ -562,6 +563,76 @@ $(document).ready(function() {
 
     }
 
+
+
+    var templist2=[];
+
+    templist2.push("Year");
+    templist2.push(interestgraphList[0][indexinterest]);
+
+    newinterestgraphlist.push(templist2);
+
+    for(var i=1;i<interestgraphList.length;i++)
+    {
+        if(interestgraphList[i][indexinterest]!=null){
+
+            var tempdate;
+            tempdate=interestgraphList[i][0];
+
+            var year = tempdate.substring(0, 4);
+
+            var month = tempdate.substring(5,7);
+
+            var day = tempdate.substring(8,10);
+
+            if(day<30)
+            {
+
+                if(day==28 && month==2)
+                {
+                    day=1;
+                    month= parseInt(month)+1;
+                }
+                else
+                    day = parseInt(day)+1;
+            }
+            if(day==30)
+            {
+                if(month==4 || month==6 || month==9 || month==11 )
+                {
+                    day=1;
+                    month = parseInt(month)+1;
+                }
+
+            }
+
+            if(day==31)
+            {
+                day = 1;
+                month = parseInt(month)+1;
+                if(month==13)
+                {
+                    month=1;
+                    year=parseInt(year)+1;
+                }
+            }
+
+
+
+            month= parseInt(month)-1;
+
+            var element=[];
+
+            element.push(new Date(year,month,day));
+
+            element.push(interestgraphList[i][indexinterest]);
+
+            newinterestgraphlist.push(element);
+
+        }
+
+
+    }
 
 
     google.charts.load('current', {'packages':['corechart']});
