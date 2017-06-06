@@ -284,6 +284,7 @@ if __name__ == '__main__':
     parser.add_argument('--width', type=int, default=320)
     parser.add_argument('--height', type=int, default=240)
     parser.add_argument('--picPath', type=str , default="")
+    parser.add_argument('--imgCount', type=int , default=0)
     parser.add_argument('--time', type=int, default=15) #time option that determines how long the calculations and video will be
     parser.add_argument('--threshold', type=float, default=0.60)
     parser.add_argument('--cuda', action='store_true')
@@ -304,25 +305,27 @@ if __name__ == '__main__':
 
     # Capture device. Usually 0 will be webcam and 1 will be usb cam.
     if(args.picPath!=""):
-    	frame = cv2.imread(args.picPath,1)
-    	persons, confidences, points = infer(frame, args)
-    	updateGlobalList(persons,confidences,points)
-        try:
-            # append with two floating point precision
-            confidenceList.append('%.2f' % confidences[0])
-        except:
-            # If there is no face detected, confidences matrix will be empty.
-            # We can simply ignore it.
-            pass
+    	for i in range(args.imgCount):
+    		print args.picPath+"/"+str(i)
+	    	frame = cv2.imread(args.picPath+"/"+str(i),1)
+	    	persons, confidences, points = infer(frame, args)
+	    	updateGlobalList(persons,confidences,points)
+	        try:
+	            # append with two floating point precision
+	            confidenceList.append('%.2f' % confidences[0])
+	        except:
+	            # If there is no face detected, confidences matrix will be empty.
+	            # We can simply ignore it.
+	            pass
 
-        for i, c in enumerate(confidences): 
-            if c <= args.threshold:  # 0.5 is kept as threshold for known face.
+	        for i, c in enumerate(confidences): 
+	            if c <= args.threshold:  # 0.5 is kept as threshold for known face.
 
-                name="_unknown"
-                #else:
-                 #   name = findUnknownName(points[i])
+	                name="_unknown"
+	                #else:
+	                 #   name = findUnknownName(points[i])
 
-                persons[i]=name
+	                persons[i]=name
         for i in globalPersons:
 				print "{ \"name\": \""+i.name +"\" ,\"distance\": "+ str(i.averageDistance) +" , \"topCoor\": " +str(i.avTop) +", \"bottomCoor\": " +str(i.avBottom) +", \"rightCoor\":"+ str(i.avRight)+", \"leftCoor\": " +str(i.avLeft)+"}"
 					

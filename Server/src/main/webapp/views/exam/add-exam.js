@@ -66,9 +66,10 @@ $(document).ready(function(){
         var courseid = $("#course-id").val(); //Name of the user
         var sectionno = $("#section-no").val(); //Surname of the user
         var examname = $("#exam-name").val(); //E-mail of the user
+        var exampercentage = $("#exam-percentage").val();
         $.ajax({
             type: "POST",
-            url: "http://localhost:8080/rest/exam/add?course="+courseid+"&section="+sectionno+"&type="+examname,
+            url: "http://localhost:8080/rest/exam/add?course="+courseid+"&section="+sectionno+"&type="+examname+"&examPercentage="+exampercentage,
             success: function(response){
 
                 $("#error_rgs_msg").html("<b style='color:green'>Success...</b>");

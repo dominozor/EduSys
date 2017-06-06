@@ -586,4 +586,41 @@ public class ServiceImpl implements Service{
     public List<Object[]> getSectionInfo(String courseID, String sectionID) {
         return hibernateUtility.getSectionInfo(courseID, sectionID);
     }
+
+	public List<String> createTemporaryFileLocation(InputStream uploadedInputStream, FormDataContentDisposition fileDetail,
+													String baseLocation, Integer id){
+		List<String> resultArr=new ArrayList<>();
+
+		String tempFileName = id.toString();
+		String fileExtention = FilenameUtils.getExtension(fileDetail.getFileName());
+		String seperator= propertiesUtility.getProperty("project.fileSeperator");
+
+		String fileLocation = baseLocation+seperator+tempFileName;
+		System.out.println(fileLocation);
+		//saving file
+		resultArr.add(tempFileName);
+		resultArr.add(fileExtention);
+		resultArr.add(fileLocation);
+		try {
+			File temp=new File(fileLocation);
+
+			boolean b;
+			b=temp.createNewFile();
+			System.out.println(temp.getName());
+
+			if(b) {
+				FileOutputStream out = new FileOutputStream(fileLocation, false);
+				int read = 0;
+				byte[] bytes = new byte[1024];
+				out = new FileOutputStream(new File(fileLocation));
+				while ((read = uploadedInputStream.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+				out.flush();
+				out.close();
+			}
+			else return null;
+		} catch (IOException e) {e.printStackTrace(); return null;}
+		return resultArr;
+	}
 }

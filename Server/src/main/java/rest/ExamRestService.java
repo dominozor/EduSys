@@ -1,24 +1,5 @@
 package main.java.rest;
 
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.Path;
-import javax.ws.rs.GET;
-
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-
-import java.io.File;
-import java.util.List;
-
-import javax.ws.rs.DELETE;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-
 import main.java.models.Exam;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
@@ -27,6 +8,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
+import javax.annotation.security.RolesAllowed;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.File;
+import java.util.List;
 /**
  * Created by Enver.
  */
@@ -78,12 +66,12 @@ public class ExamRestService {
         String homePath= (propertiesUtility.getProperty("project.basedir")).substring(0,propertiesUtility.getProperty("project.basedir").lastIndexOf('/'));
         String seperator= propertiesUtility.getProperty("project.fileSeperator");
 
-        String FILE_PATH = homePath+seperator+"Server"+seperator+".temp"+seperator+"excelTemplate.xls";
+        String FILE_PATH = homePath+seperator+"Server"+seperator+".temp"+seperator+"excelTemplate.xlsx";
         File file = new File(FILE_PATH);
 
         Response.ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition",
-                "attachment; filename=new-excel-file.xls");
+                "attachment; filename=new-excel-file.xlsx");
         return response.build();
 
     }

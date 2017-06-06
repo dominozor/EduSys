@@ -15,8 +15,11 @@ import main.java.service.ServiceImpl;
 import main.java.utility.CameraUtility;
 import main.java.utility.ExcelUtility;
 import main.java.utility.PropertiesUtility;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.glassfish.jersey.media.multipart.BodyPartEntity;
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -35,22 +38,32 @@ public class UploadService  {
     @Path("/attendanceImage")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadAttendanceImageFile (
-            @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail,
+            @FormDataParam("files") List<FormDataBodyPart> bodyParts,
+            @FormDataParam("files") FormDataContentDisposition fileDetail,
             @FormDataParam("courseID") String courseID,
             @FormDataParam("sectionNo") int sectionNo){
-        List<String> fileInformation = service.createTemporaryFileLocation(uploadedInputStream,fileDetail);
-        String fileLocation=fileInformation.get(2);
-
+        String homePath= (propertiesUtility.getProperty("project.basedir")).substring(0,propertiesUtility.getProperty("project.basedir").lastIndexOf('/'));
+        String seperator= propertiesUtility.getProperty("project.fileSeperator");
+        String fileLocation=homePath+seperator+"Server"+seperator+".temp"+seperator+RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+        new File(fileLocation).mkdir();
+        int count=0; int imgCount=bodyParts.size();
+        for(FormDataBodyPart bp: bodyParts) {
+            BodyPartEntity bodyPartEntity = (BodyPartEntity) bp.getEntity();
+            InputStream is = bodyPartEntity.getInputStream();
+            service.createTemporaryFileLocation(is, fileDetail,fileLocation,count);
+            count++;
+        }
         try {
-            cameraUtility.takeAttendanceWithPicture(courseID,sectionNo,fileLocation);
+            cameraUtility.takeAttendanceWithPicture(courseID,sectionNo,fileLocation,imgCount);
+
             deleteTemporaryFile(fileLocation);
 
             return Response.status(200).build();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return Response.status(500).build();
         }
+
     }
 
     @PermitAll
@@ -120,7 +133,10 @@ public class UploadService  {
         try{
             File file=new File(fileLocation);
 
-            if(file.delete()){
+            if(file.isDirectory()){
+                FileUtils.deleteDirectory(file);
+            }
+            else if(file.delete()){
                 System.out.println(file.getName() + " is deleted!");
             }else{
                 System.out.println("Delete operation is failed.");

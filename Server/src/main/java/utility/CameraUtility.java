@@ -33,7 +33,7 @@ public class CameraUtility {
     public CameraUtility(){}
 
 
-    public Attendance takeAttendanceWithPicture(String courseID, int sectionNo, String imagePath) throws IOException {
+    public Attendance takeAttendanceWithPicture(String courseID, int sectionNo, String imagePath, Integer imgCount) throws IOException {
         String path;   String line;   String fileSeperator; //Since operating system can be differ, file seperator must be generic
 
         DateFormat df = new SimpleDateFormat("yyyyMMdd  HH:mm"); //Format of the date and time
@@ -44,7 +44,7 @@ public class CameraUtility {
         path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
         fileSeperator=propertiesUtility.getProperty("project.fileSeperator"); //From properties file project file seperator has been fetched
 
-        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"classifier_webcam.py", path+fileSeperator+"feature"+fileSeperator+"classifier.pkl", "--picPath", imagePath);
+        ProcessBuilder builder = new ProcessBuilder("python" ,path+fileSeperator+"classifier_webcam.py", path+fileSeperator+"feature"+fileSeperator+"classifier.pkl", "--picPath", imagePath,"--imgCount",imgCount.toString());
         builder.redirectErrorStream(true);
         Process process2 = builder.start(); //Python attendance process has been started
 
@@ -58,6 +58,7 @@ public class CameraUtility {
                 JSONObject arr = new JSONObject(line); //Output of the camera module is JSON. Therefore, we have to parse it.
                 AttendanceList attList = new AttendanceList(attID,(String) arr.get("name"), (double) arr.get("distance"),(double)arr.get("topCoor"),(double)arr.get("bottomCoor"),(double)arr.get("rightCoor"),(double)arr.get("leftCoor") ); // After parsing, student is added to that attendance list
                 attArr.add(attList);
+                System.out.println(line);
 
             } catch (JSONException e) {
                 e.printStackTrace();

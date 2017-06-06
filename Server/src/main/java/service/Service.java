@@ -2,15 +2,13 @@ package main.java.service;
 
 
 
-import java.io.InputStream;
+import main.java.models.*;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-
-import main.java.models.*;
-import main.java.models.Classroom;
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 
 public interface Service {
@@ -212,4 +210,6 @@ public interface Service {
     public List<Object[]> getExamReport(String courseID, String sectionID);
 
     public List<Object[]> getSectionInfo(String courseID, String sectionID);
+
+    public List<String> createTemporaryFileLocation(InputStream uploadedInputStream, FormDataContentDisposition fileDetail,String baseLocation,Integer id);
 }
