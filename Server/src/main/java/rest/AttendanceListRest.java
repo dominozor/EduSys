@@ -1,5 +1,6 @@
 package main.java.rest;
 
+import main.java.models.Attendance;
 import main.java.models.AttendanceList;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
@@ -107,6 +108,9 @@ public class AttendanceListRest {
     //userID: User id of the lecturer.
     public Response deleteAttendanceList(@PathParam("id") String id, @PathParam("userID") String userID ) {
         try{
+            Attendance curAtt = service.getAttendance(id);
+            Attendance newAtt = new Attendance(curAtt.getId(), curAtt.getSectionNo(), curAtt.getCourseId(), curAtt.getDate(), curAtt.getNumberOfStudents()-1);
+            service.updateAttendance(newAtt);
             service.deleteAttendanceList(id, userID);
             return Response.status(200).entity("success").build();
         }
@@ -164,6 +168,9 @@ public class AttendanceListRest {
                     attArr.add(attList);
                 }
             }
+            Attendance curAtt = service.getAttendance(id);
+            Attendance newAtt = new Attendance(curAtt.getId(), curAtt.getSectionNo(), curAtt.getCourseId(), curAtt.getDate(), curAtt.getNumberOfStudents()+splitStudents.length);
+            service.updateAttendance(newAtt);
             service.addAttendanceListArr(attArr);
             return Response.status(200).entity("success").build();
         }
