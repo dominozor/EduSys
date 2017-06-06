@@ -290,9 +290,9 @@ function createStudentTable(data,captionArr,flag){  //This is a table creator fu
         htmlString += "<tr>";
         for(var val in data[i]) {
             if(flag === 0 && val === "id") {
-                htmlString += "<td><div id='cursorOnId' onmouseleave='profilePictureLeave()' onmouseover='profilePicturePopUp()'>";
+                htmlString += "<td>";
                 htmlString += data[i][val]; // Columns are added to the table
-                htmlString += "</div></td>"
+                htmlString += "</td>"
             }
             else {
                 htmlString += "<td>";
@@ -352,16 +352,6 @@ function goToStudentCourseHome(courseId, courseName, sectionId) {
     var course = {id:courseId, name:courseName, sectionId:sectionId};
     createCookie('course',JSON.stringify(course),1);
     window.location.replace("http://localhost:8080/templates/course/student-course-home.html"); //That redirects to course page
-}
-
-function profilePicturePopUp() {
-    //todo: make profile picture pop up
-    console.log("mouse over");
-}
-
-function profilePictureLeave() {
-    //todo: redo popup
-    console.log("mouse leave");
 }
 
 function splitDate(tempdate, newDate) {

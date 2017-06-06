@@ -103,6 +103,8 @@ $(document).ready(function(){
         });
         var attendanceIdObj=getAttendanceId(course["id"], course["sectionId"], date["date"]);
         var attendanceId=JSON.parse(attendanceIdObj.responseText)[0]["id"];
+        console.log(attendanceId);
+        console.log(selected.toString());
         $.ajax({
             type: "POST",
             url: "http://localhost:8080/rest/attendanceList/addStudent?ID="+attendanceId+"&students="+selected.toString(),

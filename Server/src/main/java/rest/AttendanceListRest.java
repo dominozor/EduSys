@@ -155,7 +155,7 @@ public class AttendanceListRest {
                     AttendanceList attList = new AttendanceList(id, studentAttributes[0], 100, 400, 500, 150, 160);
                     attArr.add(attList);
                 }
-                else if(studentAttributes[1].equals("1")) {
+                else if(studentAttributes[1].equals("2")) {
                     AttendanceList attList = new AttendanceList(id, studentAttributes[0], 400, 400, 500, 150, 160);
                     attArr.add(attList);
                 }
