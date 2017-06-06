@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 import main.java.models.Attendance;
 import main.java.models.EduUser;
+import main.java.models.Section;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
@@ -109,6 +110,10 @@ public class AttendanceRestService {
 	public Response deleteAttendanceFromDate(@PathParam("cid") String cid,@PathParam("sid") String sid,@PathParam("date") String date) {  //The function takes the id of the attendance which is going to be deleted.
 		try {
 			service.deleteAttendanceFromDate(cid,sid,date);        //This is the deletion of the course via REST service.
+			Section section = service.getSection(cid,Integer.parseInt(sid));
+			Section sec = new Section(cid,Integer.parseInt(sid), section.getUserID(),section.getNumber_of_students(),section.getNumber_of_lectures()-1,section.getExam_percentage(),section.getSeating_place_percentage(),section.getAttendance_percentage(),section.getClass_size());
+			service.updateSection(sec);
+
 			return Response.status(200).entity("success").build();
 		} catch (Exception ex) {
 			return Response.serverError().build();

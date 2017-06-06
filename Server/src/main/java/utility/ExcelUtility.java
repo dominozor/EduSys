@@ -1,5 +1,6 @@
 package main.java.utility;
 
+import main.java.models.Exam;
 import main.java.models.StudentGrade;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
@@ -30,10 +31,13 @@ public class ExcelUtility {
 
 
     private void excelIterator(Iterator<Row> iterator,String examID){
+        double totalgrade=0;
+        int gradeCount=0;
         while (iterator.hasNext()) {
             Row nextRow = iterator.next();
             Iterator<Cell> cellIterator = nextRow.cellIterator();
             int tmp=0;
+
             String userID=null;
             double grade=0;
             while (cellIterator.hasNext()) {
@@ -44,6 +48,8 @@ public class ExcelUtility {
                 }
                 else {
                     grade=cell.getNumericCellValue();
+                    gradeCount++;
+                    totalgrade+=grade;
                 }
                 tmp++;
 
@@ -51,6 +57,11 @@ public class ExcelUtility {
             StudentGrade studentGrade=new StudentGrade(userID, examID, grade);
             service.addStudentGrade(studentGrade);
         }
+        totalgrade=totalgrade/gradeCount;
+        //System.out.println("totalgrade = " + totalgrade);
+        Exam exam = service.getExam(examID);
+        Exam ex=new Exam(examID, exam.getCourseID(), exam.getSectionNo(), exam.getType(), totalgrade, exam.getExamPercentage());
+        service.updateExam(ex);
     }
 
 

@@ -1,9 +1,6 @@
 package main.java.utility;
 
-import main.java.models.Attendance;
-import main.java.models.AttendanceList;
-import main.java.models.EduUser;
-import main.java.models.Notification;
+import main.java.models.*;
 import main.java.service.Service;
 import main.java.service.ServiceImpl;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -39,6 +36,11 @@ public class CameraUtility {
         DateFormat df = new SimpleDateFormat("yyyyMMdd  HH:mm"); //Format of the date and time
         String sdt = df.format(new Date(System.currentTimeMillis())); //Date is converted into a string
         String attID = RandomStringUtils.randomAlphanumeric(10).toUpperCase();
+
+        Section section = service.getSection(courseID,sectionNo);
+        Section sec = new Section(courseID,sectionNo, section.getUserID(),section.getNumber_of_students(),section.getNumber_of_lectures()+1,section.getExam_percentage(),section.getSeating_place_percentage(),section.getAttendance_percentage(),section.getClass_size());
+        service.updateSection(sec);
+
 
 
         path=propertiesUtility.getProperty("project.basedir"); //From properties file project base direction has been fetched
@@ -80,6 +82,11 @@ public class CameraUtility {
         String path;
         String line;
         String fileSeperator; //Since operating system can be differ, file seperator must be generic
+
+        Section section = service.getSection(courseID,sectionNo);
+        Section sec = new Section(courseID,sectionNo, section.getUserID(),section.getNumber_of_students(),section.getNumber_of_lectures()+1,section.getExam_percentage(),section.getSeating_place_percentage(),section.getAttendance_percentage(),section.getClass_size());
+        service.updateSection(sec);
+
 
         DateFormat df = new SimpleDateFormat("yyyyMMdd  HH:mm"); //Format of the date and time
         String sdt = df.format(new Date(System.currentTimeMillis())); //Date is converted into a string
