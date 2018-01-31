@@ -11,3 +11,4 @@ course combinations.
 * Informative attendance notifications.
 
 EduSys is developed as Senior Project under consulting of Assoc. Prof. Dr. Sinan Kalkan and Dr. Cevat Sener.
+http://senior.ceng.metu.edu.tr/2017/squ4re/
