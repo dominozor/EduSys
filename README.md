@@ -10,4 +10,4 @@ course combinations.
 * Semester reports about lecturers for administartion.
 * Informative attendance notifications.
 
-EduSys is being developed as Senior Project under consulting of Assoc. Prof. Dr. Sinan Kalkan and Dr. Cevat Sener.
+EduSys is developed as Senior Project under consulting of Assoc. Prof. Dr. Sinan Kalkan and Dr. Cevat Sener.

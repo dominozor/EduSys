@@ -1,5 +1,0 @@
-(POST)addUser : http://localhost:8080/webapi/user/add?ID=domi&name=Enver&surname=Evci&email=enverevci@gmail.com&password=123&ppicLink=link-to-pic&scope=0
-(GET)getUser : http://localhost:8080/webapi/user/get/id
-(GET)listUser : http://localhost:8080/webapi/user/get/
-(PUT)updateUser : http://localhost:8080/webapi/user/update?ID=domi&name=Enver&surname=Evci&email=enverevci@gmail.com&password=123&ppicLink=link-to-pic&scope=0
-(DELETE)deleteUser : http://localhost:8080/webapi/user/delete/id
